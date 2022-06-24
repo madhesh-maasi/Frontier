@@ -1,0 +1,126 @@
+@font-face {
+    font-family: karbon-bold;
+    src: url(../../../ExternalRef/fonts/karbon-bold-webfont.ttf);
+    // src: url(../../ExternalRef/fonts/karbon-bold-webfont.ttf);
+}
+
+@font-face {
+    font-family: karbon-regular;
+    src: url(../../../ExternalRef/fonts/karbon-regular-webfont.ttf);
+}
+
+@font-face {
+    font-family: karbon-semibold;
+    src: url(../../../ExternalRef/fonts/karbon-semibold-webfont.ttf);
+}
+
+@font-face {
+    font-family: karbon-medium;
+    src: url(../../../ExternalRef/fonts/karbon-medium-webfont.ttf);
+}
+
+@font-face {
+    font-family: karbon-regularitalic;
+    src: url(../../../ExternalRef/fonts/karbon-regularitalic-webfont.ttf);
+}
+
+@font-face {
+    font-family: karbon-light;
+    src: url(../../../ExternalRef/fonts/karbon-light-webfont.ttf);
+}
+
+.TableID {
+    font-size: 1.2rem;
+}
+
+.bold {
+    font-family: karbon-semibold;
+    font-size: 1.05rem;
+}
+
+.normal {
+    font-family: karbon-regular;
+    font-size: 1.05rem;
+}
+
+.PName {
+    font-family: karbon-semibold;
+    font-size: 20px;
+    width: 250px;
+    word-break: break-all;
+}
+
+.statusSection {
+    .statusCircle {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin: 0 auto 0.75rem auto;
+        border-radius: 50%;
+    }
+    .statusName {
+        text-align: center;
+        font-family: karbon-regular;
+    }
+}
+
+.pagination {
+    ul {
+        justify-content: flex-end;
+        margin-top: 2rem;
+    }
+}
+
+.LatestActionInLi {
+    border: 1px solid #cccccc;
+    border-radius: 0.5rem;
+    width: 100%;
+    padding: 0.8rem 0.8rem 0.4rem 0.8rem;
+    .LAHeader {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        .LADp {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        .LAUserName {
+            color: #707070;
+            font-family: karbon-semibold;
+            font-size: 1.05rem;
+        }
+        .LAPostedTime {
+            display: flex;
+            color: #707070;
+            margin-left: auto;
+        }
+    }
+    .LABody {
+        color: #252525;
+        font-size: 0.9rem;
+        line-height: 1.1
+    }
+}
+
+.PeopleIcons {
+    display: flex;
+}
+
+.projectTable {
+    th {
+        cursor: pointer !important;
+        font-family: karbon-light;
+        font-size: 1rem;
+    }
+    td {
+        font-family: karbon-light;
+        font-size: 1rem;
+    }
+}
+
+.noDataFound {
+    text-align: center;
+    margin-top: 5rem;
+    font-size: 2rem;
+}

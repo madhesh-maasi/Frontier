@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="101" height="101" viewBox="0 0 101 101">
+  <defs>
+    <filter id="Tracciato_1750" x="0" y="0" width="101" height="101" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="5.5" result="blur"/>
+      <feFlood flood-opacity="0.529"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <clipPath id="clip-path">
+      <rect id="Rettangolo_1130" data-name="Rettangolo 1130" width="30.668" height="33.97" fill="#333"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <rect id="Rettangolo_1087" data-name="Rettangolo 1087" width="15" height="14" transform="translate(0.08 -0.41)" fill="#707070"/>
+    </clipPath>
+  </defs>
+  <g id="Export_Excel_File_Button" data-name="Export Excel File Button" transform="translate(16.5 16.5)">
+    <g transform="matrix(1, 0, 0, 1, -16.5, -16.5)" filter="url(#Tracciato_1750)">
+      <path id="Tracciato_1750-2" data-name="Tracciato 1750" d="M34,0A34,34,0,1,1,0,34,34,34,0,0,1,34,0Z" transform="translate(16.5 16.5)" fill="#fff"/>
+    </g>
+    <g id="Export_Excel_file_Icon" data-name="Export Excel file Icon" transform="translate(16.595 14.152)">
+      <g id="Raggruppa_3415" data-name="Raggruppa 3415" transform="translate(0)">
+        <g id="Raggruppa_3415-2" data-name="Raggruppa 3415" transform="translate(0)" clip-path="url(#clip-path)">
+          <path id="Tracciato_1750-3" data-name="Tracciato 1750" d="M49.786,33.97H26.666a2.125,2.125,0,0,1-2.123-2.122V24.417a.471.471,0,0,1,.942,0v7.431a1.182,1.182,0,0,0,1.181,1.18h23.12a1.182,1.182,0,0,0,1.18-1.18V2.122a1.182,1.182,0,0,0-1.18-1.18H26.666a1.182,1.182,0,0,0-1.181,1.18V9.554a.471.471,0,0,1-.942,0V2.122A2.125,2.125,0,0,1,26.666,0h23.12a2.125,2.125,0,0,1,2.123,2.122V31.848A2.125,2.125,0,0,1,49.786,33.97Z" transform="translate(-21.24 0)" fill="#333"/>
+          <path id="Linea_399" data-name="Linea 399" d="M-.552-2.558H-3.029A.471.471,0,0,1-3.5-3.029.471.471,0,0,1-3.029-3.5H-.552a.471.471,0,0,1,.471.471A.471.471,0,0,1-.552-2.558Z" transform="translate(25.795 12.583)" fill="#333"/>
+          <path id="Linea_400" data-name="Linea 400" d="M1.925-2.558H-3.029A.471.471,0,0,1-3.5-3.029.471.471,0,0,1-3.029-3.5H1.925a.471.471,0,0,1,.471.471A.471.471,0,0,1,1.925-2.558Z" transform="translate(23.317 19.188)" fill="#333"/>
+          <path id="Linea_401" data-name="Linea 401" d="M1.925-2.558H-3.029A.471.471,0,0,1-3.5-3.029.471.471,0,0,1-3.029-3.5H1.925a.471.471,0,0,1,.471.471A.471.471,0,0,1,1.925-2.558Z" transform="translate(23.317 25.794)" fill="#333"/>
+          <path id="Rettangolo_1129" data-name="Rettangolo 1129" d="M-3.029-3.5H11.834a.471.471,0,0,1,.471.471V11.834a.471.471,0,0,1-.471.471H-3.029a.471.471,0,0,1-.471-.471V-3.029A.471.471,0,0,1-3.029-3.5Zm14.392.942H-2.558V11.363H11.363Z" transform="translate(3.5 12.583)" fill="#333"/>
+          <path id="Linea_402" data-name="Linea 402" d="M1.925,2.4a.469.469,0,0,1-.333-.138L-3.362-2.7a.471.471,0,0,1,0-.666.471.471,0,0,1,.666,0L2.258,1.592a.471.471,0,0,1-.333.8Z" transform="translate(8.454 17.537)" fill="#333"/>
+          <path id="Linea_403" data-name="Linea 403" d="M-3.029,2.4a.47.47,0,0,1-.333-.138.471.471,0,0,1,0-.666L1.592-3.362a.471.471,0,0,1,.666,0,.471.471,0,0,1,0,.666L-2.7,2.258A.47.47,0,0,1-3.029,2.4Z" transform="translate(8.454 17.537)" fill="#333"/>
+        </g>
+      </g>
+      <rect id="Rettangolo_1131" data-name="Rettangolo 1131" width="22" height="12" transform="translate(6.405 28.848)" fill="#fff"/>
+      <g id="Raggruppa_3416" data-name="Raggruppa 3416" transform="translate(24.485 44.438) rotate(180)">
+        <g id="Raggruppa_3204" data-name="Raggruppa 3204" transform="translate(0 0)" clip-path="url(#clip-path-2)">
+          <path id="Tracciato_1725" data-name="Tracciato 1725" d="M13.257,7.575H1.894A1.9,1.9,0,0,1,0,5.682V1.894A1.9,1.9,0,0,1,1.894,0a.631.631,0,1,1,0,1.263.632.632,0,0,0-.631.631V5.682a.632.632,0,0,0,.631.631H13.257a.632.632,0,0,0,.631-.631V1.894a.632.632,0,0,0-.631-.631.631.631,0,1,1,0-1.263,1.9,1.9,0,0,1,1.894,1.894V5.682A1.9,1.9,0,0,1,13.257,7.575Z" transform="translate(-0.156 5.364)" fill="#333"/>
+          <path id="Tracciato_1726" data-name="Tracciato 1726" d="M5.681,3.787A.629.629,0,0,1,5.235,3.6L3.144,1.511C2.734,1.946,2.086,2.594,1.078,3.6A.631.631,0,0,1,.185,2.71L2.708.187a.632.632,0,0,1,.895,0L6.128,2.71a.631.631,0,0,1-.446,1.078Z" transform="translate(4.263 0.314)" fill="#333"/>
+          <path id="Linea_393" data-name="Linea 393" d="M.632,10.1A.631.631,0,0,1,0,9.469V.631a.631.631,0,0,1,1.263,0V9.469A.631.631,0,0,1,.632,10.1Z" transform="translate(6.788 0.314)" fill="#333"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

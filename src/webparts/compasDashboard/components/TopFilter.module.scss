@@ -1,0 +1,79 @@
+@font-face {
+    font-family: karbon-bold;
+    src: url(../../../ExternalRef/fonts/karbon-bold-webfont.ttf);
+    // src: url(../../ExternalRef/fonts/karbon-bold-webfont.ttf);
+}
+
+@font-face {
+    font-family: karbon-regular;
+    src: url(../../../ExternalRef/fonts/karbon-regular-webfont.ttf);
+}
+
+@font-face {
+    font-family: karbon-semibold;
+    src: url(../../../ExternalRef/fonts/karbon-semibold-webfont.ttf);
+}
+
+@font-face {
+    font-family: karbon-medium;
+    src: url(../../../ExternalRef/fonts/karbon-medium-webfont.ttf);
+}
+
+@font-face {
+    font-family: karbon-regularitalic;
+    src: url(../../../ExternalRef/fonts/karbon-regularitalic-webfont.ttf);
+}
+
+@font-face {
+    font-family: karbon-light;
+    src: url(../../../ExternalRef/fonts/karbon-light-webfont.ttf);
+}
+
+.filterSectionCover {
+    height: 230px;
+    position: relative;
+    z-index: 6;
+}
+
+.filterSection {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+    background: #fff;
+    -webkit-box-shadow: 0px 3px 6px #00000029;
+    -moz-box-shadow: 0px 3px 6px #00000029;
+    box-shadow: 0px 3px 6px #00000029;
+    .filterSectionTop {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin: 30px 0;
+        background-color: #FFFFFF;
+        padding: 0 2rem;
+    }
+    .filterInput {
+        &.RequestorFilter {
+            input {
+                height: 3.6rem !important;
+                border-radius: 7px !important;
+            }
+        }
+        margin: 0.2rem 0.5rem;
+        label {
+            margin-bottom: 1rem;
+            font-family: karbon-light;
+            font-size: 20px;
+            color: #707070
+        }
+        legend {
+            display: none !important;
+        }
+    }
+}
+
+.ResetIcon {
+    cursor: pointer !important;
+    margin-right: -24px;
+}

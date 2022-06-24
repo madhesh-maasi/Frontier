@@ -1,0 +1,82 @@
+.headerSection {
+    // margin-bottom: 2rem;
+    color: #333333;
+}
+
+.logoSection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    margin: 20px 0;
+}
+
+.Profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.userDetails {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.profilePicture {
+    margin-left: 20px;
+}
+
+.userRole {
+    font-size: 18px;
+    color: #888B8D;
+}
+
+.userName {
+    font-size: 18px;
+    color: #707070;
+    font-weight: bold;
+}
+
+.bannerSection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.actions {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px 0 35px;
+    img {
+        height: 86px;
+        width: 260px;
+        cursor: pointer;
+    }
+}
+
+.addProject {
+    width: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 56px;
+    background-color: #fff;
+    color: #333333;
+    border-radius: 33px;
+    font-size: 16px;
+    outline: none;
+    border: none;
+    font-weight: bold;
+    box-shadow: 0px 0px 10px #00000070;
+}
+
+.Export {
+    background-color: transparent;
+    border-radius: 33px;
+    outline: none;
+    border: none;
+}
