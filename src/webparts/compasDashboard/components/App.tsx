@@ -63,6 +63,9 @@ let objSorted = {
 
 const firstIndex = 0;
 let pageSize = 21;
+let AdminsArr = [];
+let currentUser = "";
+let Admin;
 
 const App = (props: any) => {
   const [tableData, setTableData] = useState([]);
@@ -84,6 +87,9 @@ const App = (props: any) => {
   const [page, setPage] = useState(1);
   const [data, setData] = useState(tableData.slice(firstIndex, pageSize));
   const [callList, setCallList] = useState(true);
+  const [users, setUsers] = useState("");
+  const [admArr, setAdmArr] = useState([]);
+
   const getModalResponse = (res) => {
     setShowModal(res);
   };
@@ -95,8 +101,30 @@ const App = (props: any) => {
 
   // Life Cycle of Onload
   useEffect(() => {
+    // get all group users
+    props.sp.web.siteGroups
+      .getByName("CASAdmin")
+      .users()
+      .then((res) => {
+        AdminsArr = res.map((e) => e.Email.toLowerCase());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // get current user
+    props.sp.web
+      .currentUser()
+      .then((res) => {
+        currentUser = res.Email.toLowerCase();
+        Admin = AdminsArr.some((e) => e == currentUser);
+        console.log(Admin);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     // Actions List Call
-    setRenderTable(false);
     props.sp.web.lists
       .getByTitle("Actions")
       .items.select("*", "CASRef/ID", "CASAuthor/EMail", "CASAuthor/Title")
@@ -147,10 +175,11 @@ const App = (props: any) => {
             "CASPriority",
             "CASStatus"
           )
+          .filter(`CASUser/EMail eq '${currentUser}'`)
           .orderBy("Modified", false)
-
           .get()
           .then(async (response) => {
+            // response = response.filter()
             console.log(response);
             ArrProjectData = await response.map((item) => {
               let filteredComments = arrActionData.filter(
@@ -290,9 +319,10 @@ const App = (props: any) => {
             context={props.context}
             sp={props.sp}
             renderProject={renderList}
+            Admin={Admin}
           />
         )}
-        <AddExport Panel={getModalResponse} Edit={Edit} />
+        <AddExport Panel={getModalResponse} Edit={Edit} Admin={Admin} />
         <TopFilter
           context={props.context}
           sp={props.sp}

@@ -5,13 +5,17 @@ import { TextField, InputLabel } from "@material-ui/core";
 import { DatePicker } from "office-ui-fabric-react";
 import { useState, useEffect } from "react";
 
+const moreIcon = require("../../../ExternalRef/img/more.png");
+
 let latestId;
 let EditId;
+
 const InitialTime = {
   hours: null,
   Date: null,
   comName: "",
 };
+
 let dropValue = [];
 
 const HoursSpent = (props: any) => {
@@ -21,6 +25,10 @@ const HoursSpent = (props: any) => {
   const [editHour, setEditHour] = useState(0);
   const [editValue, setEditValue] = useState(false);
   const [hoursSpentArr, setHoursSpentArr] = useState([]);
+  const [addData, setAddData] = useState(false);
+  const [addAALTO, setAddAALTO] = useState(0);
+  const [addJOHN, setAddJOHN] = useState(0);
+  const [totAdd, setTotAdd] = useState(0);
 
   // Life Cycle of onload
   useEffect(() => {
@@ -69,26 +77,42 @@ const HoursSpent = (props: any) => {
           .items.select("*", "CASRef/ID")
           .filter(`CASRefId eq '${props.Edit.item}'`)
           .expand("CASRef")
+          .orderBy("Modified", false)
           .get()
           .then((response) => {
             console.log(response);
             let hoursArr = [];
             hoursArr = response.map((res) => ({
-              Hours: res.CASHours ? res.CASHours.toString() : null,
-              Date: res.CASDate
-                ? new Date(res.CASDate).getFullYear() +
-                  "/" +
-                  new Date(res.CASDate).getMonth()
-                : null,
+              Hours: res.CASHours ? res.CASHours : 0,
+              Date: res.CASDate ? new Date(res.CASDate) : null,
               Company: res.CASCompany,
+              isEdit:false
             }));
             setHoursSpentArr(hoursArr);
+            setAddData(true);
           })
           .catch((error) => {
             console.log(error);
           })
       : [];
   }, [editValue]);
+
+  useEffect(() => {
+    let AALTOAdd = 0;
+    let JOHNSONAdd = 0;
+    let Total = 0;
+    hoursSpentArr.map((e) => {
+      if (e.Company == "AALTO") {
+        AALTOAdd = AALTOAdd + e.Hours;
+        setAddAALTO(AALTOAdd);
+      } else {
+        JOHNSONAdd = JOHNSONAdd + e.Hours;
+        setAddJOHN(JOHNSONAdd);
+      }
+      Total = AALTOAdd + JOHNSONAdd;
+      setTotAdd(Total);
+    });
+  }, [addData]);
 
   // Hours Add function
   const AddHours = () => {
@@ -103,8 +127,8 @@ const HoursSpent = (props: any) => {
                   : editHour == 0
                   ? true
                   : props.Edit.Title,
-              CASHours: addNewAATLO.hours ? addNewAATLO.hours : null,
-              CASDate: addNewAATLO.Date ? addNewAATLO.Date : null,
+              CASHours: addNewAATLO.hours ? addNewAATLO.hours : 0,
+              CASDate: addNewAATLO.Date ? addNewAATLO.Date : addNewJJ.Date,
               CASCompany: addNewAATLO.comName ? addNewAATLO.comName : "",
               CASRefId:
                 hoursSec != 0
@@ -115,11 +139,7 @@ const HoursSpent = (props: any) => {
             })
             .then((response) => {
               console.log(response);
-              setAddNewAATLO({
-                hours: null,
-                Date: null,
-                comName: "",
-              });
+              setAddNewAATLO({ ...InitialTime });
             })
         : addNewJJ.comName == data
         ? props.sp.web.lists
@@ -131,8 +151,8 @@ const HoursSpent = (props: any) => {
                   : editHour == 0
                   ? true
                   : props.Edit.Title,
-              CASHours: addNewJJ.hours ? addNewJJ.hours : null,
-              CASDate: addNewJJ.Date ? addNewJJ.Date : null,
+              CASHours: addNewJJ.hours ? addNewJJ.hours : 0,
+              CASDate: addNewJJ.Date ? addNewJJ.Date : addNewAATLO.Date,
               CASCompany: addNewJJ.comName ? addNewJJ.comName : "",
               CASRefId:
                 hoursSec != 0
@@ -143,11 +163,7 @@ const HoursSpent = (props: any) => {
             })
             .then((response) => {
               console.log(response);
-              setAddNewJJ({
-                hours: null,
-                Date: null,
-                comName: "",
-              });
+              setAddNewJJ({ ...InitialTime });
             })
         : alert("Please add Details");
     });
@@ -180,6 +196,8 @@ const HoursSpent = (props: any) => {
                 onChange={(e) => {
                   addNewAATLO.hours = e.target.value;
                   addNewAATLO.comName = "AALTO";
+                  addNewJJ.comName = "JOHNSON & JOHNSON";
+                  setAddNewJJ({ ...addNewJJ });
                   setAddNewAATLO({ ...addNewAATLO });
                 }}
               />
@@ -222,8 +240,10 @@ const HoursSpent = (props: any) => {
                 value={addNewJJ.hours}
                 onChange={(e) => {
                   addNewJJ.hours = e.target.value;
+                  addNewAATLO.comName = "AALTO";
                   addNewJJ.comName = "JOHNSON & JOHNSON";
                   setAddNewJJ({ ...addNewJJ });
+                  setAddNewAATLO({ ...addNewAATLO });
                 }}
               />
             </div>
@@ -267,38 +287,82 @@ const HoursSpent = (props: any) => {
 
       <div className={classes.contentBottom}>
         <div className={classes.outputs}>
-          {hoursSpentArr.map((e) => {
-            return (
-              <>
-                {e.Company == addNewAATLO.comName ? (
-                  <div className={classes.o1}>
-                    <div>
-                      <span>{e.Hours}</span>
+          {/* AALTO Company Section */}
+          <div className={classes.o1}>
+            {/* <div className={classes.HoursRow}>
+              <div classname={classes.hours}>10</div>
+              <div classname={classes.hours}>10</div>
+            </div> */}
+            {hoursSpentArr.map((e) => {
+              return (
+                <>
+                  {e.Company == "AALTO" && (
+                    <div className={classes.inpField}>
+                      <div>
+                        <TextField className={classes.inpt3} value={e.Hours} />
+                      </div>
                       {"     "}
-                      <span>{e.Date}</span>
+                      <div>
+                        <DatePicker
+                          className={classes.datet3}
+                          formatDate={(date: Date): string => {
+                            return (
+                              date.getFullYear() + "/" + (date.getMonth() + 1)
+                            );
+                          }}
+                          value={e.Date}
+                        />
+                      </div>
                     </div>
-                    0,00
-                    <span>AAlto tot.h </span>
-                  </div>
-                ) : (
-                  <div className={classes.o1}>
-                    <div>
-                      <span>{e.Hours}</span>
-                      {"     "}
-                      <span>{e.Date}</span>
+                  )}
+                </>
+              );
+            })}
+            {addAALTO}
+            <span>AAlto tot.h</span>
+          </div>
+
+          {/* JOHNSON & JOHNSON Company Section */}
+          <div className={classes.o1}>
+            {hoursSpentArr.map((e) => {
+              return (
+                <>
+                  {e.Company == "JOHNSON & JOHNSON" && (
+                    <div className={classes.inpField}>
+                      <div>
+                        <TextField className={classes.inpt3} value={e.Hours} />
+                      </div>
+                      <div>
+                        <DatePicker
+                          className={classes.datet3}
+                          formatDate={(date: Date): string => {
+                            return (
+                              date.getFullYear() + "/" + (date.getMonth() + 1)
+                            );
+                          }}
+                          value={e.Date}
+                        />
+                      </div>
+                      <img
+                        // style={{ cursor: "pointer" }}
+                        src={`${moreIcon}`}
+                        width={18}
+                        height={20}
+                        // onClick={() => Edit(true, row.ID, row.Name)}
+                      />
                     </div>
-                    0,00
-                    <span>J&J tot.h </span>
-                  </div>
-                )}
-              </>
-            );
-          })}
+                  )}
+                </>
+              );
+            })}
+            {addJOHN}
+            <span>J&J tot.h </span>
+          </div>
         </div>
 
         <div className={classes.outputs} style={{ border: "none" }}>
           <div className={classes.o2}>
-            0,00
+            {totAdd}
             <span>tot.h </span>
           </div>
         </div>

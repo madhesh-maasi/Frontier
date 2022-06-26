@@ -461,6 +461,7 @@ const Panel = (props: any) => {
                 </InputLabel>
                 <TextField
                   // inputRef={ProjectName}
+                  disabled={props.Admin ? false : true}
                   value={addDatas.ProjectName}
                   className={classes.inpL}
                   id="standard-basic"
@@ -483,6 +484,7 @@ const Panel = (props: any) => {
                   </InputLabel>
                   <Select
                     // inputRef={Priority}
+                    disabled={props.Admin ? false : true}
                     className={classes.selectL}
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
@@ -508,6 +510,7 @@ const Panel = (props: any) => {
                     Country/IBVT:
                   </InputLabel>
                   <Select
+                    disabled={props.Admin ? false : true}
                     className={classes.selectL}
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
@@ -538,6 +541,7 @@ const Panel = (props: any) => {
                     Organization Unit:
                   </InputLabel>
                   <TextField
+                    disabled={props.Admin ? false : true}
                     style={{ width: "200%" }}
                     id="standard-basic"
                     variant="outlined"
@@ -557,6 +561,7 @@ const Panel = (props: any) => {
                     Engagement Type:
                   </InputLabel>
                   <Select
+                    disabled={props.Admin ? false : true}
                     className={classes.selectL}
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
@@ -585,6 +590,7 @@ const Panel = (props: any) => {
                 <InputLabel className={classes.inpLabel}>Requestor:</InputLabel>
                 <div className={classes.panelPPicker}>
                   <PeoplePicker
+                    disabled={props.Admin ? false : true}
                     context={props.context}
                     placeholder={`Insert Requestor people`}
                     personSelectionLimit={10}
@@ -621,6 +627,7 @@ const Panel = (props: any) => {
                     Status Type:
                   </InputLabel>
                   <Select
+                    disabled={props.Admin ? false : true}
                     className={classes.selectL}
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
@@ -771,6 +778,7 @@ const Panel = (props: any) => {
                     Engagement Scope:
                   </InputLabel>
                   <Select
+                    disabled={props.Admin ? false : true}
                     className={classes.selectL}
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
@@ -840,6 +848,7 @@ const Panel = (props: any) => {
                     Project Start Date:
                   </InputLabel>
                   <DatePicker
+                    disabled={props.Admin ? false : true}
                     className={classes.dateL}
                     placeholder={`Insert Date`}
                     formatDate={(date: Date): string => {
@@ -869,6 +878,7 @@ const Panel = (props: any) => {
                     Project Completion Date:
                   </InputLabel>
                   <DatePicker
+                    disabled={props.Admin ? false : true}
                     className={classes.dateL}
                     placeholder={`Insert Date`}
                     formatDate={(date: Date): string => {
@@ -899,6 +909,7 @@ const Panel = (props: any) => {
                   Engagement Notes:
                 </InputLabel>
                 <TextField
+                  disabled={props.Admin ? false : true}
                   className={classes.inpL}
                   id="standard-basic"
                   variant="outlined"
@@ -938,13 +949,22 @@ const Panel = (props: any) => {
                   Data: 10,
                   Title: "Test Title",
                 }}
+                Admin={props.Admin}
               />
             </PivotItem>
 
             {/* Hours spent Section */}
-            <PivotItem headerText="Hours Spent" itemIcon="DateTime">
-              <HoursSpent Latest={latestSec} sp={props.sp} Edit={props.Edit} />
-            </PivotItem>
+            {props.Admin ? (
+              <PivotItem headerText="Hours Spent" itemIcon="DateTime">
+                <HoursSpent
+                  Latest={latestSec}
+                  sp={props.sp}
+                  Edit={props.Edit}
+                />
+              </PivotItem>
+            ) : (
+              ""
+            )}
           </Pivot>
           {/* Pivot - Section */}
         </div>
