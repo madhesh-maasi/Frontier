@@ -20,17 +20,20 @@ let latestId;
 let editId;
 
 const LatestAction = (props) => {
-  const [timeNow, setTimeNow] = useState("");
+  const [timeNow, setTimeNow] = useState(
+    `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    })}`
+  );
   const [newMessage, setNewMessage] = useState("");
-  const [ProjectID, setProjectID] = useState(props.Edit.item);
   const [postedMsgs, setPostedMsgs] = useState([]);
   const [curUser, setCurUser] = useState({ Id: 0, Title: "", Email: "" });
-
+  const [updateID, setUpdateID] = useState(0);
+  const [renderLi, setRenderLi] = useState(true);
   useEffect(() => {
     latestId = 0;
-    if (props.Latest.key != 0) {
-      latestId = props.Latest.key;
-    }
+    if (props.Latest.key != 0) latestId = props.Latest.key;
   }, [props.Latest.key]);
 
   useEffect(() => {
@@ -57,18 +60,23 @@ const LatestAction = (props) => {
         .get()
         .then((res) => {
           console.log(res);
+          setPostedMsgs([]);
           setPostedMsgs(
-            res.map((li) => ({
+            res.map((li, i) => ({
               Author: li.CASAuthor.Title,
               AuthorEmail: li.CASAuthor.EMail,
               Text: li.CASText,
               Modified: li.Modified,
+              showOption: false,
+              Id: i + 1,
+              liID: li.ID,
             }))
           );
           console.log(postedMsgs);
         })
         .catch((err) => console.log(err));
-  }, [props.Edit.flagEdit]);
+    setRenderLi(false);
+  }, [props.Edit.flagEdit, renderLi]);
 
   // Add a message function
   const AddNewMessage = () => {
@@ -77,7 +85,7 @@ const LatestAction = (props) => {
       ? props.sp.web.lists
           .getByTitle("Actions")
           .items.add({
-            Title: props.forAction.Title,
+            Title: props.Edit.Title,
             CASRefId: props.Edit.item,
             CASText: newMessage,
             CASAuthorId: curUser.Id,
@@ -95,18 +103,33 @@ const LatestAction = (props) => {
                   ...postedMsgs,
                 ],
               ]),
-            setNewMessage("")
+            setNewMessage(""),
+            setRenderLi(true)
           )
 
           .catch((err) => console.log(err))
       : alert("please add comments");
   };
-
+  const UpdateMessage = () => {
+    props.sp.web.lists
+      .getByTitle("Actions")
+      .items.getById(updateID)
+      .update({
+        CASText: newMessage,
+      })
+      .then((err) => console.log(err));
+    setUpdateID(0);
+    setRenderLi(true);
+    setNewMessage("");
+  };
   setInterval(() => {
     setTimeNow(
-      `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
+      `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      })}`
     );
-  }, 1000);
+  }, 100000);
 
   return (
     <>
@@ -123,7 +146,7 @@ const LatestAction = (props) => {
           value={newMessage}
           disabled={latestId != 0 ? false : editId != 0 ? false : true}
           className={classes.msgL}
-          id="standard-basic"
+          id="typeArea"
           variant="outlined"
           placeholder={`Text here`}
           onChange={(e) => {
@@ -142,7 +165,7 @@ const LatestAction = (props) => {
         <button
           className={`${classes.msgBtn} ${classes.msgBtn1}`}
           onClick={() =>
-            (window.location.href = `mailto:?subject=${props.forAction.Title}&body=${newMessage}`)
+            (window.location.href = `mailto:?subject=${props.Edit.Title}&body=${newMessage}`)
           }
         >
           Post message and send update via email{" "}
@@ -153,7 +176,7 @@ const LatestAction = (props) => {
           onClick={() => {
             console.log(props.Edit.item);
             // console.log(props.forAction);
-            AddNewMessage();
+            updateID == 0 ? AddNewMessage() : UpdateMessage();
           }}
         >
           Post message
@@ -171,8 +194,8 @@ const LatestAction = (props) => {
 
       <div>
         {postedMsgs.length > 0 &&
-          postedMsgs.map((msg) => (
-            <div className={classes.postedMessages}>
+          postedMsgs.map((msg, i) => (
+            <div className={classes.postedMessages} key={i + 1}>
               <div className={classes.Message}>
                 <div className={classes.MsgHeader}>
                   <div className={classes.userName}>
@@ -191,13 +214,71 @@ const LatestAction = (props) => {
                     {`${new Date(msg.Modified).toLocaleDateString()} ${new Date(
                       msg.Modified
                     ).toLocaleTimeString()}`}
-                    <span>
-                      <img
-                        width={20}
-                        height={20}
-                        src={`${moreIcon}`}
-                        alt="more"
-                      />
+                    <span
+                      className={classes.optImgSection}
+                      style={{ width: 20 }}
+                    >
+                      {curUser.Email == msg.AuthorEmail && (
+                        <>
+                          <img
+                            width={16}
+                            height={16}
+                            src={`${moreIcon}`}
+                            alt="more"
+                            onClick={() => {
+                              postedMsgs.forEach((pM) => {
+                                pM.showOption ? (pM.showOption = false) : "";
+                              });
+                              postedMsgs.filter(
+                                (pM) => pM.Id == msg.Id
+                              )[0].showOption = true;
+                              setPostedMsgs([...postedMsgs]);
+                            }}
+                          />
+                          {msg.showOption ? (
+                            <div className={classes.optionSection}>
+                              <div
+                                style={{
+                                  borderBottom: "1px solid #cacaca",
+                                }}
+                                onClick={() => {
+                                  postedMsgs.filter(
+                                    (pM) => pM.Id == msg.Id
+                                  )[0].showOption = false;
+                                  setNewMessage(
+                                    postedMsgs.filter(
+                                      (pM) => pM.Id == msg.Id
+                                    )[0].Text
+                                  );
+                                  setUpdateID(
+                                    postedMsgs.filter(
+                                      (pM) => pM.Id == msg.Id
+                                    )[0].liID
+                                  );
+                                  document
+                                    .querySelector("#typeArea")
+                                    ["focus"]();
+                                }}
+                              >
+                                Edit
+                              </div>
+                              <div
+                                onClick={() => {
+                                  postedMsgs.filter(
+                                    (pM) => pM.Id == msg.Id
+                                  )[0].showOption = false;
+                                  setPostedMsgs([...postedMsgs]);
+                                  setUpdateID(0);
+                                }}
+                              >
+                                Cancel
+                              </div>
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                        </>
+                      )}
                     </span>
                   </div>
                 </div>
