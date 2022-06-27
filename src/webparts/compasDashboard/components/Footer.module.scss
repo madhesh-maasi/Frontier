@@ -9,25 +9,25 @@
   // margin: 40px 0;
   margin-top: 40px;
   .footerLinks {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      li {
-          list-style-type: none;
-          padding: 10px 20px;
-          a {
-              text-decoration: none;
-              color: #fff;
-              font-size: 16px;
-          }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    li {
+      list-style-type: none;
+      padding: 10px 20px;
+      a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 16px;
       }
+    }
   }
   .footerContent {
-      width: 1226px;
-      p {
-          font-size: 12px;
-          color: #fff;
-          text-align: center;
-      }
+    width: 1226px;
+    p {
+      font-size: 12px;
+      color: #fff;
+      text-align: center;
+    }
   }
 }

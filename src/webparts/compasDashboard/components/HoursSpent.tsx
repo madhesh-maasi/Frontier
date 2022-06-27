@@ -11,7 +11,7 @@ let latestId;
 let EditId;
 
 const InitialTime = {
-  hours: null,
+  hours: "",
   Date: null,
   comName: "",
 };
@@ -29,6 +29,8 @@ const HoursSpent = (props: any) => {
   const [addAALTO, setAddAALTO] = useState(0);
   const [addJOHN, setAddJOHN] = useState(0);
   const [totAdd, setTotAdd] = useState(0);
+  const [listData, setListData] = useState(false);
+  const [reEnter, setReEnter] = useState(true);
 
   // Life Cycle of onload
   useEffect(() => {
@@ -86,10 +88,12 @@ const HoursSpent = (props: any) => {
               Hours: res.CASHours ? res.CASHours : 0,
               Date: res.CASDate ? new Date(res.CASDate) : null,
               Company: res.CASCompany,
-              isEdit:false
+              spentId: res.Id,
+              showOption:false
             }));
             setHoursSpentArr(hoursArr);
             setAddData(true);
+            // setReEnter(true);
           })
           .catch((error) => {
             console.log(error);
@@ -112,7 +116,8 @@ const HoursSpent = (props: any) => {
       Total = AALTOAdd + JOHNSONAdd;
       setTotAdd(Total);
     });
-  }, [addData]);
+    setReEnter(false);
+  }, [addData, reEnter]);
 
   // Hours Add function
   const AddHours = () => {
@@ -139,7 +144,12 @@ const HoursSpent = (props: any) => {
             })
             .then((response) => {
               console.log(response);
-              setAddNewAATLO({ ...InitialTime });
+              setAddNewAATLO({
+                hours: "",
+                Date: null,
+                comName: "",
+              });
+              setReEnter(true);
             })
         : addNewJJ.comName == data
         ? props.sp.web.lists
@@ -163,10 +173,25 @@ const HoursSpent = (props: any) => {
             })
             .then((response) => {
               console.log(response);
-              setAddNewJJ({ ...InitialTime });
+              setAddNewJJ({
+                hours: "",
+                Date: null,
+                comName: "",
+              });
+              setReEnter(true);
             })
         : alert("Please add Details");
     });
+  };
+
+  // Edit Data function
+  const EditData = (props) => {
+    setListData(true);
+  };
+
+  // Save Data function
+  const SaveData = (props) => {
+    setListData(false);
   };
 
   return (
@@ -350,6 +375,11 @@ const HoursSpent = (props: any) => {
                         height={20}
                         // onClick={() => Edit(true, row.ID, row.Name)}
                       />
+                      {listData ? (
+                        <button onClick={() => SaveData(e.spentId)}>Save</button>
+                      ) : (
+                        <button onClick={() => EditData(e.spentId)}>Edit</button>
+                      )}
                     </div>
                   )}
                 </>

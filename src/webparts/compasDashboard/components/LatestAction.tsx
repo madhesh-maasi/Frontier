@@ -31,6 +31,7 @@ const LatestAction = (props) => {
   const [curUser, setCurUser] = useState({ Id: 0, Title: "", Email: "" });
   const [updateID, setUpdateID] = useState(0);
   const [renderLi, setRenderLi] = useState(true);
+  
   useEffect(() => {
     latestId = 0;
     if (props.Latest.key != 0) latestId = props.Latest.key;
@@ -106,10 +107,10 @@ const LatestAction = (props) => {
             setNewMessage(""),
             setRenderLi(true)
           )
-
           .catch((err) => console.log(err))
       : alert("please add comments");
   };
+
   const UpdateMessage = () => {
     props.sp.web.lists
       .getByTitle("Actions")
@@ -122,6 +123,7 @@ const LatestAction = (props) => {
     setRenderLi(true);
     setNewMessage("");
   };
+
   setInterval(() => {
     setTimeNow(
       `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString([], {
@@ -144,7 +146,15 @@ const LatestAction = (props) => {
         </InputLabel>
         <TextField
           value={newMessage}
-          disabled={latestId != 0 ? false : editId != 0 ? false : true}
+          disabled={
+            props.Admin != true
+              ? true
+              : latestId != 0
+              ? false
+              : editId != 0
+              ? false
+              : true
+          }
           className={classes.msgL}
           id="typeArea"
           variant="outlined"

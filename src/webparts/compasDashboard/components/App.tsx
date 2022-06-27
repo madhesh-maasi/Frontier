@@ -156,60 +156,122 @@ const App = (props: any) => {
             });
             setCountryChoice(arrCountries);
           });
-        await props.sp.web.lists
-          .getByTitle("Projects")
-          .items.select(
-            "*",
-            "CASUser/Title",
-            "CASUser/ID",
-            "CASUser/EMail",
-            "CASCountry/Title",
-            "CASEngType/Title",
-            "CASPriority/Title",
-            "CASStatus/Title"
-          )
-          .expand(
-            "CASUser",
-            "CASCountry",
-            "CASEngType",
-            "CASPriority",
-            "CASStatus"
-          )
-          .filter(`CASUser/EMail eq '${currentUser}'`)
-          .orderBy("Modified", false)
-          .get()
-          .then(async (response) => {
-            // response = response.filter()
-            console.log(response);
-            ArrProjectData = await response.map((item) => {
-              let filteredComments = arrActionData.filter(
-                (aData) => aData.Ref == item.ID
-              );
-              let requestorMails = [];
-              if (item.CASUser) {
-                item.CASUser.forEach((user) => {
-                  requestorMails.push(user.EMail);
+        Admin
+          ? await props.sp.web.lists
+              .getByTitle("Projects")
+              .items.select(
+                "*",
+                "CASUser/Title",
+                "CASUser/ID",
+                "CASUser/EMail",
+                "CASCountry/Title",
+                "CASEngType/Title",
+                "CASPriority/Title",
+                "CASStatus/Title"
+              )
+              .expand(
+                "CASUser",
+                "CASCountry",
+                "CASEngType",
+                "CASPriority",
+                "CASStatus"
+              )
+              .orderBy("Modified", false)
+              .get()
+              .then(async (response) => {
+                // response = response.filter()
+                console.log(response);
+                ArrProjectData = await response.map((item) => {
+                  let filteredComments = arrActionData.filter(
+                    (aData) => aData.Ref == item.ID
+                  );
+                  let requestorMails = [];
+                  if (item.CASUser) {
+                    item.CASUser.forEach((user) => {
+                      requestorMails.push(user.EMail);
+                    });
+                  }
+                  return {
+                    ID: item.ID ? item.ID : 0,
+                    LatestComment: filteredComments ? filteredComments[0] : [],
+                    Status: item.CASStatus.Title ? item.CASStatus.Title : "",
+                    Priority: item.CASPriority.Title
+                      ? item.CASPriority.Title
+                      : "",
+                    Name: item.Title ? item.Title : "",
+                    EngagementType: item.CASEngType.Title
+                      ? item.CASEngType.Title
+                      : "",
+                    UnitName: item.CASOrgUnit ? item.CASOrgUnit : "",
+                    CreationDate: new Date(item.Modified),
+                    CountryIBVT: item.CASCountry.Title
+                      ? item.CASCountry.Title
+                      : "",
+                    Requestor: requestorMails,
+                    LastModifiedDate: new Date(item.Modified),
+                  };
                 });
-              }
-              return {
-                ID: item.ID ? item.ID : 0,
-                LatestComment: filteredComments ? filteredComments[0] : [],
-                Status: item.CASStatus.Title ? item.CASStatus.Title : "",
-                Priority: item.CASPriority.Title ? item.CASPriority.Title : "",
-                Name: item.Title ? item.Title : "",
-                EngagementType: item.CASEngType.Title
-                  ? item.CASEngType.Title
-                  : "",
-                UnitName: item.CASOrgUnit ? item.CASOrgUnit : "",
-                CreationDate: new Date(item.Modified),
-                CountryIBVT: item.CASCountry.Title ? item.CASCountry.Title : "",
-                Requestor: requestorMails,
-                LastModifiedDate: new Date(item.Modified),
-              };
-            });
-            console.log(ArrProjectData);
-            setRenderTable(true);
-          });
+                console.log(ArrProjectData);
+                setRenderTable(true);
+              })
+          : await props.sp.web.lists
+              .getByTitle("Projects")
+              .items.select(
+                "*",
+                "CASUser/Title",
+                "CASUser/ID",
+                "CASUser/EMail",
+                "CASCountry/Title",
+                "CASEngType/Title",
+                "CASPriority/Title",
+                "CASStatus/Title"
+              )
+              .expand(
+                "CASUser",
+                "CASCountry",
+                "CASEngType",
+                "CASPriority",
+                "CASStatus"
+              )
+              .filter(`CASUser/EMail eq '${currentUser}'`)
+              .orderBy("Modified", false)
+              .get()
+              .then(async (response) => {
+                // response = response.filter()
+                console.log(response);
+                ArrProjectData = await response.map((item) => {
+                  let filteredComments = arrActionData.filter(
+                    (aData) => aData.Ref == item.ID
+                  );
+                  let requestorMails = [];
+                  if (item.CASUser) {
+                    item.CASUser.forEach((user) => {
+                      requestorMails.push(user.EMail);
+                    });
+                  }
+                  return {
+                    ID: item.ID ? item.ID : 0,
+                    LatestComment: filteredComments ? filteredComments[0] : [],
+                    Status: item.CASStatus.Title ? item.CASStatus.Title : "",
+                    Priority: item.CASPriority.Title
+                      ? item.CASPriority.Title
+                      : "",
+                    Name: item.Title ? item.Title : "",
+                    EngagementType: item.CASEngType.Title
+                      ? item.CASEngType.Title
+                      : "",
+                    UnitName: item.CASOrgUnit ? item.CASOrgUnit : "",
+                    CreationDate: new Date(item.Modified),
+                    CountryIBVT: item.CASCountry.Title
+                      ? item.CASCountry.Title
+                      : "",
+                    Requestor: requestorMails,
+                    LastModifiedDate: new Date(item.Modified),
+                  };
+                });
+                console.log(ArrProjectData);
+                setRenderTable(true);
+              });
       })
       .catch((error) => {
         console.log(error);
