@@ -4,8 +4,9 @@ import {
   AddBox,
   FilterTiltShift,
   FilterTiltShiftSharp,
-} from "@material-ui/icons"; 
-
+} from "@material-ui/icons";
+import * as Excel from "exceljs/dist/exceljs.min.js";
+import * as FileSaver from "file-saver";
 const ExcelFileButton = require("../../../../src/ExternalRef/img/ExcelFileButton.svg");
 const BannerBg = require("../../../../src/ExternalRef/img/VisualHeader.jpg");
 const AddBtn = require("../../../../src/ExternalRef/img/AddBtn.png");
@@ -16,7 +17,61 @@ const AddExport = (props) => {
     props.Panel(true);
     props.Edit(false, null);
   };
+  const genrateExcel = () => {
+    console.log(props.exportData);
+    let arrExport = props.exportData;
+    const workbook = new Excel.Workbook();
+    const worksheet = workbook.addWorksheet("My Sheet");
+    worksheet.columns = [
+      { header: "ID", key: "id", width: 25 },
+      { header: "Status", key: "status", width: 25 },
+      { header: "Priority", key: "priority", width: 25 },
+      { header: "Name", key: "name", width: 60 },
+      { header: "Engagement Type", key: "engagementtype", width: 25 },
+      { header: "Unit Name", key: "unitname", width: 25 },
+      { header: "Created Date", key: "createddate", width: 25 },
+      { header: "Country/IBVT", key: "country", width: 25 },
+      { header: "Requestor", key: "requestor", width: 75 },
+    ];
+    arrExport.forEach((item) => {
+      let userNames =
+        item.Requestor.length > 0
+          ? item.Requestor.map((reqstr) => reqstr.Name).join(",")
+          : "";
 
+      worksheet.addRow({
+        id: item.ID,
+        status: item.Status,
+        priority: item.Priority,
+        name: item.Name,
+        engagementtype: item.EngagementType,
+        unitname: item.UnitName,
+        createddate: new Date(item.CreationDate).toLocaleDateString(),
+        country: item.CountryIBVT,
+        requestor: userNames,
+      });
+    });
+    ["A1", "B1", "C1", "D1", "E1", "F1", "G1", "H1", "I1"].map((key) => {
+      worksheet.getCell(key).fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "00e8d1" },
+      };
+    });
+    ["A1", "B1", "C1", "D1", "E1", "F1", "G1", "H1", "I1"].map((key) => {
+      worksheet.getCell(key).color = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "FFFFFF" },
+      };
+    });
+    workbook.xlsx
+      .writeBuffer()
+      .then((buffer) =>
+        FileSaver.saveAs(new Blob([buffer]), `${Date.now()}data.xlsx`)
+      )
+      .catch((err) => console.log("Error writing excel export", err));
+  };
   return (
     <div className={classes.headerSection}>
       {/* banner Section*/}
@@ -29,22 +84,22 @@ const AddExport = (props) => {
           height: "185px",
         }}
       >
-        {props.Admin ? (
-          <div className={classes.actions}>
-            <img src={`${AddBtn}`} onClick={Add} alt="add btn" />
-            {/* <button className={classes.addProject} onClick={Add}>
-            <AddBox
-              style={{ width: "20px", height: "20px", marginRight: "10px" }}
-            />{" "}
-            ADD PROJECT
-          </button> */}
-            <button className={classes.Export}>
-              <img src={`${ExcelFileButton}`} alt="ExcelFileButton" />
-            </button>
+        <div className={classes.actions}>
+          <div>
+            {props.Admin ? (
+              <img src={`${AddBtn}`} onClick={Add} alt="add btn" />
+            ) : (
+              ""
+            )}
           </div>
-        ) : (
-          ""
-        )}
+          <button className={classes.Export}>
+            <img
+              src={`${ExcelFileButton}`}
+              alt="ExcelFileButton"
+              onClick={genrateExcel}
+            />
+          </button>
+        </div>
       </div>
     </div>
   );

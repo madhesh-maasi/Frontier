@@ -248,3 +248,14 @@ i[data-icon-name="Calendar"] {
     top: 16px;
     right: 12px;
 }
+
+.msl {
+    min-height: 3.6rem;
+    .msl-input:before {
+        color: transparent !important;
+    }
+}
+
+.MuiInputBase-root.Mui-disabled {
+    overflow: hidden;
+}

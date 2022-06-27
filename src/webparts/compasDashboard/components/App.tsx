@@ -35,7 +35,7 @@ const searchIcon = require("../../../ExternalRef/img/searchIcon.png");
 
 const objFilterVal = {
   ID: 0,
-  Status: "",
+  Status: [],
   Priority: null,
   Name: "",
   EngagementType: "",
@@ -59,6 +59,7 @@ let objSorted = {
   UnitName: "",
   CreationDate: "",
   CountryIBVT: "",
+  LatestAction: "",
 };
 
 const firstIndex = 0;
@@ -89,7 +90,6 @@ const App = (props: any) => {
   const [callList, setCallList] = useState(true);
   const [users, setUsers] = useState("");
   const [admArr, setAdmArr] = useState([]);
-
   const getModalResponse = (res) => {
     setShowModal(res);
   };
@@ -118,7 +118,6 @@ const App = (props: any) => {
       .then((res) => {
         currentUser = res.Email.toLowerCase();
         Admin = AdminsArr.some((e) => e == currentUser);
-        console.log(Admin);
       })
       .catch((err) => {
         console.log(err);
@@ -132,7 +131,6 @@ const App = (props: any) => {
       .orderBy("Modified", false)
       .get()
       .then((response) => {
-        console.log(response);
         arrActionData = response.map((res) => {
           return {
             Title: res.Title ? res.Title : "",
@@ -144,7 +142,6 @@ const App = (props: any) => {
             Modified: res.Modified ? res.Modified : null,
           };
         });
-        console.log(arrActionData);
       })
       .then(async () => {
         await props.sp.web.lists
@@ -180,17 +177,18 @@ const App = (props: any) => {
               .get()
               .then(async (response) => {
                 // response = response.filter()
-                console.log(response);
                 ArrProjectData = await response.map((item) => {
                   let filteredComments = arrActionData.filter(
                     (aData) => aData.Ref == item.ID
                   );
-                  let requestorMails = [];
-                  if (item.CASUser) {
-                    item.CASUser.forEach((user) => {
-                      requestorMails.push(user.EMail);
-                    });
-                  }
+                  let requestorDetails = [];
+
+                  requestorDetails = item.CASUser
+                    ? item.CASUser.map((user) => ({
+                        Name: user.Title,
+                        Email: user.EMail,
+                      }))
+                    : [];
                   return {
                     ID: item.ID ? item.ID : 0,
                     LatestComment: filteredComments ? filteredComments[0] : [],
@@ -207,11 +205,14 @@ const App = (props: any) => {
                     CountryIBVT: item.CASCountry.Title
                       ? item.CASCountry.Title
                       : "",
-                    Requestor: requestorMails,
+                    Requestor: requestorDetails,
                     LastModifiedDate: new Date(item.Modified),
+                    LatestActionModified:
+                      filteredComments.length > 0
+                        ? filteredComments[0].Modified
+                        : null,
                   };
                 });
-                console.log(ArrProjectData);
                 setRenderTable(true);
               })
           : await props.sp.web.lists
@@ -238,17 +239,18 @@ const App = (props: any) => {
               .get()
               .then(async (response) => {
                 // response = response.filter()
-                console.log(response);
                 ArrProjectData = await response.map((item) => {
                   let filteredComments = arrActionData.filter(
                     (aData) => aData.Ref == item.ID
                   );
-                  let requestorMails = [];
-                  if (item.CASUser) {
-                    item.CASUser.forEach((user) => {
-                      requestorMails.push(user.EMail);
-                    });
-                  }
+                  let requestorDetails = [];
+
+                  requestorDetails = item.CASUser
+                    ? item.CASUser.map((user) => ({
+                        Name: user.Title,
+                        Email: user.EMail,
+                      }))
+                    : [];
                   return {
                     ID: item.ID ? item.ID : 0,
                     LatestComment: filteredComments ? filteredComments[0] : [],
@@ -265,11 +267,14 @@ const App = (props: any) => {
                     CountryIBVT: item.CASCountry.Title
                       ? item.CASCountry.Title
                       : "",
-                    Requestor: requestorMails,
+                    Requestor: requestorDetails,
                     LastModifiedDate: new Date(item.Modified),
+                    LatestActionModified:
+                      filteredComments.length > 0
+                        ? filteredComments[0].Modified
+                        : null,
                   };
                 });
-                console.log(ArrProjectData);
                 setRenderTable(true);
               });
       })
@@ -280,10 +285,9 @@ const App = (props: any) => {
   }, [callList]);
 
   useEffect(() => {
-    console.log(ArrProjectData);
     if (
       filterValue.ID == 0 &&
-      filterValue.Status == "" &&
+      filterValue.Status.length == 0 &&
       filterValue.Priority == null &&
       filterValue.Name == "" &&
       filterValue.EngagementType == "" &&
@@ -324,8 +328,15 @@ const App = (props: any) => {
           ? filterValue.EngagementType == fItem.EngagementType
           : true
       );
+      // arrFilteredData = arrFilteredData.filter((fItem) =>
+      //   filterValue.Status ? filterValue.Status == fItem.Status : true
+      // );
       arrFilteredData = arrFilteredData.filter((fItem) =>
-        filterValue.Status ? filterValue.Status == fItem.Status : true
+        filterValue.Status.length > 0 && fItem.Status
+          ? filterValue.Status["includes"](fItem.Status)
+          : filterValue.Status.length > 0
+          ? false
+          : true
       );
       arrFilteredData = arrFilteredData.filter((fItem) =>
         filterValue.ID != 0 ? filterValue.ID == fItem.ID : true
@@ -343,8 +354,6 @@ const App = (props: any) => {
             new Date(fItem.LastModifiedDate).toLocaleDateString()
           : true
       );
-      console.log(filterValue);
-      console.log("in Else");
       setTableData(arrFilteredData);
       setData(tableData.slice(0, pageSize));
     }
@@ -353,7 +362,6 @@ const App = (props: any) => {
 
   // get on Filter Items
   const getFilterItems = (data) => {
-    console.log(data);
     setFilterValues({ ...data });
     setRenderTable(true);
   };
@@ -363,7 +371,6 @@ const App = (props: any) => {
     setData(
       tableData.slice(firstIndex + pageSize * (value - 1), pageSize * value)
     );
-    console.log(Math.ceil(tableData.length / pageSize));
   };
 
   const renderList = () => {
@@ -384,7 +391,12 @@ const App = (props: any) => {
             Admin={Admin}
           />
         )}
-        <AddExport Panel={getModalResponse} Edit={Edit} Admin={Admin} />
+        <AddExport
+          Panel={getModalResponse}
+          Edit={Edit}
+          Admin={Admin}
+          exportData={tableData}
+        />
         <TopFilter
           context={props.context}
           sp={props.sp}
@@ -409,6 +421,7 @@ const App = (props: any) => {
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
+                          LatestAction: "",
                         })
                       : (objSorted = {
                           ID: "ascending",
@@ -419,6 +432,7 @@ const App = (props: any) => {
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
+                          LatestAction: "",
                         });
                     setTableData([
                       ...tableData.sort((a, b) =>
@@ -450,6 +464,7 @@ const App = (props: any) => {
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
+                          LatestAction: "",
                         })
                       : (objSorted = {
                           ID: "",
@@ -460,6 +475,7 @@ const App = (props: any) => {
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
+                          LatestAction: "",
                         });
                     setTableData([
                       ...tableData.sort((a, b) =>
@@ -496,6 +512,7 @@ const App = (props: any) => {
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
+                          LatestAction: "",
                         })
                       : (objSorted = {
                           ID: "",
@@ -506,6 +523,7 @@ const App = (props: any) => {
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
+                          LatestAction: "",
                         });
                     setTableData([
                       ...tableData.sort((a, b) =>
@@ -537,6 +555,7 @@ const App = (props: any) => {
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
+                          LatestAction: "",
                         })
                       : (objSorted = {
                           ID: "",
@@ -547,6 +566,7 @@ const App = (props: any) => {
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
+                          LatestAction: "",
                         });
                     setTableData([
                       ...tableData.sort((a, b) =>
@@ -582,6 +602,7 @@ const App = (props: any) => {
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
+                          LatestAction: "",
                         })
                       : (objSorted = {
                           ID: "",
@@ -592,6 +613,7 @@ const App = (props: any) => {
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
+                          LatestAction: "",
                         });
                     setTableData([
                       ...tableData.sort((a, b) =>
@@ -628,6 +650,7 @@ const App = (props: any) => {
                           UnitName: "descending",
                           CreationDate: "",
                           CountryIBVT: "",
+                          LatestAction: "",
                         })
                       : (objSorted = {
                           ID: "",
@@ -638,6 +661,7 @@ const App = (props: any) => {
                           UnitName: "ascending",
                           CreationDate: "",
                           CountryIBVT: "",
+                          LatestAction: "",
                         });
                     setTableData([
                       ...tableData.sort((a, b) =>
@@ -674,6 +698,7 @@ const App = (props: any) => {
                           UnitName: "",
                           CreationDate: "descending",
                           CountryIBVT: "",
+                          LatestAction: "",
                         })
                       : (objSorted = {
                           ID: "",
@@ -684,6 +709,7 @@ const App = (props: any) => {
                           UnitName: "",
                           CreationDate: "ascending",
                           CountryIBVT: "",
+                          LatestAction: "",
                         });
                     setTableData([
                       ...tableData.sort((a, b) =>
@@ -718,6 +744,7 @@ const App = (props: any) => {
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "descending",
+                          LatestAction: "",
                         })
                       : (objSorted = {
                           ID: "",
@@ -728,6 +755,7 @@ const App = (props: any) => {
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "ascending",
+                          LatestAction: "",
                         });
                     setTableData([
                       ...tableData.sort((a, b) =>
@@ -756,7 +784,47 @@ const App = (props: any) => {
                     Requestor{" "}
                   </div>
                 </TableCell>
-                <TableCell>
+                <TableCell
+                  onClick={() => {
+                    objSorted.LatestAction == "ascending" ||
+                    objSorted.LatestAction == ""
+                      ? (objSorted = {
+                          ID: "",
+                          Status: "",
+                          Priority: "",
+                          Name: "",
+                          EngagementType: "",
+                          UnitName: "",
+                          CreationDate: "",
+                          CountryIBVT: "",
+                          LatestAction: "descending",
+                        })
+                      : (objSorted = {
+                          ID: "",
+                          Status: "",
+                          Priority: "",
+                          Name: "",
+                          EngagementType: "",
+                          UnitName: "",
+                          CreationDate: "",
+                          CountryIBVT: "",
+                          LatestAction: "ascending",
+                        });
+                    setTableData([
+                      ...tableData.sort((a, b) =>
+                        (objSorted.LatestAction == "ascending" ||
+                          objSorted.LatestAction == "") &&
+                        a.LatestComment &&
+                        b.LatestComment
+                          ? Date.parse(a.LatestActionModified) -
+                            Date.parse(b.LatestActionModified)
+                          : Date.parse(b.LatestActionModified) -
+                            Date.parse(a.LatestActionModified)
+                      ),
+                    ]);
+                    setData(tableData.slice(0, pageSize));
+                  }}
+                >
                   <div style={{ color: "#7d7d7d", display: "flex" }}>
                     Latest action{" "}
                     <div>
@@ -907,7 +975,7 @@ const App = (props: any) => {
                                   imageUrl={
                                     "/_layouts/15/userphoto.aspx?size=S&username=" +
                                     // peopleIcon.EMail
-                                    peopleIcon
+                                    peopleIcon.Email
                                   }
                                 />
                               ) : (

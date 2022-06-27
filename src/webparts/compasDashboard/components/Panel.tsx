@@ -49,7 +49,7 @@ const objProjInfo = {
   CountryIBVT: null,
   OrganizationUnit: "",
   EngagemantType: null,
-  EngagementSubType: 0,
+  EngagementSubType: null,
   Requestor: [],
   StatusType: null,
   IDNumber: null,
@@ -68,6 +68,7 @@ let RequestorIdArr = [];
 let priorityArr = [];
 let CountriesArr = [];
 let EngagementTypeArr = [];
+let EngagementTypeSubArr = [];
 let RequestorArr = [];
 let StatusTypeArr = [];
 let EngagementScopeArr = [];
@@ -91,6 +92,8 @@ const Panel = (props: any) => {
   const [priorityChoice, setPriorityChoice] = useState(priorityArr);
   const [countryChoice, setCountryChoice] = useState(CountriesArr);
   const [engTypeChoice, setEngTypeChoice] = useState(EngagementTypeArr);
+  const [engSubTypeChoice, setEngSubTypeChoice] =
+    useState(EngagementTypeSubArr);
   const [statusTypeChoice, setStatusTypeChoice] = useState(StatusTypeArr);
   const [engScopeChoice, setEngScopeChoice] = useState(EngagementScopeArr);
   const [isDataBind, setIsDataBind] = useState(false);
@@ -215,6 +218,20 @@ const Panel = (props: any) => {
                       })
                       .catch((error) => {
                         console.log(error);
+                      });
+                  })
+                  .then(() => {
+                    props.sp.web.lists
+                      .getByTitle("Engagement subtypes")
+                      .items.select("*", "CASEngType/Title", "CASEngType/ID")
+                      .expand("CASEngType")
+                      .get()
+                      .then((res) => {
+                        EngagementTypeSubArr = res.map((rs) => ({
+                          key: rs.ID,
+                          text: rs.Title,
+                          type: rs.CASEngType.ID,
+                        }));
                       });
                   })
                   .catch((error) => {
@@ -573,6 +590,11 @@ const Panel = (props: any) => {
                     onChange={(e) => {
                       addDatas.EngagemantType = e.target.value;
                       setAddDatas({ ...addDatas });
+                      setEngSubTypeChoice(
+                        EngagementTypeSubArr.filter(
+                          (choice) => choice.type == addDatas.EngagemantType
+                        )
+                      );
                     }}
                     variant="outlined"
                     labelWidth={0}
@@ -585,6 +607,38 @@ const Panel = (props: any) => {
                 </div>
               </div>
 
+              <div className={`${classes.flex} ${classes.panelInput}`}>
+                {/* org unit */}
+
+                {/* eng type */}
+                <div style={{ width: "50%" }}>
+                  <InputLabel className={classes.inpLabel}>
+                    Engagement Subtype:
+                  </InputLabel>
+                  <Select
+                    disabled={props.Admin ? false : true}
+                    className={classes.selectL}
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={
+                      !addDatas.EngagementSubType
+                        ? "null"
+                        : addDatas.EngagementSubType
+                    }
+                    onChange={(e) => {
+                      addDatas.EngagementSubType = e.target.value;
+                      setAddDatas({ ...addDatas });
+                    }}
+                    variant="outlined"
+                    labelWidth={0}
+                  >
+                    <MenuItem value={"null"}>Select Subtype</MenuItem>
+                    {engSubTypeChoice.map((data) => (
+                      <MenuItem value={data.key}>{data.text}</MenuItem>
+                    ))}
+                  </Select>
+                </div>
+              </div>
               {/* Requestor */}
               <div className={classes.panelInput}>
                 <InputLabel className={classes.inpLabel}>Requestor:</InputLabel>
@@ -691,82 +745,88 @@ const Panel = (props: any) => {
                 </div>
 
                 {/* id num */}
-                <div>
-                  <InputLabel className={classes.inpLabel}>
-                    ID Number:
-                  </InputLabel>
-                  <Select
-                    disabled={true}
-                    className={classes.selectL}
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    variant="outlined"
-                    labelWidth={0}
-                    value={addDatas.IDNumber}
-                  >
-                    {ProjectArr.map((data) => {
-                      return <MenuItem value={data}>{data}</MenuItem>;
-                    })}
-                  </Select>
-                </div>
+                {isEdit && (
+                  <div>
+                    <InputLabel className={classes.inpLabel}>
+                      ID Number:
+                    </InputLabel>
+                    <Select
+                      disabled={true}
+                      className={classes.selectL}
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      variant="outlined"
+                      labelWidth={0}
+                      value={addDatas.IDNumber}
+                    >
+                      {ProjectArr.map((data) => {
+                        return <MenuItem value={data}>{data}</MenuItem>;
+                      })}
+                    </Select>
+                  </div>
+                )}
 
                 {/* creation date */}
-                <div>
-                  <InputLabel className={classes.inpLabel}>
-                    Creation Date:
-                  </InputLabel>
-                  <DatePicker
-                    disabled={true}
-                    className={classes.dateL}
-                    formatDate={(date: Date): string => {
-                      return (
-                        date.getDate() +
-                        "/" +
-                        (date.getMonth() + 1) +
-                        "/" +
-                        date.getFullYear()
-                      );
-                    }}
-                    value={
-                      addDatas.CreationDate
-                        ? new Date(addDatas.CreationDate)
-                        : null
-                    }
-                    onSelectDate={(e) => {
-                      console.log(e.toISOString());
-                      // handleValue("CreationDate", e.toISOString());
-                    }}
-                  />
-                </div>
+                {isEdit && (
+                  <div>
+                    <InputLabel className={classes.inpLabel}>
+                      Creation Date:
+                    </InputLabel>
+                    <DatePicker
+                      disabled={true}
+                      className={classes.dateL}
+                      formatDate={(date: Date): string => {
+                        return (
+                          date.getDate() +
+                          "/" +
+                          (date.getMonth() + 1) +
+                          "/" +
+                          date.getFullYear()
+                        );
+                      }}
+                      value={
+                        addDatas.CreationDate
+                          ? new Date(addDatas.CreationDate)
+                          : null
+                      }
+                      onSelectDate={(e) => {
+                        console.log(e.toISOString());
+                        // handleValue("CreationDate", e.toISOString());
+                      }}
+                    />
+                  </div>
+                )}
 
                 {/* last mod date */}
-                <div>
-                  <InputLabel className={classes.inpLabel}>
-                    Last Modify Date:
-                  </InputLabel>
-                  <DatePicker
-                    disabled={true}
-                    className={classes.dateL}
-                    formatDate={(date: Date): string => {
-                      return (
-                        date.getDate() +
-                        "/" +
-                        (date.getMonth() + 1) +
-                        "/" +
-                        date.getFullYear()
-                      );
-                    }}
-                    value={
-                      addDatas.LastModifyDate
-                        ? new Date(addDatas.LastModifyDate)
-                        : null
-                    }
-                    onSelectDate={(e) => {
-                      console.log(e.toISOString());
-                      // handleValue("LastModifyDate", e.toISOString());
-                    }}
-                  />
-                </div>
+                {isEdit && (
+                  <div>
+                    <InputLabel className={classes.inpLabel}>
+                      Last Modify Date:
+                    </InputLabel>
+                    <DatePicker
+                      disabled={true}
+                      className={classes.dateL}
+                      formatDate={(date: Date): string => {
+                        return (
+                          date.getDate() +
+                          "/" +
+                          (date.getMonth() + 1) +
+                          "/" +
+                          date.getFullYear()
+                        );
+                      }}
+                      value={
+                        addDatas.LastModifyDate
+                          ? new Date(addDatas.LastModifyDate)
+                          : null
+                      }
+                      onSelectDate={(e) => {
+                        console.log(e.toISOString());
+                        // handleValue("LastModifyDate", e.toISOString());
+                      }}
+                    />
+                  </div>
+                )}
               </div>
 
               <div className={classes.titleOne}>Details Information</div>
@@ -798,26 +858,6 @@ const Panel = (props: any) => {
                     {engScopeChoice.map((data) => {
                       return <MenuItem value={data.key}>{data.text}</MenuItem>;
                     })}
-                  </Select>
-                </div>
-
-                {/* Actions */}
-                <div>
-                  <InputLabel className={classes.inpLabel}>Actions:</InputLabel>
-                  <Select
-                    disabled={true}
-                    className={classes.selectL}
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={addDatas.Actions}
-                    onChange={(e) => {
-                      // handleValue("Actions", e.target.value);
-                    }}
-                    variant="outlined"
-                  >
-                    {/* <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem> */}
                   </Select>
                 </div>
               </div>
@@ -942,6 +982,7 @@ const Panel = (props: any) => {
             {/* Latest Action Section */}
             <PivotItem headerText="Latest Action" itemIcon="Chat">
               <LatestAction
+                renderProject={props.renderProject}
                 Edit={props.Edit}
                 Latest={latestSec}
                 sp={props.sp}

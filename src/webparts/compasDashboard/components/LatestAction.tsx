@@ -31,7 +31,7 @@ const LatestAction = (props) => {
   const [curUser, setCurUser] = useState({ Id: 0, Title: "", Email: "" });
   const [updateID, setUpdateID] = useState(0);
   const [renderLi, setRenderLi] = useState(true);
-  
+
   useEffect(() => {
     latestId = 0;
     if (props.Latest.key != 0) latestId = props.Latest.key;
@@ -51,12 +51,12 @@ const LatestAction = (props) => {
       });
     });
 
-    props.Edit.flagEdit &&
+    (props.Edit.flagEdit || latestId != 0) &&
       props.sp.web.lists
         .getByTitle("Actions")
         .items.select("*", "CASAuthor/Title", "CASAuthor/EMail", "CASRef/ID")
         .expand("CASRef", "CASAuthor")
-        .filter(`CASRefId eq '${props.Edit.item}'`)
+        .filter(`CASRefId eq '${latestId != 0 ? latestId : props.Edit.item}'`)
         .orderBy("Modified", false)
         .get()
         .then((res) => {
@@ -77,7 +77,7 @@ const LatestAction = (props) => {
         })
         .catch((err) => console.log(err));
     setRenderLi(false);
-  }, [props.Edit.flagEdit, renderLi]);
+  }, [renderLi]);
 
   // Add a message function
   const AddNewMessage = () => {
@@ -87,7 +87,7 @@ const LatestAction = (props) => {
           .getByTitle("Actions")
           .items.add({
             Title: props.Edit.Title,
-            CASRefId: props.Edit.item,
+            CASRefId: latestId != 0 ? latestId : props.Edit.item,
             CASText: newMessage,
             CASAuthorId: curUser.Id,
           })
@@ -100,12 +100,15 @@ const LatestAction = (props) => {
                     AuthorEmail: curUser.Email,
                     Text: newMessage,
                     Modified: new Date(),
+                    Id: postedMsgs.length + 1,
+                    liID: res.data.ID,
                   },
                   ...postedMsgs,
                 ],
               ]),
             setNewMessage(""),
-            setRenderLi(true)
+            setRenderLi(true),
+            props.renderProject()
           )
           .catch((err) => console.log(err))
       : alert("please add comments");
@@ -122,8 +125,17 @@ const LatestAction = (props) => {
     setUpdateID(0);
     setRenderLi(true);
     setNewMessage("");
+    props.renderProject();
   };
-
+  const DeleteMessage = (ID) => {
+    props.sp.web.lists
+      .getByTitle("Actions")
+      .items.getById(ID)
+      .delete()
+      .catch((err) => console.log(err));
+    setRenderLi(true);
+    props.renderProject();
+  };
   setInterval(() => {
     setTimeNow(
       `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString([], {
@@ -139,67 +151,72 @@ const LatestAction = (props) => {
         Today is <b>{timeNow}</b>
       </div>
       {/* Message */}
-      <div className={classes.panelInput}>
-        <InputLabel className={classes.inpLabel}>
-          Type a message:{" "}
-          {latestId != 0 ? latestId : editId != 0 ? editId : null}
-        </InputLabel>
-        <TextField
-          value={newMessage}
-          disabled={
-            props.Admin != true
-              ? true
-              : latestId != 0
-              ? false
-              : editId != 0
-              ? false
-              : true
-          }
-          className={classes.msgL}
-          id="typeArea"
-          variant="outlined"
-          placeholder={`Text here`}
-          onChange={(e) => {
-            setNewMessage(e.target.value);
-          }}
-          style={{
-            border: "3px solid #00a0df",
-            borderRadius: "7px",
-            outline: "none",
-          }}
-          InputLabelProps={{ shrink: false }}
-          multiline
-        />
-      </div>
-      <div className={classes.msgActions}>
-        <button
-          className={`${classes.msgBtn} ${classes.msgBtn1}`}
-          onClick={() =>
-            (window.location.href = `mailto:?subject=${props.Edit.Title}&body=${newMessage}`)
-          }
-        >
-          Post message and send update via email{" "}
-          <Mail style={{ color: "#707070", marginLeft: "10px" }} />
-        </button>
-        <button
-          className={`${classes.msgBtn} ${classes.msgBtn2}`}
-          onClick={() => {
-            console.log(props.Edit.item);
-            // console.log(props.forAction);
-            updateID == 0 ? AddNewMessage() : UpdateMessage();
-          }}
-        >
-          Post message
-          <Send
-            style={{
-              color: "#fff",
-              backgroundColor: "#00a0df",
-              padding: "3px 9px",
-              borderRadius: "50%",
-            }}
-          />
-        </button>
-      </div>
+      {props.Admin && (
+        <>
+          <div className={classes.panelInput}>
+            <InputLabel className={classes.inpLabel}>
+              Type a message:{" "}
+              {latestId != 0 ? latestId : editId != 0 ? editId : null}
+            </InputLabel>
+            <TextField
+              value={newMessage}
+              disabled={
+                props.Admin != true
+                  ? true
+                  : latestId != 0
+                  ? false
+                  : editId != 0
+                  ? false
+                  : true
+              }
+              className={classes.msgL}
+              id="typeArea"
+              variant="outlined"
+              placeholder={`Text here`}
+              onChange={(e) => {
+                setNewMessage(e.target.value);
+              }}
+              style={{
+                border: "3px solid #00a0df",
+                borderRadius: "7px",
+                outline: "none",
+              }}
+              InputLabelProps={{ shrink: false }}
+              multiline
+            />
+          </div>
+          <div className={classes.msgActions}>
+            <button
+              className={`${classes.msgBtn} ${classes.msgBtn1}`}
+              onClick={() =>
+                (window.location.href = `mailto:?subject=${props.Edit.Title}&body=${newMessage}`)
+              }
+            >
+              Post message and send update via email{" "}
+              <Mail style={{ color: "#707070", marginLeft: "10px" }} />
+            </button>
+            <button
+              className={`${classes.msgBtn} ${classes.msgBtn2}`}
+              onClick={() => {
+                console.log(editId);
+                console.log(latestId);
+
+                updateID == 0 ? AddNewMessage() : UpdateMessage();
+              }}
+            >
+              Post message
+              <Send
+                style={{
+                  color: "#fff",
+                  backgroundColor: "#00a0df",
+                  padding: "3px 9px",
+                  borderRadius: "50%",
+                }}
+              />
+            </button>
+          </div>
+        </>
+      )}
       <div className={classes.titleTwo}>Latest messages:</div>
 
       <div>
@@ -228,7 +245,7 @@ const LatestAction = (props) => {
                       className={classes.optImgSection}
                       style={{ width: 20 }}
                     >
-                      {curUser.Email == msg.AuthorEmail && (
+                      {curUser.Email == msg.AuthorEmail && props.Admin && (
                         <>
                           <img
                             width={16}
@@ -274,11 +291,10 @@ const LatestAction = (props) => {
                               </div>
                               <div
                                 onClick={() => {
-                                  postedMsgs.filter(
+                                  let deleteID = postedMsgs.filter(
                                     (pM) => pM.Id == msg.Id
-                                  )[0].showOption = false;
-                                  setPostedMsgs([...postedMsgs]);
-                                  setUpdateID(0);
+                                  )[0].liID;
+                                  DeleteMessage(deleteID);
                                 }}
                               >
                                 Cancel

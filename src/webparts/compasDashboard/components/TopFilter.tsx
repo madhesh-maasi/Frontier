@@ -32,22 +32,14 @@ import {
   IStyleFunction,
   mergeStyles,
 } from "office-ui-fabric-react";
-
+import MultiSelect from "react-multiple-select-dropdown-lite";
+import "react-multiple-select-dropdown-lite/dist/index.css";
 const resetIcon = require("../../../ExternalRef/img/ResetIcon.svg");
 const filterIcon = require("../../../ExternalRef/img/filterIcon.png");
-let objectArray: [
-  { key: "Option 1"; cat: "Group 1" },
-  { key: "Option 2"; cat: "Group 1" },
-  { key: "Option 3"; cat: "Group 1" },
-  { key: "Option 4"; cat: "Group 2" },
-  { key: "Option 5"; cat: "Group 2" },
-  { key: "Option 6"; cat: "Group 2" },
-  { key: "Option 7"; cat: "Group 2" }
-];
-
+import * as Excel from "exceljs/dist/exceljs.min.js";
 let filterData = {
   ID: 0,
-  Status: "",
+  Status: [],
   Priority: null,
   Name: "",
   EngagementType: "",
@@ -79,6 +71,14 @@ const TopFilter = (props: any) => {
   const [idNumberChoice, setIdNumberChoice] = useState(arrIDNumber);
   const [priorityChoice, setPriorityChoice] = useState(arrPriority);
   const [expandFilter, setExpandFilter] = useState(false);
+  const [value, setvalue] = useState("IN PROGRESS,WAITING FOR FEEDBACK,LEAD");
+
+  const handleOnchange = (val) => {
+    console.log(val);
+    let arrSelectedStatus = val.split(",")[0] != "" ? val.split(",") : [];
+    getOnChange("Status", arrSelectedStatus);
+  };
+
   // UseRef Section
   const ProjectName = useRef("");
 
@@ -110,9 +110,31 @@ const TopFilter = (props: any) => {
           .getByTitle("Status types")
           .items.get()
           .then((cLi) => {
-            arrStatusType = cLi.map((li) => {
-              return li.Title;
-            });
+            arrStatusType = cLi.map((li) => ({
+              label: (
+                <div
+                  style={{
+                    color:
+                      li.Title.toLowerCase() == "in progress"
+                        ? "#359942"
+                        : li.Title.toLowerCase() == "waiting for feedback"
+                        ? "#f5944e"
+                        : li.Title.toLowerCase() == "lead"
+                        ? "#f24998"
+                        : li.Title.toLowerCase() == "parked"
+                        ? "#999999"
+                        : li.Title.toLowerCase() == "closed"
+                        ? "#1c75bc"
+                        : li.Title.toLowerCase() == "canceled"
+                        ? "#7e2e7a"
+                        : "#000",
+                  }}
+                >
+                  {li.Title}
+                </div>
+              ),
+              value: li.Title,
+            }));
             setStatusType(arrStatusType);
           });
       })
@@ -161,6 +183,7 @@ const TopFilter = (props: any) => {
           {/* Project Name Section */}
           <div className={classes.filterInput}>
             <InputLabel>Project Name:</InputLabel>
+
             <TextField
               value={filterArr.Name}
               id="input-with-icon-textfield"
@@ -323,9 +346,11 @@ const TopFilter = (props: any) => {
         {expandFilter && (
           <div className={classes.filterSectionTop}>
             {/* Status Type Section */}
-            <div className={classes.filterInput}>
-              <InputLabel>Status Type:</InputLabel>
-              <div className="ddSelect">
+            <div className={`${classes.filterInput} ${classes.multiSelect}`}>
+              <InputLabel style={{ marginBottom: "0.75rem" }}>
+                Status Type:
+              </InputLabel>
+              {/* <div className="ddSelect">
                 <Select
                   labelId="demo-multiple-name-label"
                   id="demo-multiple-name"
@@ -348,7 +373,14 @@ const TopFilter = (props: any) => {
                     <MenuItem value={choice}>{choice}</MenuItem>
                   ))}
                 </Select>
-              </div>
+              </div> */}
+              <>
+                <MultiSelect
+                  defaultValue={value}
+                  onChange={handleOnchange}
+                  options={statusTypeChoice}
+                />
+              </>
             </div>
             {/* ID Number  Section */}
             <div className={classes.filterInput}>
@@ -517,7 +549,7 @@ const TopFilter = (props: any) => {
                 onClick={() => {
                   filterData = {
                     ID: 0,
-                    Status: "",
+                    Status: [],
                     Priority: null,
                     Name: "",
                     EngagementType: "",
@@ -530,7 +562,7 @@ const TopFilter = (props: any) => {
                   setFilterArr({ ...filterData });
                   props.filterdata({
                     ID: 0,
-                    Status: "",
+                    Status: [],
                     Priority: null,
                     Name: "",
                     EngagementType: "",
@@ -540,6 +572,7 @@ const TopFilter = (props: any) => {
                     Requestor: "",
                     LastModifiedDate: null,
                   });
+                  setvalue("");
                 }}
               />
             </div>
