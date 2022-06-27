@@ -20,10 +20,10 @@
   outline: none !important;
   border: none !important;
   input {
-      width: 100% !important;
-      min-height: 143px !important;
-      border-radius: 7px !important;
-      border-color: #00a0df !important;
+    width: 100% !important;
+    min-height: 143px !important;
+    border-radius: 7px !important;
+    border-color: #00a0df !important;
   }
 }
 
@@ -64,36 +64,36 @@
 
 .postedMessages {
   .Message {
-      margin: 0.75rem 0;
-      padding: 1rem;
-      border: 1px solid #cacaca;
-      border-radius: 7px;
-      .MsgHeader {
-          display: flex;
-          justify-content: space-between;
-          margin-bottom: 0.5rem;
-          .userName {
-              display: flex;
-              align-items: center;
-              color: #707070;
-              font-weight: 600;
-          }
-          .ModifiedDate {
-              color: #707070;
-              display: flex;
-              align-items: center;
-          }
+    margin: 0.75rem 0;
+    padding: 1rem;
+    border: 1px solid #cacaca;
+    border-radius: 7px;
+    .MsgHeader {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      .userName {
+        display: flex;
+        align-items: center;
+        color: #707070;
+        font-weight: 600;
       }
-      .content {
-          color: #707070;
+      .ModifiedDate {
+        color: #707070;
+        display: flex;
+        align-items: center;
       }
+    }
+    .content {
+      color: #707070;
+    }
   }
 }
 
 .optImgSection {
   position: relative;
   img {
-      cursor: pointer;
+    cursor: pointer;
   }
 }
 
@@ -105,7 +105,7 @@
   border: 1px solid #cacaca;
   border-radius: 7px;
   div {
-      padding: 0.25rem 1rem;
-      cursor: pointer;
+    padding: 0.25rem 1rem;
+    cursor: pointer;
   }
 }
