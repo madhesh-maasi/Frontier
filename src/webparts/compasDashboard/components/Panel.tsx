@@ -758,6 +758,7 @@ const Panel = (props: any) => {
                     <InputLabel className={classes.inpLabel}>
                       ID Number:
                     </InputLabel>
+                    <div className="IdDropdown">
                     <Select
                       disabled={true}
                       className={classes.selectL}
@@ -771,6 +772,7 @@ const Panel = (props: any) => {
                         return <MenuItem value={data}>{data}</MenuItem>;
                       })}
                     </Select>
+                    </div>
                   </div>
                 )}
 

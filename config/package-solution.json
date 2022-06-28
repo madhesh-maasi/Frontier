@@ -1,20 +1,43 @@
 {
     "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
     "solution": {
-        "name": "jnj-apps-as-compas",
-        "id": "afdb3a82-f4f5-4ef5-a97f-14e1e3be695b",
+      "name": "JNJ-Apps-AS-Compas",
+      "id": "afdb3a82-f4f5-4ef5-a97f-14e1e3be695b",
+      "version": "1.0.0.0",
+      "includeClientSideAssets": true,
+      "isDomainIsolated": false,
+      "developer": {
+        "name": "",
+        "websiteUrl": "",
+        "privacyUrl": "",
+        "termsOfUseUrl": "",
+        "mpnId": ""
+      },
+      "features": [{
+        "title": "asset-deployment-webpart-client-side-solution",
+        "description": "asset-deployment-webpart-client-side-solution",
+        "id": "560040d4-593d-4144-b451-d19892260c9d",
         "version": "1.0.0.0",
-        "includeClientSideAssets": true,
-        "isDomainIsolated": false,
-        "developer": {
-            "name": "",
-            "websiteUrl": "",
-            "privacyUrl": "",
-            "termsOfUseUrl": "",
-            "mpnId": ""
+        "assets": {
+          "elementManifests": [
+            "element.xml"
+          ],
+          "elementFiles":[
+            "priorityschema.xml",
+            "countryschema.xml",
+            "engtypeschema.xml",
+            "engsubtypeschema.xml",
+            "statusschema.xml",
+            "engscopeschema.xml",
+            "projectschema.xml",
+            "actionschema.xml",
+            "spenttimeschema.xml"
+          ]
         }
+      }]
     },
     "paths": {
-        "zippedPackage": "solution/jnj-apps-as-compas.sppkg"
+      "zippedPackage": "solution/compas.sppkg"
     }
-}
+  }
+  
