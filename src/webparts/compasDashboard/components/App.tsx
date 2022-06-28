@@ -36,6 +36,7 @@ const objFilterVal = {
   Priority: null,
   Name: "",
   EngagementType: "",
+  EngagementSubType: "",
   UnitName: "",
   CreationDate: null,
   CountryIBVT: "",
@@ -53,6 +54,7 @@ let objSorted = {
   Priority: "",
   Name: "",
   EngagementType: "",
+  EngagementSubType: "",
   UnitName: "",
   CreationDate: "",
   CountryIBVT: "",
@@ -88,7 +90,7 @@ const App = (props: any) => {
   const [callList, setCallList] = useState(true);
   const [users, setUsers] = useState("");
   const [admArr, setAdmArr] = useState([]);
-  const [latest, setlatest] = useState({Id: null, text: ""});
+  const [latest, setlatest] = useState({ Id: null, text: "" });
 
   const getModalResponse = (res) => {
     setShowModal(res);
@@ -164,14 +166,16 @@ const App = (props: any) => {
                 "CASCountry/Title",
                 "CASEngType/Title",
                 "CASPriority/Title",
-                "CASStatus/Title"
+                "CASStatus/Title",
+                "CASEngSubType/Title"
               )
               .expand(
                 "CASUser",
                 "CASCountry",
                 "CASEngType",
                 "CASPriority",
-                "CASStatus"
+                "CASStatus",
+                "CASEngSubType"
               )
               .orderBy("Modified", false)
               .get()
@@ -197,8 +201,11 @@ const App = (props: any) => {
                       ? item.CASPriority.Title
                       : "",
                     Name: item.Title ? item.Title : "",
-                    EngagementType: item.CASEngType.Title
+                    EngagementType: item.CASEngType
                       ? item.CASEngType.Title
+                      : "",
+                    EngagementSubType: item.CASEngSubType
+                      ? item.CASEngSubType.Title
                       : "",
                     UnitName: item.CASOrgUnit ? item.CASOrgUnit : "",
                     CreationDate: new Date(item.Modified),
@@ -225,14 +232,16 @@ const App = (props: any) => {
                 "CASCountry/Title",
                 "CASEngType/Title",
                 "CASPriority/Title",
-                "CASStatus/Title"
+                "CASStatus/Title",
+                "CASEngSubType/Title"
               )
               .expand(
                 "CASUser",
                 "CASCountry",
                 "CASEngType",
                 "CASPriority",
-                "CASStatus"
+                "CASStatus",
+                "CASEngSubType"
               )
               .filter(`CASUser/EMail eq '${currentUser}'`)
               .orderBy("Modified", false)
@@ -259,8 +268,11 @@ const App = (props: any) => {
                       ? item.CASPriority.Title
                       : "",
                     Name: item.Title ? item.Title : "",
-                    EngagementType: item.CASEngType.Title
+                    EngagementType: item.CASEngType
                       ? item.CASEngType.Title
+                      : "",
+                    EngagementSubType: item.CASEngSubType
+                      ? item.CASEngSubType.Title
                       : "",
                     UnitName: item.CASOrgUnit ? item.CASOrgUnit : "",
                     CreationDate: new Date(item.Modified),
@@ -291,6 +303,7 @@ const App = (props: any) => {
       filterValue.Priority == null &&
       filterValue.Name == "" &&
       filterValue.EngagementType == "" &&
+      filterValue.EngagementSubType == "" &&
       filterValue.UnitName == "" &&
       filterValue.CreationDate == null &&
       filterValue.CountryIBVT == "" &&
@@ -318,7 +331,7 @@ const App = (props: any) => {
       );
       arrFilteredData = arrFilteredData.filter((fItem) =>
         filterValue.Requestor
-          ? fItem.Requestor.some(
+          ? fItem.Requestor.map((req) => req.Email).some(
               (userMail) => userMail == filterValue.Requestor
             )
           : true
@@ -326,6 +339,11 @@ const App = (props: any) => {
       arrFilteredData = arrFilteredData.filter((fItem) =>
         filterValue.EngagementType
           ? filterValue.EngagementType == fItem.EngagementType
+          : true
+      );
+      arrFilteredData = arrFilteredData.filter((fItem) =>
+        filterValue.EngagementSubType
+          ? filterValue.EngagementSubType == fItem.EngagementSubType
           : true
       );
       // arrFilteredData = arrFilteredData.filter((fItem) =>
@@ -379,8 +397,8 @@ const App = (props: any) => {
 
   const latestEdit = (data, text) => {
     setShowModal(true);
-    setlatest({Id: data, text: text});
-  }
+    setlatest({ Id: data, text: text });
+  };
 
   return (
     <>
@@ -391,7 +409,7 @@ const App = (props: any) => {
             Panel={getModalResponse}
             Edit={showEdit}
             context={props.context}
-            latest={latest} 
+            latest={latest}
             sp={props.sp}
             renderProject={renderList}
             Admin={Admin}
@@ -424,6 +442,7 @@ const App = (props: any) => {
                           Priority: "",
                           Name: "",
                           EngagementType: "",
+                          EngagementSubType: "",
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
@@ -435,6 +454,7 @@ const App = (props: any) => {
                           Priority: "",
                           Name: "",
                           EngagementType: "",
+                          EngagementSubType: "",
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
@@ -467,6 +487,7 @@ const App = (props: any) => {
                           Priority: "",
                           Name: "",
                           EngagementType: "",
+                          EngagementSubType: "",
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
@@ -478,6 +499,7 @@ const App = (props: any) => {
                           Priority: "",
                           Name: "",
                           EngagementType: "",
+                          EngagementSubType: "",
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
@@ -515,6 +537,7 @@ const App = (props: any) => {
                           Priority: "descending",
                           Name: "",
                           EngagementType: "",
+                          EngagementSubType: "",
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
@@ -526,6 +549,7 @@ const App = (props: any) => {
                           Priority: "ascending",
                           Name: "",
                           EngagementType: "",
+                          EngagementSubType: "",
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
@@ -558,6 +582,7 @@ const App = (props: any) => {
                           Priority: "",
                           Name: "descending",
                           EngagementType: "",
+                          EngagementSubType: "",
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
@@ -569,6 +594,7 @@ const App = (props: any) => {
                           Priority: "",
                           Name: "ascending",
                           EngagementType: "",
+                          EngagementSubType: "",
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
@@ -605,6 +631,7 @@ const App = (props: any) => {
                           Priority: "",
                           Name: "",
                           EngagementType: "descending",
+                          EngagementSubType: "",
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
@@ -616,6 +643,7 @@ const App = (props: any) => {
                           Priority: "",
                           Name: "",
                           EngagementType: "ascending",
+                          EngagementSubType: "",
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
@@ -645,6 +673,56 @@ const App = (props: any) => {
                 </TableCell>
                 <TableCell
                   onClick={() => {
+                    objSorted.EngagementSubType == "ascending" ||
+                    objSorted.EngagementSubType == ""
+                      ? (objSorted = {
+                          ID: "",
+                          Status: "",
+                          Priority: "",
+                          Name: "",
+                          EngagementType: "",
+                          EngagementSubType: "descending",
+                          UnitName: "",
+                          CreationDate: "",
+                          CountryIBVT: "",
+                          LatestAction: "",
+                        })
+                      : (objSorted = {
+                          ID: "",
+                          Status: "",
+                          Priority: "",
+                          Name: "",
+                          EngagementType: "",
+                          EngagementSubType: "ascending",
+                          UnitName: "",
+                          CreationDate: "",
+                          CountryIBVT: "",
+                          LatestAction: "",
+                        });
+                    setTableData([
+                      ...tableData.sort((a, b) =>
+                        objSorted.EngagementSubType == "ascending" ||
+                        objSorted.EngagementSubType == ""
+                          ? b.EngagementSubType.toLowerCase().localeCompare(
+                              a.EngagementSubType.toLowerCase()
+                            )
+                          : a.EngagementSubType.toLowerCase().localeCompare(
+                              b.EngagementSubType.toLowerCase()
+                            )
+                      ),
+                    ]);
+                    setData(tableData.slice(0, pageSize));
+                  }}
+                >
+                  <div style={{ color: "#7d7d7d", display: "flex" }}>
+                    Engagement subtype{" "}
+                    <div>
+                      <img height="10" width="10" src={`${sortIcon}`} />
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell
+                  onClick={() => {
                     objSorted.UnitName == "ascending" ||
                     objSorted.UnitName == ""
                       ? (objSorted = {
@@ -653,6 +731,7 @@ const App = (props: any) => {
                           Priority: "",
                           Name: "",
                           EngagementType: "",
+                          EngagementSubType: "",
                           UnitName: "descending",
                           CreationDate: "",
                           CountryIBVT: "",
@@ -664,6 +743,7 @@ const App = (props: any) => {
                           Priority: "",
                           Name: "",
                           EngagementType: "",
+                          EngagementSubType: "",
                           UnitName: "ascending",
                           CreationDate: "",
                           CountryIBVT: "",
@@ -701,6 +781,7 @@ const App = (props: any) => {
                           Priority: "",
                           Name: "",
                           EngagementType: "",
+                          EngagementSubType: "",
                           UnitName: "",
                           CreationDate: "descending",
                           CountryIBVT: "",
@@ -712,6 +793,7 @@ const App = (props: any) => {
                           Priority: "",
                           Name: "",
                           EngagementType: "",
+                          EngagementSubType: "",
                           UnitName: "",
                           CreationDate: "ascending",
                           CountryIBVT: "",
@@ -747,6 +829,7 @@ const App = (props: any) => {
                           Priority: "",
                           Name: "",
                           EngagementType: "",
+                          EngagementSubType: "",
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "descending",
@@ -758,6 +841,7 @@ const App = (props: any) => {
                           Priority: "",
                           Name: "",
                           EngagementType: "",
+                          EngagementSubType: "",
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "ascending",
@@ -800,6 +884,7 @@ const App = (props: any) => {
                           Priority: "",
                           Name: "",
                           EngagementType: "",
+                          EngagementSubType: "",
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
@@ -811,6 +896,7 @@ const App = (props: any) => {
                           Priority: "",
                           Name: "",
                           EngagementType: "",
+                          EngagementSubType: "",
                           UnitName: "",
                           CreationDate: "",
                           CountryIBVT: "",
@@ -920,6 +1006,18 @@ const App = (props: any) => {
                         >
                           <div className={classes.bold}>
                             {row.EngagementType}
+                          </div>
+                        </TableCell>
+                        <TableCell
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 600,
+                            color: "#707070",
+                            width: 150,
+                          }}
+                        >
+                          <div className={classes.bold}>
+                            {row.EngagementSubType}
                           </div>
                         </TableCell>
                         <TableCell
@@ -1126,7 +1224,9 @@ const App = (props: any) => {
                                     width={26}
                                     height={26}
                                     style={{ transform: "rotate(90deg)" }}
-                                    onClick={() => latestEdit("2", row.LatestComment.Text)}
+                                    onClick={() =>
+                                      latestEdit("2", row.LatestComment.Text)
+                                    }
                                   />
                                 </div>
                               </div>
@@ -1147,7 +1247,10 @@ const App = (props: any) => {
                               src={`${editIcon}`}
                               width={39}
                               height={39}
-                              onClick={() => Edit(true, row.ID, row.Name)}
+                              onClick={() => {
+                                Edit(true, row.ID, row.Name);
+                                latestEdit("1", row.LatestComment.Text);
+                              }}
                             />
                           </div>
                         </TableCell>

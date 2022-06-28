@@ -36,6 +36,7 @@ let filterData = {
   Priority: null,
   Name: "",
   EngagementType: "",
+  EngagementSubType: "",
   UnitName: "",
   CreationDate: null,
   CountryIBVT: "",
@@ -48,6 +49,7 @@ let multiPeopleData = [];
 let projectsId = [];
 let arrCountries = [];
 let arrEngTypes = [];
+let arrEngSubTypes = [];
 let arrStatusType = [];
 let arrIDNumber = [];
 let arrPriority = [];
@@ -60,6 +62,7 @@ const TopFilter = (props: any) => {
   const [arrOfId, setArrOfId] = useState([]);
   const [countryChoice, setCountryChoice] = useState(arrCountries);
   const [engTypeChoice, setEngTypeChoice] = useState(arrEngTypes);
+  const [engSubTypeChoice, setEngSubTypeChoice] = useState(arrEngSubTypes);
   const [statusTypeChoice, setStatusType] = useState(arrStatusType);
   const [idNumberChoice, setIdNumberChoice] = useState(arrIDNumber);
   const [priorityChoice, setPriorityChoice] = useState(arrPriority);
@@ -96,6 +99,17 @@ const TopFilter = (props: any) => {
               return li.Title;
             });
             setEngTypeChoice(arrEngTypes);
+          });
+      })
+      .then(() => {
+        props.sp.web.lists
+          .getByTitle("Engagement subtypes")
+          .items.get()
+          .then((cLi) => {
+            arrEngSubTypes = cLi.map((li) => {
+              return li.Title;
+            });
+            setEngSubTypeChoice(arrEngSubTypes);
           });
       })
       .then(() => {
@@ -338,35 +352,36 @@ const TopFilter = (props: any) => {
         </div>
         {expandFilter && (
           <div className={classes.filterSectionTop}>
+            <div className={classes.filterInput}>
+              <InputLabel>Engagement subtype</InputLabel>
+              <div className="ddSelect">
+                <Select
+                  style={{
+                    width: "236px",
+                    height: "56px",
+                    borderRadius: "7px",
+                    marginRight: "10px",
+                  }}
+                  id=""
+                  value={filterArr.EngagementType}
+                  onChange={(e) => {
+                    getOnChange("EngagementSubType", e.target.value);
+                  }}
+                  variant="outlined"
+                  labelWidth={0}
+                >
+                  {engSubTypeChoice.map((choice) => (
+                    <MenuItem value={choice}>{choice}</MenuItem>
+                  ))}
+                </Select>
+              </div>
+            </div>
             {/* Status Type Section */}
             <div className={`${classes.filterInput} ${classes.multiSelect}`}>
               <InputLabel style={{ marginBottom: "0.75rem" }}>
                 Status Type:
               </InputLabel>
-              {/* <div className="ddSelect">
-                <Select
-                  labelId="demo-multiple-name-label"
-                  id="demo-multiple-name"
-                  style={{
-                    width: "399px",
-                    height: "56px",
-                    borderRadius: "7px",
-                    marginRight: "10px",
-                  }}
-                  label="Age"
-                  value={filterArr.Status}
-                  // multiple = {true}
-                  onChange={(e) => {
-                    getOnChange("Status", e.target.value);
-                  }}
-                  variant="outlined"
-                  labelWidth={0}
-                >
-                  {statusTypeChoice.map((choice) => (
-                    <MenuItem value={choice}>{choice}</MenuItem>
-                  ))}
-                </Select>
-              </div> */}
+
               <>
                 <MultiSelect
                   defaultValue={value}
@@ -392,13 +407,6 @@ const TopFilter = (props: any) => {
                   }}
                   value={filterArr.ID}
                   onChange={(e) => {
-                    // let arrValue = projectsId.findIndex((value) => value == e.target.value);
-                    // if (arrValue >= 0) {
-                    //   projectsId.splice(arrValue, 1);
-                    // } else {
-                    //   projectsId.push(e.target.value);
-                    // }
-                    // projectsId.push(e.target.value);
                     getOnChange("ID", e.target.value);
                   }}
                   variant="outlined"
@@ -413,40 +421,11 @@ const TopFilter = (props: any) => {
             {/* Creation Date Section */}
             <div className={classes.filterInput}>
               <InputLabel>Creation Date:</InputLabel>
-              {/* <TextField
-            id="date"
-            type="date"
-            style={{
-              width: "399px",
-              height: "56px",
-              borderRadius: "7px",
-              marginRight: "10px",
-            }}
-            defaultValue={(date) => {
-              filterArr.CreationDate
-                ? (date = filterArr.CreationDate)
-                : (date = null);
-            }}
-            value={filterArr.CreationDate ? filterArr.CreationDate : null}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange={(selectedDate) => {
-              getOnChange(
-                "CreationDate",
-                selectedDate
-                  ? (filterArr.CreationDate = new Date(
-                      selectedDate.target.value
-                    ).toLocaleDateString())
-                  : (filterArr.CreationDate = null)
-              );
-            }}
-            variant="outlined"
-          /> */}
+
               <DatePicker
                 className={`TopFilterDatePicker ${datePickerClass}`}
                 style={{
-                  width: "399px",
+                  width: "350px",
                   height: "56px",
                   borderRadius: "7px",
                   marginRight: "10px",
@@ -460,11 +439,6 @@ const TopFilter = (props: any) => {
                     arrDate[2]
                   }`;
                   return selectedDate;
-                  // return `${
-                  //   date.getDate() < 10 ? "0" : ""
-                  // }${date.getDate()} / ${
-                  //   date.getMonth() + 1 < 10 ? "0" : ""
-                  // }${date.getMonth()} / ${date.getFullYear()}`;
                 }}
                 value={filterArr.CreationDate ? filterArr.CreationDate : null}
                 onSelectDate={(selectedDate) => {
@@ -480,38 +454,11 @@ const TopFilter = (props: any) => {
             {/* Last Modified Date Section */}
             <div className={classes.filterInput}>
               <InputLabel>Last Modified Date:</InputLabel>
-              {/* <TextField
-            id="date"
-            type="date"
-            style={{
-              width: "399px",
-              height: "56px",
-              borderRadius: "7px",
-              marginRight: "10px",
-            }}
-            defaultValue={
-              filterArr.LastModifiedDate ? filterArr.LastModifiedDate : null
-            }
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange={(selectedDate) => {
-              getOnChange(
-                "LastModifiedDate",
-                selectedDate
-                  ? (filterArr.LastModifiedDate = new Date(
-                      selectedDate.target.value
-                    ).toLocaleDateString())
-                  : (filterArr.LastModifiedDate = null)
-              );
-              console.log(filterData);
-            }}
-            variant="outlined"
-          /> */}
+
               <DatePicker
                 className="TopFilterDatePicker"
                 style={{
-                  width: "399px",
+                  width: "350px",
                   height: "56px",
                   borderRadius: "7px",
                   marginRight: "10px",
@@ -524,11 +471,6 @@ const TopFilter = (props: any) => {
                     arrDate[2]
                   }`;
                   return selectedDate;
-                  // return `${
-                  //   date.getDate() < 10 ? "0" : ""
-                  // }${date.getDate()} / ${
-                  //   date.getMonth() + 1 < 10 ? "0" : ""
-                  // }${date.getMonth()} / ${date.getFullYear()}`;
                 }}
                 value={
                   filterArr.LastModifiedDate ? filterArr.LastModifiedDate : null
@@ -556,6 +498,7 @@ const TopFilter = (props: any) => {
                     Priority: null,
                     Name: "",
                     EngagementType: "",
+                    EngagementSubType: "",
                     UnitName: "",
                     CreationDate: null,
                     CountryIBVT: "",
@@ -569,6 +512,7 @@ const TopFilter = (props: any) => {
                     Priority: null,
                     Name: "",
                     EngagementType: "",
+                    EngagementSubType: "",
                     UnitName: "",
                     CreationDate: null,
                     CountryIBVT: "",
