@@ -14,15 +14,8 @@ import {
 } from "@material-ui/core";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import classes from "./TopFilter.module.scss";
-import { FilterTiltShiftOutlined } from "@material-ui/icons";
 import { useState, useEffect, useRef } from "react";
 import { get } from "@microsoft/sp-lodash-subset";
-import {
-  IPersonaSharedProps,
-  Persona,
-  PersonaSize,
-  PersonaPresence,
-} from "office-ui-fabric-react/lib/Persona";
 import {
   PeoplePicker,
   PrincipalType,
@@ -34,9 +27,9 @@ import {
 } from "office-ui-fabric-react";
 import MultiSelect from "react-multiple-select-dropdown-lite";
 import "react-multiple-select-dropdown-lite/dist/index.css";
+
 const resetIcon = require("../../../ExternalRef/img/ResetIcon.svg");
 const filterIcon = require("../../../ExternalRef/img/filterIcon.png");
-import * as Excel from "exceljs/dist/exceljs.min.js";
 let filterData = {
   ID: 0,
   Status: [],

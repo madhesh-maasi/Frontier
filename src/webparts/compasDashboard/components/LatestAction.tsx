@@ -156,7 +156,6 @@ const LatestAction = (props) => {
           <div className={classes.panelInput}>
             <InputLabel className={classes.inpLabel}>
               Type a message:{" "}
-              {latestId != 0 ? latestId : editId != 0 ? editId : null}
             </InputLabel>
             <TextField
               value={newMessage}
@@ -198,9 +197,6 @@ const LatestAction = (props) => {
             <button
               className={`${classes.msgBtn} ${classes.msgBtn2}`}
               onClick={() => {
-                console.log(editId);
-                console.log(latestId);
-
                 updateID == 0 ? AddNewMessage() : UpdateMessage();
               }}
             >

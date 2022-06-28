@@ -25,9 +25,6 @@ import {
   PersonaSize,
   PersonaPresence,
 } from "office-ui-fabric-react/lib/Persona";
-import { people } from "office-ui-fabric-react";
-import SearchOutlined from "@material-ui/icons/SearchOutlined";
-import BorderColorOutlined from "@material-ui/icons/BorderColorOutlined";
 
 const sortIcon = require("../../../ExternalRef/img/sort.png");
 const editIcon = require("../../../ExternalRef/img/EditIcon.png");

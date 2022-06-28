@@ -986,10 +986,6 @@ const Panel = (props: any) => {
                 Edit={props.Edit}
                 Latest={latestSec}
                 sp={props.sp}
-                forAction={{
-                  Data: 10,
-                  Title: "Test Title",
-                }}
                 Admin={props.Admin}
               />
             </PivotItem>
