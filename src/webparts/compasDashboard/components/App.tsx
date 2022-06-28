@@ -64,6 +64,7 @@ let pageSize = 21;
 let AdminsArr = [];
 let currentUser = "";
 let Admin;
+let latestData;
 
 const App = (props: any) => {
   const [tableData, setTableData] = useState([]);
@@ -87,6 +88,8 @@ const App = (props: any) => {
   const [callList, setCallList] = useState(true);
   const [users, setUsers] = useState("");
   const [admArr, setAdmArr] = useState([]);
+  const [latest, setlatest] = useState({Id: null, text: ""});
+
   const getModalResponse = (res) => {
     setShowModal(res);
   };
@@ -374,6 +377,11 @@ const App = (props: any) => {
     setCallList(true);
   };
 
+  const latestEdit = (data, text) => {
+    setShowModal(true);
+    setlatest({Id: data, text: text});
+  }
+
   return (
     <>
       <Header sp={props.sp} />
@@ -383,6 +391,7 @@ const App = (props: any) => {
             Panel={getModalResponse}
             Edit={showEdit}
             context={props.context}
+            latest={latest} 
             sp={props.sp}
             renderProject={renderList}
             Admin={Admin}
@@ -1117,6 +1126,7 @@ const App = (props: any) => {
                                     width={26}
                                     height={26}
                                     style={{ transform: "rotate(90deg)" }}
+                                    onClick={() => latestEdit("2", row.LatestComment.Text)}
                                   />
                                 </div>
                               </div>
