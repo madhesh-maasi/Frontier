@@ -83,6 +83,7 @@ const App = (props: any) => {
     flagEdit: false,
     item: null,
     Title: "",
+    num: "1",
   });
   const [sorted, setSorted] = useState(objSorted);
   const [page, setPage] = useState(1);
@@ -91,15 +92,6 @@ const App = (props: any) => {
   const [users, setUsers] = useState("");
   const [admArr, setAdmArr] = useState([]);
   const [latest, setlatest] = useState({ Id: null, text: "" });
-
-  const getModalResponse = (res) => {
-    setShowModal(res);
-  };
-
-  const Edit = (key, IdValue, data) => {
-    setShowModal(true);
-    setShowEdit({ flagEdit: key, item: IdValue, Title: data });
-  };
 
   // Life Cycle of Onload
   useEffect(() => {
@@ -395,11 +387,18 @@ const App = (props: any) => {
     setCallList(true);
   };
 
-  const latestEdit = (data, text) => {
-    setShowModal(true);
-    setlatest({ Id: data, text: text });
+  // const latestEdit = (data, text) => {
+  //   setShowModal(true);
+  //   setlatest({ Id: data, text: text });
+  // };
+  const getModalResponse = (res) => {
+    setShowModal(res);
   };
 
+  const Edit = (key, IdValue, data, num) => {
+    setShowModal(true);
+    setShowEdit({ flagEdit: key, item: IdValue, Title: data, num: num });
+  };
   return (
     <>
       <Header sp={props.sp} />
@@ -409,7 +408,6 @@ const App = (props: any) => {
             Panel={getModalResponse}
             Edit={showEdit}
             context={props.context}
-            latest={latest}
             sp={props.sp}
             renderProject={renderList}
             Admin={Admin}
@@ -1225,7 +1223,7 @@ const App = (props: any) => {
                                     height={26}
                                     style={{ transform: "rotate(90deg)" }}
                                     onClick={() =>
-                                      latestEdit("2", row.LatestComment.Text)
+                                      Edit(true, row.ID, row.Name, "2")
                                     }
                                   />
                                 </div>
@@ -1248,8 +1246,7 @@ const App = (props: any) => {
                               width={39}
                               height={39}
                               onClick={() => {
-                                Edit(true, row.ID, row.Name);
-                                latestEdit("1", row.LatestComment.Text);
+                                Edit(true, row.ID, row.Name, "1");
                               }}
                             />
                           </div>

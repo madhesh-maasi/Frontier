@@ -1,111 +1,126 @@
 .titleTwo {
-  color: #00a0df;
-  font-size: 15px;
-  margin: 0 0 30px 0;
+    color: #00a0df;
+    font-size: 15px;
+    margin: 0 0 30px 0;
 }
 
 .panelInput {
-  margin-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 
 .inpLabel {
-  font-size: 14px !important;
-  color: #707070 !important;
-  margin-bottom: 14px !important;
+    font-size: 14px !important;
+    color: #707070 !important;
+    margin-bottom: 14px !important;
 }
 
 .msgL {
-  width: 100% !important;
-  margin-bottom: 0px !important;
-  outline: none !important;
-  border: none !important;
-  input {
     width: 100% !important;
-    min-height: 143px !important;
-    border-radius: 7px !important;
-    border-color: #00a0df !important;
-  }
+    margin-bottom: 0px !important;
+    outline: none !important;
+    border: none !important;
+    input {
+        width: 100% !important;
+        min-height: 143px !important;
+        border-radius: 7px !important;
+        border-color: #00a0df !important;
+    }
 }
 
 .msgActions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-top: -15px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: -15px;
 }
 
 .msgBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 !important;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  outline: none;
-  font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    font-size: 15px;
 }
 
 .msgBtn1 {
-  text-decoration: underline;
-  color: #707070;
-  margin-right: 20px;
+    text-decoration: underline;
+    color: #707070;
+    margin-right: 20px;
 }
 
 .msgBtn2 {
-  color: #00a0df;
+    color: #00a0df;
 }
 
 .titleTwo {
-  color: #00a0df;
-  font-size: 15px;
-  margin: 0 0 30px 0;
+    color: #00a0df;
+    font-size: 15px;
+    margin: 0 0 30px 0;
 }
 
 .postedMessages {
-  .Message {
-    margin: 0.75rem 0;
-    padding: 1rem;
-    border: 1px solid #cacaca;
-    border-radius: 7px;
-    .MsgHeader {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.5rem;
-      .userName {
-        display: flex;
-        align-items: center;
-        color: #707070;
-        font-weight: 600;
-      }
-      .ModifiedDate {
-        color: #707070;
-        display: flex;
-        align-items: center;
-      }
+    .Message {
+        margin: 0.75rem 0;
+        padding: 1rem;
+        border: 1px solid #cacaca;
+        border-radius: 7px;
+        .MsgHeader {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            .userName {
+                display: flex;
+                align-items: center;
+                color: #707070;
+                font-weight: 600;
+            }
+            .ModifiedDate {
+                color: #707070;
+                display: flex;
+                align-items: center;
+            }
+        }
+        .content {
+            color: #707070;
+        }
     }
-    .content {
-      color: #707070;
-    }
-  }
 }
 
 .optImgSection {
-  position: relative;
-  img {
-    cursor: pointer;
-  }
+    position: relative;
+    img {
+        cursor: pointer;
+    }
 }
 
 .optionSection {
-  // width: 64px;
-  background-color: #fff;
-  position: absolute;
-  top: 26px;
-  border: 1px solid #cacaca;
-  border-radius: 7px;
-  div {
-    padding: 0.25rem 1rem;
-    cursor: pointer;
-  }
+    // width: 64px;
+    background-color: #fff;
+    position: absolute;
+    top: 26px;
+    border: 1px solid #cacaca;
+    border-radius: 7px;
+    div {
+        padding: 0.25rem 1rem;
+        cursor: pointer;
+    }
+}
+
+.EditMessage {
+    display: flex;
+    textarea {
+        min-height: 5rem;
+    }
+    .editMessageIcons {
+        width: 5rem;
+        .editMsgIcons {
+            width: 2rem !important;
+            height: 2rem !important;
+            cursor: pointer;
+        }
+    }
 }

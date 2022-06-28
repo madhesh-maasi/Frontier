@@ -10,10 +10,11 @@ import {
   Select,
 } from "@material-ui/core";
 import { useState, useEffect, useRef } from "react";
-import { Mail, Send } from "@material-ui/icons";
+import { Mail, Send, Cancel } from "@material-ui/icons";
 import classes from "./LatestAction.module.scss";
 import { Persona, PersonaSize } from "office-ui-fabric-react";
-
+import alertify from "alertifyjs";
+import "alertifyjs/build/css/alertify.css";
 const moreIcon = require("../../../ExternalRef/img/more.png");
 
 let latestId;
@@ -37,11 +38,13 @@ const LatestAction = (props) => {
     })}`
   );
   const [newMessage, setNewMessage] = useState("");
+  const [editingMessage, setEditingMessage] = useState("");
   const [postedMsgs, setPostedMsgs] = useState([]);
   const [curUser, setCurUser] = useState({ Id: 0, Title: "", Email: "" });
   const [updateID, setUpdateID] = useState(0);
   const [renderLi, setRenderLi] = useState(true);
-
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [isSendMail, setIsSendMail] = useState(false);
   useEffect(() => {
     latestId = 0;
     if (props.Latest.key != 0) latestId = props.Latest.key;
@@ -79,6 +82,7 @@ const LatestAction = (props) => {
               Text: li.CASText,
               Modified: li.Modified,
               showOption: false,
+              isEdit: false,
               Id: i + 1,
               liID: li.ID,
             }))
@@ -101,41 +105,30 @@ const LatestAction = (props) => {
             CASText: newMessage,
             CASAuthorId: curUser.Id,
           })
-          .then(
-            (res) =>
-              setPostedMsgs([
-                ...[
-                  {
-                    Author: curUser.Title,
-                    AuthorEmail: curUser.Email,
-                    Text: newMessage,
-                    Modified: new Date(),
-                    Id: postedMsgs.length + 1,
-                    liID: res.data.ID,
-                  },
-                  ...postedMsgs,
-                ],
-              ]),
-            setNewMessage(""),
-            setRenderLi(true),
-            props.renderProject()
-          )
+          .then((res) => {
+            console.log(res),
+              setNewMessage(""),
+              setRenderLi(true),
+              props.renderProject();
+            isSendMail && sendMail();
+          })
           .catch((err) => console.log(err))
-      : alert("please add comments");
+      : alertify.error("Please add comments");
   };
 
-  const UpdateMessage = () => {
+  const UpdateMessage = (message) => {
     props.sp.web.lists
       .getByTitle("Actions")
       .items.getById(updateID)
       .update({
-        CASText: newMessage,
+        CASText: message,
       })
-      .then((err) => console.log(err));
-    setUpdateID(0);
-    setRenderLi(true);
-    setNewMessage("");
-    props.renderProject();
+      .then((res) => {
+        setUpdateID(0);
+        setRenderLi(true);
+        setNewMessage("");
+        props.renderProject();
+      });
   };
   const DeleteMessage = (ID) => {
     props.sp.web.lists
@@ -154,7 +147,10 @@ const LatestAction = (props) => {
       })}`
     );
   }, 100000);
-
+  const sendMail = () => {
+    setIsSendMail(false);
+    return (window.location.href = `mailto:?subject=${props.Edit.Title}&body=${newMessage}`);
+  };
   return (
     <>
       <div className={classes.titleTwo}>
@@ -169,17 +165,18 @@ const LatestAction = (props) => {
             </InputLabel>
             <TextField
               value={
-                props.editLatest.text == "" ? newMessage : props.editLatest.text
+                // props.editLatest.text == "" ? newMessage : props.editLatest.text
+                newMessage
               }
               disabled={
-                props.Admin != true
+                !props.Admin
                   ? true
                   : latestId != 0
                   ? false
                   : editId != 0
-                  ? false
-                  : props.editLatest.text != ""
-                  ? false
+                  ? isUpdating
+                    ? true
+                    : false
                   : true
               }
               className={classes.msgL}
@@ -201,10 +198,9 @@ const LatestAction = (props) => {
           <div className={classes.msgActions}>
             <button
               className={`${classes.msgBtn} ${classes.msgBtn1}`}
-              onClick={() => (
-                updateID == 0 ? AddNewMessage() : UpdateMessage(),
-                (window.location.href = `mailto:?subject=${props.Edit.Title}&body=${newMessage}`)
-              )}
+              onClick={() =>
+                updateID == 0 ? (setIsSendMail(true), AddNewMessage()) : ""
+              }
             >
               Post message and send update via email{" "}
               <Mail style={{ color: "#707070", marginLeft: "10px" }} />
@@ -212,7 +208,7 @@ const LatestAction = (props) => {
             <button
               className={`${classes.msgBtn} ${classes.msgBtn2}`}
               onClick={() => {
-                updateID == 0 ? AddNewMessage() : UpdateMessage();
+                updateID == 0 ? AddNewMessage() : "";
               }}
             >
               Post message
@@ -281,70 +277,122 @@ const LatestAction = (props) => {
                       className={classes.optImgSection}
                       style={{ width: 20 }}
                     >
-                      {curUser.Email == msg.AuthorEmail && props.Admin && (
-                        <>
-                          <img
-                            width={16}
-                            height={16}
-                            src={`${moreIcon}`}
-                            alt="more"
-                            onClick={() => {
-                              postedMsgs.forEach((pM) => {
-                                pM.showOption ? (pM.showOption = false) : "";
-                              });
-                              postedMsgs.filter(
-                                (pM) => pM.Id == msg.Id
-                              )[0].showOption = true;
-                              setPostedMsgs([...postedMsgs]);
-                            }}
-                          />
-                          {msg.showOption ? (
-                            <div className={classes.optionSection}>
-                              <div
-                                style={{
-                                  borderBottom: "1px solid #cacaca",
-                                }}
-                                onClick={() => {
-                                  postedMsgs.filter(
-                                    (pM) => pM.Id == msg.Id
-                                  )[0].showOption = false;
-                                  setNewMessage(
+                      {curUser.Email == msg.AuthorEmail &&
+                        props.Admin &&
+                        postedMsgs.every((data) => data.isEdit == false) && (
+                          <>
+                            <img
+                              width={16}
+                              height={16}
+                              src={`${moreIcon}`}
+                              alt="more"
+                              onClick={() => {
+                                postedMsgs.forEach((pM) => {
+                                  pM.showOption ? (pM.showOption = false) : "";
+                                });
+                                postedMsgs.filter(
+                                  (pM) => pM.Id == msg.Id
+                                )[0].showOption = true;
+                                setPostedMsgs([...postedMsgs]);
+                              }}
+                            />
+                            {msg.showOption ? (
+                              <div className={classes.optionSection}>
+                                <div
+                                  style={{
+                                    borderBottom: "1px solid #cacaca",
+                                  }}
+                                  onClick={() => {
                                     postedMsgs.filter(
                                       (pM) => pM.Id == msg.Id
-                                    )[0].Text
-                                  );
-                                  setUpdateID(
+                                    )[0].showOption = false;
                                     postedMsgs.filter(
                                       (pM) => pM.Id == msg.Id
-                                    )[0].liID
-                                  );
-                                  document
-                                    .querySelector("#typeArea")
-                                    ["focus"]();
-                                }}
-                              >
-                                Edit
+                                    )[0].isEdit = true;
+                                    setEditingMessage(
+                                      postedMsgs.filter(
+                                        (pM) => pM.Id == msg.Id
+                                      )[0].Text
+                                    );
+                                    setPostedMsgs([...postedMsgs]);
+                                    // setNewMessage(
+                                    //   postedMsgs.filter(
+                                    //     (pM) => pM.Id == msg.Id
+                                    //   )[0].Text
+                                    // );
+                                    setUpdateID(
+                                      postedMsgs.filter(
+                                        (pM) => pM.Id == msg.Id
+                                      )[0].liID
+                                    );
+                                    setNewMessage("");
+                                    setIsUpdating(true);
+                                    // document
+                                    //   .querySelector("#typeArea")
+                                    //   ["focus"]();
+                                  }}
+                                >
+                                  Edit
+                                </div>
+                                <div
+                                  onClick={() => {
+                                    let deleteID = postedMsgs.filter(
+                                      (pM) => pM.Id == msg.Id
+                                    )[0].liID;
+                                    DeleteMessage(deleteID);
+                                  }}
+                                >
+                                  Cancel
+                                </div>
                               </div>
-                              <div
-                                onClick={() => {
-                                  let deleteID = postedMsgs.filter(
-                                    (pM) => pM.Id == msg.Id
-                                  )[0].liID;
-                                  DeleteMessage(deleteID);
-                                }}
-                              >
-                                Cancel
-                              </div>
-                            </div>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
+                            ) : (
+                              ""
+                            )}
+                          </>
+                        )}
                     </span>
                   </div>
                 </div>
-                <div className={classes.content}>{msg.Text}</div>
+                <div className={classes.content}>
+                  {msg.isEdit ? (
+                    <div className={classes.EditMessage}>
+                      <TextField
+                        onChange={(e) => {
+                          setEditingMessage(e.target.value);
+                          console.log(
+                            postedMsgs.every((data) => data.isEdit == false)
+                          );
+                        }}
+                        multiline
+                        maxRows={4}
+                        style={{ width: "100%" }}
+                        value={editingMessage}
+                        id="standard-basic"
+                        label=""
+                        variant="standard"
+                      />
+                      <div className={classes.editMessageIcons}>
+                        <Send
+                          style={{ color: "#00a0df" }}
+                          className={classes.editMsgIcons}
+                          onClick={() => {
+                            UpdateMessage(editingMessage);
+                          }}
+                        />
+                        <Cancel
+                          style={{ color: "#df0000" }}
+                          className={classes.editMsgIcons}
+                          onClick={() => {
+                            setRenderLi(true);
+                            props.renderProject();
+                          }}
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    msg.Text
+                  )}
+                </div>
               </div>
             </div>
           ))}

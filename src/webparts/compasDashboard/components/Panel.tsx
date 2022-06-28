@@ -102,7 +102,7 @@ const Panel = (props: any) => {
   const [latestSec, setLatestSec] = useState({ key: 0, text: "" });
   const [forAction, setForAction] = useState(objForAction);
   const [reRenderTable, setReRenderTable] = useState(false);
-  const [selectedKey, setSelectedKey] = useState(!props.latest.Id ? 1 : +props.latest.Id);
+  const [selectedKey, setSelectedKey] = useState(+props.Edit.num);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
