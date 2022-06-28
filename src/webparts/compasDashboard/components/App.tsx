@@ -937,7 +937,34 @@ const App = (props: any) => {
                           new Date(row.CreationDate).getFullYear()} */}
                           {/* {DateFormatter(row.CreationDate)} */}
                           <div className={classes.normal}>
-                            {new Date(row.CreationDate).toLocaleDateString()}
+                            {`${
+                              +new Date(row.CreationDate)
+                                .toLocaleDateString()
+                                .split("/")[0] < 10
+                                ? "0" +
+                                  new Date(row.CreationDate)
+                                    .toLocaleDateString()
+                                    .split("/")[0]
+                                : new Date(row.CreationDate)
+                                    .toLocaleDateString()
+                                    .split("/")[0]
+                            }/${
+                              +new Date(row.CreationDate)
+                                .toLocaleDateString()
+                                .split("/")[1] < 10
+                                ? "0" +
+                                  new Date(row.CreationDate)
+                                    .toLocaleDateString()
+                                    .split("/")[1]
+                                : new Date(row.CreationDate)
+                                    .toLocaleDateString()
+                                    .split("/")[1]
+                            }/${
+                              new Date(row.CreationDate)
+                                .toLocaleDateString()
+                                .split("/")[2]
+                            }`}
+                            {/* {new Date(row.CreationDate).toLocaleDateString()} */}
                           </div>
                         </TableCell>
                         <TableCell
@@ -1036,9 +1063,33 @@ const App = (props: any) => {
                                 </div>
                                 <div className={classes.LAPostedTime}>
                                   {row.LatestComment &&
-                                    new Date(
-                                      row.LatestComment.Modified
-                                    ).toLocaleDateString()}
+                                    `${
+                                      +new Date(row.LatestComment.Modified)
+                                        .toLocaleDateString()
+                                        .split("/")[0] < 10
+                                        ? "0" +
+                                          new Date(row.LatestComment.Modified)
+                                            .toLocaleDateString()
+                                            .split("/")[0]
+                                        : new Date(row.LatestComment.Modified)
+                                            .toLocaleDateString()
+                                            .split("/")[0]
+                                    }/${
+                                      +new Date(row.LatestComment.Modified)
+                                        .toLocaleDateString()
+                                        .split("/")[1] < 10
+                                        ? "0" +
+                                          new Date(row.LatestComment.Modified)
+                                            .toLocaleDateString()
+                                            .split("/")[1]
+                                        : new Date(row.LatestComment.Modified)
+                                            .toLocaleDateString()
+                                            .split("/")[1]
+                                    }/${
+                                      new Date(row.LatestComment.Modified)
+                                        .toLocaleDateString()
+                                        .split("/")[2]
+                                    }`}
                                 </div>
                               </div>
                               <div

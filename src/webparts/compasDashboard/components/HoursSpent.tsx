@@ -89,7 +89,7 @@ const HoursSpent = (props: any) => {
               Date: res.CASDate ? new Date(res.CASDate) : null,
               Company: res.CASCompany,
               spentId: res.Id,
-              showOption:false
+              showOption: false,
             }));
             setHoursSpentArr(hoursArr);
             setAddData(true);
@@ -376,9 +376,13 @@ const HoursSpent = (props: any) => {
                         // onClick={() => Edit(true, row.ID, row.Name)}
                       />
                       {listData ? (
-                        <button onClick={() => SaveData(e.spentId)}>Save</button>
+                        <button onClick={() => SaveData(e.spentId)}>
+                          Save
+                        </button>
                       ) : (
-                        <button onClick={() => EditData(e.spentId)}>Edit</button>
+                        <button onClick={() => EditData(e.spentId)}>
+                          Edit
+                        </button>
                       )}
                     </div>
                   )}
