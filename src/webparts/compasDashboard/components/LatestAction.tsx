@@ -168,13 +168,17 @@ const LatestAction = (props) => {
               Type a message:{" "}
             </InputLabel>
             <TextField
-              value={props.editLatest == "" ? newMessage : props.editLatest}
+              value={
+                props.editLatest.text == "" ? newMessage : props.editLatest.text
+              }
               disabled={
                 props.Admin != true
                   ? true
                   : latestId != 0
                   ? false
                   : editId != 0
+                  ? false
+                  : props.editLatest.text != ""
                   ? false
                   : true
               }
@@ -197,9 +201,10 @@ const LatestAction = (props) => {
           <div className={classes.msgActions}>
             <button
               className={`${classes.msgBtn} ${classes.msgBtn1}`}
-              onClick={() =>
+              onClick={() => (
+                updateID == 0 ? AddNewMessage() : UpdateMessage(),
                 (window.location.href = `mailto:?subject=${props.Edit.Title}&body=${newMessage}`)
-              }
+              )}
             >
               Post message and send update via email{" "}
               <Mail style={{ color: "#707070", marginLeft: "10px" }} />

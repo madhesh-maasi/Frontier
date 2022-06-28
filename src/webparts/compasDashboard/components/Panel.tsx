@@ -102,7 +102,8 @@ const Panel = (props: any) => {
   const [latestSec, setLatestSec] = useState({ key: 0, text: "" });
   const [forAction, setForAction] = useState(objForAction);
   const [reRenderTable, setReRenderTable] = useState(false);
-  const [selectedKey, setSelectedKey] = useState(0);
+  const [selectedKey, setSelectedKey] = useState(!props.latest.Id ? 1 : +props.latest.Id);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -470,7 +471,7 @@ const Panel = (props: any) => {
             <PivotItem
               itemKey="1"
               itemIcon="SingleColumnEdit"
-              headerText="Project Information"
+              headerText="PROJECT INFORMATION"
               headerButtonProps={{
                 "data-order": 1,
                 "data-title": "My Files Title",
@@ -1015,7 +1016,7 @@ const Panel = (props: any) => {
             </PivotItem>
 
             {/* Latest Action Section */}
-            <PivotItem headerText="Latest Action" itemIcon="Chat" itemKey="2">
+            <PivotItem headerText="LATEST ACTION" itemIcon="Chat" itemKey="2">
               <LatestAction
                 renderProject={props.renderProject}
                 Edit={props.Edit}
@@ -1029,7 +1030,7 @@ const Panel = (props: any) => {
             {/* Hours spent Section */}
             {props.Admin ? (
               <PivotItem
-                headerText="Hours Spent"
+                headerText="HOURS SPENT"
                 itemIcon="DateTime"
                 itemKey="3"
               >
