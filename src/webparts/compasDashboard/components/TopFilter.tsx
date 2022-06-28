@@ -453,13 +453,18 @@ const TopFilter = (props: any) => {
                   border: "1px solid #E4E4E4",
                 }}
                 formatDate={(date: Date): string => {
-                  return (
-                    date.getDate() +
-                    "/" +
-                    (date.getMonth() + 1) +
-                    "/" +
-                    date.getFullYear()
-                  );
+                  let arrDate = date.toLocaleDateString().split("/");
+                  let selectedDate = `${
+                    +arrDate[0] < 10 ? "0" + arrDate[0] : arrDate[0]
+                  }/${+arrDate[1] < 10 ? "0" + arrDate[1] : arrDate[1]}/${
+                    arrDate[2]
+                  }`;
+                  return selectedDate;
+                  // return `${
+                  //   date.getDate() < 10 ? "0" : ""
+                  // }${date.getDate()} / ${
+                  //   date.getMonth() + 1 < 10 ? "0" : ""
+                  // }${date.getMonth()} / ${date.getFullYear()}`;
                 }}
                 value={filterArr.CreationDate ? filterArr.CreationDate : null}
                 onSelectDate={(selectedDate) => {
@@ -512,13 +517,18 @@ const TopFilter = (props: any) => {
                   marginRight: "10px",
                 }}
                 formatDate={(date: Date): string => {
-                  return (
-                    date.getDate() +
-                    "/" +
-                    (date.getMonth() + 1) +
-                    "/" +
-                    date.getFullYear()
-                  );
+                  let arrDate = date.toLocaleDateString().split("/");
+                  let selectedDate = `${
+                    +arrDate[0] < 10 ? "0" + arrDate[0] : arrDate[0]
+                  }/${+arrDate[1] < 10 ? "0" + arrDate[1] : arrDate[1]}/${
+                    arrDate[2]
+                  }`;
+                  return selectedDate;
+                  // return `${
+                  //   date.getDate() < 10 ? "0" : ""
+                  // }${date.getDate()} / ${
+                  //   date.getMonth() + 1 < 10 ? "0" : ""
+                  // }${date.getMonth()} / ${date.getFullYear()}`;
                 }}
                 value={
                   filterArr.LastModifiedDate ? filterArr.LastModifiedDate : null

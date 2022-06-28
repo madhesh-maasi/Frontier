@@ -776,13 +776,20 @@ const Panel = (props: any) => {
                       disabled={true}
                       className={classes.dateL}
                       formatDate={(date: Date): string => {
-                        return (
-                          date.getDate() +
-                          "/" +
-                          (date.getMonth() + 1) +
-                          "/" +
-                          date.getFullYear()
-                        );
+                        let arrDate = date.toLocaleDateString().split("/");
+                        let selectedDate = `${
+                          +arrDate[0] < 10 ? "0" + arrDate[0] : arrDate[0]
+                        }/${+arrDate[1] < 10 ? "0" + arrDate[1] : arrDate[1]}/${
+                          arrDate[2]
+                        }`;
+                        return selectedDate;
+                        // return (
+                        //   date.getDate() +
+                        //   "/" +
+                        //   (date.getMonth() + 1) +
+                        //   "/" +
+                        //   date.getFullYear()
+                        // );
                       }}
                       value={
                         addDatas.CreationDate
@@ -807,13 +814,20 @@ const Panel = (props: any) => {
                       disabled={true}
                       className={classes.dateL}
                       formatDate={(date: Date): string => {
-                        return (
-                          date.getDate() +
-                          "/" +
-                          (date.getMonth() + 1) +
-                          "/" +
-                          date.getFullYear()
-                        );
+                        let arrDate = date.toLocaleDateString().split("/");
+                        let selectedDate = `${
+                          +arrDate[0] < 10 ? "0" + arrDate[0] : arrDate[0]
+                        }/${+arrDate[1] < 10 ? "0" + arrDate[1] : arrDate[1]}/${
+                          arrDate[2]
+                        }`;
+                        return selectedDate;
+                        // return (
+                        //   date.getDate() +
+                        //   "/" +
+                        //   (date.getMonth() + 1) +
+                        //   "/" +
+                        //   date.getFullYear()
+                        // );
                       }}
                       value={
                         addDatas.LastModifyDate
@@ -892,13 +906,20 @@ const Panel = (props: any) => {
                     className={classes.dateL}
                     placeholder={`Insert Date`}
                     formatDate={(date: Date): string => {
-                      return (
-                        date.getDate() +
-                        "/" +
-                        (date.getMonth() + 1) +
-                        "/" +
-                        date.getFullYear()
-                      );
+                      let arrDate = date.toLocaleDateString().split("/");
+                      let selectedDate = `${
+                        +arrDate[0] < 10 ? "0" + arrDate[0] : arrDate[0]
+                      }/${+arrDate[1] < 10 ? "0" + arrDate[1] : arrDate[1]}/${
+                        arrDate[2]
+                      }`;
+                      return selectedDate;
+                      // return (
+                      //   date.getDate() +
+                      //   "/" +
+                      //   (date.getMonth() + 1) +
+                      //   "/" +
+                      //   date.getFullYear()
+                      // );
                     }}
                     value={
                       addDatas.ProjectStartDate
@@ -922,13 +943,20 @@ const Panel = (props: any) => {
                     className={classes.dateL}
                     placeholder={`Insert Date`}
                     formatDate={(date: Date): string => {
-                      return (
-                        date.getDate() +
-                        "/" +
-                        (date.getMonth() + 1) +
-                        "/" +
-                        date.getFullYear()
-                      );
+                      let arrDate = date.toLocaleDateString().split("/");
+                      let selectedDate = `${
+                        +arrDate[0] < 10 ? "0" + arrDate[0] : arrDate[0]
+                      }/${+arrDate[1] < 10 ? "0" + arrDate[1] : arrDate[1]}/${
+                        arrDate[2]
+                      }`;
+                      return selectedDate;
+                      // return (
+                      //   date.getDate() +
+                      //   "/" +
+                      //   (date.getMonth() + 1) +
+                      //   "/" +
+                      //   date.getFullYear()
+                      // );
                     }}
                     value={
                       addDatas.ProjectCompletionDate
