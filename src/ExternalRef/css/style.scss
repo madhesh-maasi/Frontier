@@ -212,6 +212,9 @@ i[data-icon-name="Calendar"] {
     top: 16px;
     right: 20px;
 }
+.IdDropdown .MuiSelect-select::after{
+    background: none;
+}
 
 .is-disabled i[data-icon-name="Calendar"] {
     display: none;
