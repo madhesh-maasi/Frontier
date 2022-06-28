@@ -21,7 +21,17 @@ let editId;
 
 const LatestAction = (props) => {
   const [timeNow, setTimeNow] = useState(
-    `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString([], {
+    `${
+      +new Date().toLocaleDateString().split("/")[0] < 10
+        ? "0" + new Date().toLocaleDateString().split("/")[0]
+        : new Date().toLocaleDateString().split("/")[0]
+    }/${
+      +new Date().toLocaleDateString().split("/")[1] < 10
+        ? "0" + new Date().toLocaleDateString().split("/")[1]
+        : new Date().toLocaleDateString().split("/")[1]
+    }/${
+      new Date().toLocaleDateString().split("/")[2]
+    } - ${new Date().toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
     })}`
@@ -158,7 +168,7 @@ const LatestAction = (props) => {
               Type a message:{" "}
             </InputLabel>
             <TextField
-              value={newMessage}
+              value={props.editLatest == "" ? newMessage : props.editLatest}
               disabled={
                 props.Admin != true
                   ? true
@@ -234,9 +244,34 @@ const LatestAction = (props) => {
                     <div>{msg.Author}</div>
                   </div>
                   <div className={classes.ModifiedDate}>
-                    {`${new Date(msg.Modified).toLocaleDateString()} ${new Date(
+                    {`${
+                      +new Date(msg.Modified)
+                        .toLocaleDateString()
+                        .split("/")[0] < 10
+                        ? "0" +
+                          new Date(msg.Modified)
+                            .toLocaleDateString()
+                            .split("/")[0]
+                        : new Date(msg.Modified)
+                            .toLocaleDateString()
+                            .split("/")[0]
+                    }/${
+                      +new Date(msg.Modified)
+                        .toLocaleDateString()
+                        .split("/")[1] < 10
+                        ? "0" +
+                          new Date(msg.Modified)
+                            .toLocaleDateString()
+                            .split("/")[1]
+                        : new Date(msg.Modified)
+                            .toLocaleDateString()
+                            .split("/")[1]
+                    }/${
+                      new Date(msg.Modified).toLocaleDateString().split("/")[2]
+                    }`}
+                    {/* {`${new Date(msg.Modified).toLocaleDateString()} ${new Date(
                       msg.Modified
-                    ).toLocaleTimeString()}`}
+                    ).toLocaleTimeString()}`} */}
                     <span
                       className={classes.optImgSection}
                       style={{ width: 20 }}

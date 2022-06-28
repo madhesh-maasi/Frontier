@@ -102,7 +102,7 @@ const Panel = (props: any) => {
   const [latestSec, setLatestSec] = useState({ key: 0, text: "" });
   const [forAction, setForAction] = useState(objForAction);
   const [reRenderTable, setReRenderTable] = useState(false);
-
+  const [selectedKey, setSelectedKey] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -459,9 +459,16 @@ const Panel = (props: any) => {
             </button>
           </div>
           {/* Pivot - Section */}
-          <Pivot aria-label="Basic Pivot Example">
+          <Pivot
+            aria-label="Basic Pivot Example"
+            selectedKey={String(selectedKey)}
+            onLinkClick={(e) => {
+              setSelectedKey(+e.props.itemKey);
+            }}
+          >
             {/* Primary Section */}
             <PivotItem
+              itemKey="1"
               itemIcon="SingleColumnEdit"
               headerText="Project Information"
               headerButtonProps={{
@@ -1008,19 +1015,24 @@ const Panel = (props: any) => {
             </PivotItem>
 
             {/* Latest Action Section */}
-            <PivotItem headerText="Latest Action" itemIcon="Chat">
+            <PivotItem headerText="Latest Action" itemIcon="Chat" itemKey="2">
               <LatestAction
                 renderProject={props.renderProject}
                 Edit={props.Edit}
                 Latest={latestSec}
                 sp={props.sp}
                 Admin={props.Admin}
+                editLatest={props.latest}
               />
             </PivotItem>
 
             {/* Hours spent Section */}
             {props.Admin ? (
-              <PivotItem headerText="Hours Spent" itemIcon="DateTime">
+              <PivotItem
+                headerText="Hours Spent"
+                itemIcon="DateTime"
+                itemKey="3"
+              >
                 <HoursSpent
                   Latest={latestSec}
                   sp={props.sp}
