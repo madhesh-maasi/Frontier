@@ -68,7 +68,10 @@ const AddExport = (props) => {
     workbook.xlsx
       .writeBuffer()
       .then((buffer) =>
-        FileSaver.saveAs(new Blob([buffer]), `${Date.now()}data.xlsx`)
+        FileSaver.saveAs(
+          new Blob([buffer]),
+          `Compas${new Date().toLocaleString()}.xlsx`
+        )
       )
       .catch((err) => console.log("Error writing excel export", err));
   };

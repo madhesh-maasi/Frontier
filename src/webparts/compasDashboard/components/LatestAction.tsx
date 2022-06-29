@@ -19,7 +19,7 @@ const moreIcon = require("../../../ExternalRef/img/more.png");
 
 let latestId;
 let editId;
-
+let isSendMail = false;
 const LatestAction = (props) => {
   const [timeNow, setTimeNow] = useState(
     `${
@@ -44,7 +44,6 @@ const LatestAction = (props) => {
   const [updateID, setUpdateID] = useState(0);
   const [renderLi, setRenderLi] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [isSendMail, setIsSendMail] = useState(false);
   useEffect(() => {
     latestId = 0;
     if (props.Latest.key != 0) latestId = props.Latest.key;
@@ -106,11 +105,11 @@ const LatestAction = (props) => {
             CASAuthorId: curUser.Id,
           })
           .then((res) => {
+            isSendMail ? sendMail() : "";
             console.log(res),
               setNewMessage(""),
               setRenderLi(true),
               props.renderProject();
-            isSendMail && sendMail();
           })
           .catch((err) => console.log(err))
       : alertify.error("Please add comments");
@@ -148,7 +147,6 @@ const LatestAction = (props) => {
     );
   }, 100000);
   const sendMail = () => {
-    setIsSendMail(false);
     return (window.location.href = `mailto:?subject=${props.Edit.Title}&body=${newMessage}`);
   };
   return (
@@ -198,9 +196,10 @@ const LatestAction = (props) => {
           <div className={classes.msgActions}>
             <button
               className={`${classes.msgBtn} ${classes.msgBtn1}`}
-              onClick={() =>
-                updateID == 0 ? (setIsSendMail(true), AddNewMessage()) : ""
-              }
+              onClick={() => {
+                isSendMail = true;
+                AddNewMessage();
+              }}
             >
               Post message and send update via email{" "}
               <Mail style={{ color: "#707070", marginLeft: "10px" }} />
@@ -208,7 +207,8 @@ const LatestAction = (props) => {
             <button
               className={`${classes.msgBtn} ${classes.msgBtn2}`}
               onClick={() => {
-                updateID == 0 ? AddNewMessage() : "";
+                isSendMail = false;
+                AddNewMessage();
               }}
             >
               Post message

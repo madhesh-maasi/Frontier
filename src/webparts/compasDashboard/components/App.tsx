@@ -67,6 +67,7 @@ let AdminsArr = [];
 let currentUser = "";
 let Admin;
 let latestData;
+let arrPriority = [];
 
 const App = (props: any) => {
   const [tableData, setTableData] = useState([]);
@@ -92,7 +93,7 @@ const App = (props: any) => {
   const [users, setUsers] = useState("");
   const [admArr, setAdmArr] = useState([]);
   const [latest, setlatest] = useState({ Id: null, text: "" });
-
+  const [prioLi, setPrioLi] = useState([]);
   // Life Cycle of Onload
   useEffect(() => {
     // get all group users
@@ -116,7 +117,17 @@ const App = (props: any) => {
       .catch((err) => {
         console.log(err);
       });
-
+    props.sp.web.lists
+      .getByTitle("Priorities")
+      .items.get()
+      .then((res) => {
+        console.log(res);
+        arrPriority = res.map((re) => ({
+          Title: re.Title,
+          IconUrl: JSON.parse(re.Icon).serverRelativeUrl,
+        }));
+        setPrioLi(arrPriority);
+      });
     // Actions List Call
     props.sp.web.lists
       .getByTitle("Actions")
@@ -987,7 +998,20 @@ const App = (props: any) => {
                             width: 50,
                           }}
                         >
-                          {row.Priority}
+                          {/* {row.Priority} */}
+                          {row.Priority != "" ? (
+                            <img
+                              src={
+                                prioLi.filter(
+                                  (li) => li.Title == row.Priority
+                                )[0].IconUrl
+                              }
+                              width={30}
+                              height={30}
+                            />
+                          ) : (
+                            ""
+                          )}
                         </TableCell>
                         <TableCell style={{ fontSize: 20, width: 250 }}>
                           <div className={`${classes.bold} ${classes.PName}`}>
