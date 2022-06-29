@@ -86,14 +86,17 @@ const HoursSpent = (props: any) => {
               .then((response) => {
                 console.log(response);
                 let hoursArr = [];
-                hoursArr = response.map((res) => ({
-                  Hours: res.CASHours ? res.CASHours : null,
-                  Date: res.CASDate ? new Date(res.CASDate) : null,
-                  Company: res.CASCompany,
-                  spentId: res.Id,
-                  isEdit: false,
-                  showOption: false,
-                }));
+                hoursArr =
+                  response.length > 0
+                    ? response.map((res) => ({
+                        Hours: res.CASHours ? res.CASHours : null,
+                        Date: res.CASDate ? new Date(res.CASDate) : null,
+                        Company: res.CASCompany,
+                        spentId: res.Id,
+                        isEdit: false,
+                        showOption: false,
+                      }))
+                    : [];
                 setHoursSpentArr([]);
                 setHoursSpentArr([...hoursArr]);
                 setAddData(true);
@@ -113,18 +116,18 @@ const HoursSpent = (props: any) => {
     let AALTOAdd = 0;
     let JOHNSONAdd = 0;
     let Total = 0;
+    setAddAALTO(0);
+    setAddJOHN(0);
+    setTotAdd(0);
     hoursSpentArr.map((e) => {
       if (e.Company == "AALTO") {
         AALTOAdd = AALTOAdd + e.Hours;
-        setAddAALTO(0);
         setAddAALTO(AALTOAdd);
       } else {
         JOHNSONAdd = JOHNSONAdd + e.Hours;
-        setAddJOHN(0);
         setAddJOHN(JOHNSONAdd);
       }
       Total = AALTOAdd + JOHNSONAdd;
-      setTotAdd(0);
       setTotAdd(Total);
     });
     setAddData(false);
@@ -132,11 +135,9 @@ const HoursSpent = (props: any) => {
 
   // GetDatas section
   const GetDatas = () => {
-    let isValue = addNewAATLO.comName == "AALTO" ? ValitationAA() : ValitationJJ();
-    if (addNewAATLO.comName == "AALTO" && isValue) {
-      AddHours();
-    }
-    if (addNewJJ.comName == "JOHNSON & JOHNSON" && isValue){
+    let isValue =
+      addNewAATLO.comName == "AALTO" ? ValitationAA() : ValitationJJ();
+    if (isValue) {
       AddHours();
     }
   };
@@ -157,15 +158,15 @@ const HoursSpent = (props: any) => {
   // Valition on JOHNSON & JOHNSON Section
   const ValitationJJ = () => {
     let isCheck = true;
-    if (!addNewJJ.hours){
+    if (!addNewJJ.hours) {
       isCheck = false;
       alertify.error("Please add Hour");
-    } else if (!addNewJJ.Date){
+    } else if (!addNewJJ.Date) {
       isCheck = false;
       alertify.error("Please add Date");
     }
     return isCheck;
-  }
+  };
 
   // Hours Add function
   const AddHours = () => {
@@ -229,7 +230,7 @@ const HoursSpent = (props: any) => {
                   ...addNewJJ,
                 });
                 setReEnter(true);
-              })
+              });
     });
   };
 
@@ -325,7 +326,11 @@ const HoursSpent = (props: any) => {
                 className={classes.datet3}
                 placeholder={`0000/00`}
                 formatDate={(date: Date): string => {
-                  return date.getFullYear() + "/" + (date.getMonth() + 1);
+                  return `${date.toLocaleDateString().split("/")[2]}/${
+                    +date.toLocaleDateString().split("/")[0] < 10
+                      ? "0" + date.toLocaleDateString().split("/")[0]
+                      : date.toLocaleDateString().split("/")[0]
+                  }`;
                 }}
                 value={addNewAATLO.Date ? new Date(addNewAATLO.Date) : null}
                 onSelectDate={(e) => {
@@ -388,7 +393,11 @@ const HoursSpent = (props: any) => {
                 className={classes.datet3}
                 placeholder={`0000/00`}
                 formatDate={(date: Date): string => {
-                  return date.getFullYear() + "/" + (date.getMonth() + 1);
+                  return `${date.toLocaleDateString().split("/")[2]}/${
+                    +date.toLocaleDateString().split("/")[0] < 10
+                      ? "0" + date.toLocaleDateString().split("/")[0]
+                      : date.toLocaleDateString().split("/")[0]
+                  }`;
                 }}
                 value={addNewJJ.Date ? new Date(addNewJJ.Date) : null}
                 onSelectDate={(e) => {
@@ -402,7 +411,7 @@ const HoursSpent = (props: any) => {
             <button
               disabled={hoursSec != 0 ? false : editHour == 0 ? true : false}
               className={classes.AddBtn}
-              onClick={() => AddHours()}
+              onClick={() => GetDatas()}
             >
               <Add
                 style={{
@@ -446,9 +455,13 @@ const HoursSpent = (props: any) => {
                           disabled={!e.isEdit}
                           className={classes.datet3}
                           formatDate={(date: Date): string => {
-                            return (
-                              date.getFullYear() + "/" + (date.getMonth() + 1)
-                            );
+                            return `${
+                              date.toLocaleDateString().split("/")[2]
+                            }/${
+                              +date.toLocaleDateString().split("/")[0] < 10
+                                ? "0" + date.toLocaleDateString().split("/")[0]
+                                : date.toLocaleDateString().split("/")[0]
+                            }`;
                           }}
                           onSelectDate={(date) => {
                             listData.Date = date.toISOString();
@@ -552,9 +565,13 @@ const HoursSpent = (props: any) => {
                           disabled={!e.isEdit}
                           className={classes.datet3}
                           formatDate={(date: Date): string => {
-                            return (
-                              date.getFullYear() + "/" + (date.getMonth() + 1)
-                            );
+                            return `${
+                              date.toLocaleDateString().split("/")[2]
+                            }/${
+                              +date.toLocaleDateString().split("/")[0] < 10
+                                ? "0" + date.toLocaleDateString().split("/")[0]
+                                : date.toLocaleDateString().split("/")[0]
+                            }`;
                           }}
                           onSelectDate={(date) => {
                             listData.Date = date.toISOString();
