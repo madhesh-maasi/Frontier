@@ -269,7 +269,7 @@ const Panel = (props: any) => {
               CountryIBVT: response.CASCountryId ? response.CASCountryId : 0,
               OrganizationUnit: response.CASOrgUnit ? response.CASOrgUnit : "",
               EngagemantType: response.CASEngTypeId ? response.CASEngTypeId : 0,
-              EngagementSubType: 0,
+              EngagementSubType: response.CASEngSubTypeId ? response.CASEngSubTypeId : 0,
               Requestor: PeoEMailArr ? PeoEMailArr : [],
               StatusType: response.CASStatusId ? response.CASStatusId : 0,
               IDNumber: response.ID ? response.ID : 0,
@@ -338,6 +338,7 @@ const Panel = (props: any) => {
           addDatas.EngagemantType && addDatas.EngagemantType != "null"
             ? addDatas.EngagemantType
             : 0,
+        CASEngSubTypeId: addDatas.EngagementSubType ? addDatas.EngagementSubType : 0,
         CASUserId: RequestorIdArr
           ? { results: RequestorIdArr }
           : { results: [] },
@@ -403,6 +404,7 @@ const Panel = (props: any) => {
         CASCountryId: addDatas.CountryIBVT ? addDatas.CountryIBVT : 0,
         CASOrgUnit: addDatas.OrganizationUnit ? addDatas.OrganizationUnit : "",
         CASEngTypeId: addDatas.EngagemantType ? addDatas.EngagemantType : 0,
+        CASEngSubTypeId: addDatas.EngagementSubType ? addDatas.EngagementSubType : 0,
         CASUserId: peopleId ? { results: peopleId } : { results: [] },
         CASStatusId: addDatas.StatusType ? addDatas.StatusType : 0,
         CASEngScopeId: addDatas.EngagementScope ? addDatas.EngagementScope : 0,
@@ -759,19 +761,19 @@ const Panel = (props: any) => {
                       ID Number:
                     </InputLabel>
                     <div className="IdDropdown">
-                    <Select
-                      disabled={true}
-                      className={classes.selectL}
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      variant="outlined"
-                      labelWidth={0}
-                      value={addDatas.IDNumber}
-                    >
-                      {ProjectArr.map((data) => {
-                        return <MenuItem value={data}>{data}</MenuItem>;
-                      })}
-                    </Select>
+                      <Select
+                        disabled={true}
+                        className={classes.selectL}
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        variant="outlined"
+                        labelWidth={0}
+                        value={addDatas.IDNumber}
+                      >
+                        {ProjectArr.map((data) => {
+                          return <MenuItem value={data}>{data}</MenuItem>;
+                        })}
+                      </Select>
                     </div>
                   </div>
                 )}
