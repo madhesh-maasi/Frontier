@@ -29,6 +29,14 @@
     src: url(../fonts/karbon-light-webfont.ttf);
 }
 
+.ms-Pivot-link.is-selected {
+    font-family: karbon-semibold !important;
+}
+
+.ms-Pivot-link {
+    font-family: karbon-regular !important;
+}
+
 #workbenchPageContent {
     max-width: 100%;
 }
@@ -212,7 +220,12 @@ i[data-icon-name="Calendar"] {
     top: 16px;
     right: 20px;
 }
-.IdDropdown .MuiSelect-select::after{
+
+.IdDropdown {
+    width: 100% !important;
+}
+
+.IdDropdown .MuiSelect-select::after {
     background: none;
 }
 
@@ -261,4 +274,12 @@ i[data-icon-name="Calendar"] {
 
 .MuiInputBase-root.Mui-disabled {
     overflow: hidden;
+}
+
+.MuiInput-underline:before {
+    border-bottom: none !important;
+}
+
+.MuiInput-underline:after {
+    border-bottom: 3px solid #5df0e2 !important;
 }

@@ -30,6 +30,7 @@ import "react-multiple-select-dropdown-lite/dist/index.css";
 
 const resetIcon = require("../../../ExternalRef/img/ResetIcon.svg");
 const filterIcon = require("../../../ExternalRef/img/filterIcon.png");
+const searchIcon = require("../../../ExternalRef/img/searchDark.png");
 let filterData = {
   ID: 0,
   Status: ["IN PROGRESS", "WAITING FOR FEEDBACK", "LEAD"],
@@ -201,7 +202,10 @@ const TopFilter = (props: any) => {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <SearchOutlined />
+                    {/* <SearchOutlined /> */}
+                    <div className={classes.searchIcon}>
+                      <img src={`${searchIcon}`} />
+                    </div>
                   </InputAdornment>
                 ),
               }}
@@ -279,7 +283,10 @@ const TopFilter = (props: any) => {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <SearchOutlined />
+                    {/* <SearchOutlined /> */}
+                    <div className={classes.searchIcon}>
+                      <img src={`${searchIcon}`} />
+                    </div>
                   </InputAdornment>
                 ),
               }}

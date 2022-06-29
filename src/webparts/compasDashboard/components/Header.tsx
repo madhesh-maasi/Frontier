@@ -13,9 +13,7 @@ import {
   PersonaPresence,
 } from "office-ui-fabric-react/lib/Persona";
 
-const ExcelFileButton = require("../../../../src/ExternalRef/img/ExcelFileButton.svg");
-const BannerBg = require("../../../../src/ExternalRef/img/VisualHeader.jpg");
-
+const Logo = require("../../../ExternalRef/img/Logo.png");
 let objUserDetails = {
   Email: "",
   Title: "",
@@ -44,12 +42,14 @@ const Header = (props) => {
         console.log(error);
       });
   }, []);
-  
+
   return (
     <div className={classes.headerSection}>
       {/* logo Section */}
       <div className={classes.logoSection}>
-        <div className="logo">{/* logo */}</div>
+        <div className="logo">
+          <img src={`${Logo}`} width={235} height={87} />
+        </div>
         <div className={classes.Profile}>
           <div className={classes.userDetails}>
             <span className={classes.userRole}>{userDetails.JobTitle}</span>

@@ -526,7 +526,11 @@ const HoursSpent = (props: any) => {
                           </>
                         ) : (
                           <Done
-                            style={{ cursor: "pointer" }}
+                            className={classes.doneIcon}
+                            style={{
+                              cursor: "pointer",
+                              color: "green",
+                            }}
                             onClick={() => {
                               SaveData(e.spentId);
                             }}
@@ -636,7 +640,11 @@ const HoursSpent = (props: any) => {
                           </>
                         ) : (
                           <Done
-                            style={{ cursor: "pointer" }}
+                            className={classes.doneIcon}
+                            style={{
+                              cursor: "pointer",
+                              color: "green",
+                            }}
                             onClick={() => {
                               SaveData(e.spentId);
                             }}

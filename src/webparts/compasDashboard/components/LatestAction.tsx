@@ -16,7 +16,7 @@ import { Persona, PersonaSize } from "office-ui-fabric-react";
 import alertify from "alertifyjs";
 import "alertifyjs/build/css/alertify.css";
 const moreIcon = require("../../../ExternalRef/img/more.png");
-
+const clockIcon = require("../../../ExternalRef/img/clock.png");
 let latestId;
 let editId;
 let isSendMail = false;
@@ -152,7 +152,7 @@ const LatestAction = (props) => {
   return (
     <>
       <div className={classes.titleTwo}>
-        Today is <b>{timeNow}</b>
+        Today is <span className={classes.timeNowBold}>{timeNow}</span>
       </div>
       {/* Message */}
       {props.Admin && (
@@ -245,6 +245,7 @@ const LatestAction = (props) => {
                     <div>{msg.Author}</div>
                   </div>
                   <div className={classes.ModifiedDate}>
+                    <img src={`${clockIcon}`} width={12} height={12} />
                     {`${
                       +new Date(msg.Modified)
                         .toLocaleDateString()
@@ -269,7 +270,10 @@ const LatestAction = (props) => {
                             .split("/")[1]
                     }/${
                       new Date(msg.Modified).toLocaleDateString().split("/")[2]
-                    }`}
+                    } - ${new Date(msg.Modified).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}`}
                     {/* {`${new Date(msg.Modified).toLocaleDateString()} ${new Date(
                       msg.Modified
                     ).toLocaleTimeString()}`} */}

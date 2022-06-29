@@ -1,17 +1,53 @@
+@font-face {
+    font-family: karbon-bold;
+    src: url(../../../ExternalRef/fonts/karbon-bold-webfont.ttf);
+    // src: url(../../ExternalRef/fonts/karbon-bold-webfont.ttf);
+}
+
+@font-face {
+    font-family: karbon-regular;
+    src: url(../../../ExternalRef/fonts/karbon-regular-webfont.ttf);
+}
+
+@font-face {
+    font-family: karbon-semibold;
+    src: url(../../../ExternalRef/fonts/karbon-semibold-webfont.ttf);
+}
+
+@font-face {
+    font-family: karbon-medium;
+    src: url(../../../ExternalRef/fonts/karbon-medium-webfont.ttf);
+}
+
+@font-face {
+    font-family: karbon-regularitalic;
+    src: url(../../../ExternalRef/fonts/karbon-regularitalic-webfont.ttf);
+}
+
+@font-face {
+    font-family: karbon-light;
+    src: url(../../../ExternalRef/fonts/karbon-light-webfont.ttf);
+}
+
 .titleTwo {
-    color: #00a0df;
+    color: #3fb7e7;
     font-size: 15px;
+    font-family: karbon-regular;
     margin: 0 0 30px 0;
+}
+
+.timeNowBold {
+    font-family: karbon-bold;
 }
 
 .panelInput {
     margin-bottom: 1rem;
-}
-
-.inpLabel {
-    font-size: 14px !important;
-    color: #707070 !important;
-    margin-bottom: 14px !important;
+    .inpLabel {
+        font-family: karbon-regular;
+        font-size: 14px !important;
+        color: #707070 !important;
+        margin-bottom: 14px !important;
+    }
 }
 
 .msgL {
@@ -23,7 +59,7 @@
         width: 100% !important;
         min-height: 143px !important;
         border-radius: 7px !important;
-        border-color: #00a0df !important;
+        border-color: #3fb7e7 !important;
     }
 }
 
@@ -35,6 +71,7 @@
 }
 
 .msgBtn {
+    font-family: karbon-regular !important;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -53,11 +90,11 @@
 }
 
 .msgBtn2 {
-    color: #00a0df;
+    color: #3fb7e7;
 }
 
 .titleTwo {
-    color: #00a0df;
+    color: #3fb7e7;
     font-size: 15px;
     margin: 0 0 30px 0;
 }
@@ -73,19 +110,27 @@
             justify-content: space-between;
             margin-bottom: 0.5rem;
             .userName {
+                font-family: karbon-semibold;
                 display: flex;
                 align-items: center;
                 color: #707070;
                 font-weight: 600;
             }
             .ModifiedDate {
+                font-family: karbon-regular;
                 color: #707070;
                 display: flex;
                 align-items: center;
+                font-size: 1rem;
+                img {
+                    margin-right: 0.3rem;
+                    margin-top: 0.2rem;
+                }
             }
         }
         .content {
-            color: #707070;
+            color: #303030;
+            font-family: karbon-medium;
         }
     }
 }

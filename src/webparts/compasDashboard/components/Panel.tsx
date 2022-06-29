@@ -148,12 +148,12 @@ const Panel = (props: any) => {
     // Priority Values Taken
     props.sp.web.lists
       .getByTitle("Priorities")
-      .items.select("ID", "Title")
-      .get()
+      .items.get()
       .then((response) => {
         priorityArr = response.map((data) => ({
           key: data.ID,
           text: data.Title,
+          icon: data.Icon,
         }));
         setPriorityChoice(priorityArr);
       })
@@ -269,10 +269,12 @@ const Panel = (props: any) => {
               CountryIBVT: response.CASCountryId ? response.CASCountryId : 0,
               OrganizationUnit: response.CASOrgUnit ? response.CASOrgUnit : "",
               EngagemantType: response.CASEngTypeId ? response.CASEngTypeId : 0,
-              EngagementSubType: response.CASEngSubTypeId ? response.CASEngSubTypeId : 0,
+              EngagementSubType: response.CASEngSubTypeId
+                ? response.CASEngSubTypeId
+                : 0,
               Requestor: PeoEMailArr ? PeoEMailArr : [],
               StatusType: response.CASStatusId ? response.CASStatusId : 0,
-              IDNumber: response.ID != 0 ? response.ID : 0,
+              IDNumber: response.ID,
               CreationDate: response.Created
                 ? new Date(response.Created)
                 : null,
@@ -338,7 +340,9 @@ const Panel = (props: any) => {
           addDatas.EngagemantType && addDatas.EngagemantType != "null"
             ? addDatas.EngagemantType
             : 0,
-        CASEngSubTypeId: addDatas.EngagementSubType ? addDatas.EngagementSubType : 0,
+        CASEngSubTypeId: addDatas.EngagementSubType
+          ? addDatas.EngagementSubType
+          : 0,
         CASUserId: RequestorIdArr
           ? { results: RequestorIdArr }
           : { results: [] },
@@ -405,7 +409,9 @@ const Panel = (props: any) => {
         CASCountryId: addDatas.CountryIBVT ? addDatas.CountryIBVT : 0,
         CASOrgUnit: addDatas.OrganizationUnit ? addDatas.OrganizationUnit : "",
         CASEngTypeId: addDatas.EngagemantType ? addDatas.EngagemantType : 0,
-        CASEngSubTypeId: addDatas.EngagementSubType ? addDatas.EngagementSubType : 0,
+        CASEngSubTypeId: addDatas.EngagementSubType
+          ? addDatas.EngagementSubType
+          : 0,
         CASUserId: peopleId ? { results: peopleId } : { results: [] },
         CASStatusId: addDatas.StatusType ? addDatas.StatusType : 0,
         CASEngScopeId: addDatas.EngagementScope ? addDatas.EngagementScope : 0,
@@ -528,7 +534,21 @@ const Panel = (props: any) => {
                   >
                     <MenuItem value={"null"}>Select Project Priority</MenuItem>
                     {priorityChoice.map((data) => {
-                      return <MenuItem value={data.key}>{data.text}</MenuItem>;
+                      return (
+                        <MenuItem value={data.key}>
+                          <div style={{ display: "flex" }}>
+                            <img
+                              src={`${JSON.parse(data.icon).serverRelativeUrl}`}
+                              style={{ marginRight: "0.5rem" }}
+                              width={24}
+                              height={24}
+                            />
+                            <div className={classes.priorityText}>
+                              {data.text}
+                            </div>
+                          </div>
+                        </MenuItem>
+                      );
                     })}
                   </Select>
                 </div>
@@ -763,19 +783,28 @@ const Panel = (props: any) => {
                       ID Number:
                     </InputLabel>
                     <div className="IdDropdown">
-                      <Select
+                      {/* <Select
                         disabled={true}
                         className={classes.selectL}
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         variant="outlined"
                         labelWidth={0}
-                        value={addDatas.IDNumber != 0 ? addDatas.IDNumber : null}
+                        value={props.Edit.item}
                       >
-                        {ProjectArr.map((data) => {
-                          return <MenuItem value={data}>{data}</MenuItem>;
-                        })}
-                      </Select>
+                        <MenuItem value={props.Edit.item}>
+                          {props.Edit.itemta}
+                        </MenuItem>
+                      </Select> */}
+                      <TextField
+                        disabled={true}
+                        value={
+                          addDatas.IDNumber != 0 ? addDatas.IDNumber : null
+                        }
+                        style={{ width: "200%" }}
+                        id="standard-basic"
+                        variant="outlined"
+                      />
                     </div>
                   </div>
                 )}

@@ -1,179 +1,201 @@
 // Hours Spent Panel
 .inpLabel {
-  font-size: 14px !important;
-  color: #707070 !important;
-  margin-bottom: 14px !important;
+    font-size: 14px !important;
+    color: #707070 !important;
+    margin-bottom: 14px !important;
 }
 
 .title3 {
-  color: #00a0df;
-  font-weight: bold;
-  font-size: 14px;
-  margin: 0 0 30px 0;
+    color: #3fb7e7;
+    font-weight: bold;
+    font-size: 14px;
+    margin: 0 0 30px 0;
 }
 
 .contentTop {
-  margin-top: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: baseline;
-  .c1 {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    width: 54%;
-  }
-  .inputs {
+    margin-top: 30px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    .inpField {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: flex-start;
-      margin-right: 0px !important;
+    justify-content: baseline;
+    .c1 {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        width: 54%;
     }
-    .inpt3,
-    .datet3 {
-      input,
-      div {
-        height: 47px !important;
-        width: 178px !important;
-        border-radius: 0px !important;
-        border: none !important;
-      }
+    .inputs {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .inpField {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            margin-right: 0px !important;
+        }
+        .inpt3,
+        .datet3 {
+            input,
+            div {
+                height: 47px !important;
+                width: 178px !important;
+                border-radius: 0px !important;
+                border: none !important;
+            }
+        }
+        .inpt3 {
+            div {
+                border-bottom: 3px solid #a2a2a2 !important;
+            }
+        }
+        .datet3 {
+            input {
+                border-bottom: 3px solid #a2a2a2 !important;
+            }
+            input,
+            div {
+                background-color: #f7f8f9 !important;
+            }
+        }
     }
-    .inpt3 {
-      div {
-        border-bottom: 3px solid #a2a2a2 !important;
-      }
-    }
-    .datet3 {
-      input {
-        border-bottom: 3px solid #a2a2a2 !important;
-      }
-      input,
-      div {
-        background-color: #e5e5e525 !important;
-      }
-    }
-  }
 }
 
 .AddBtn {
-  background-color: transparent;
-  border-radius: 50%;
-  border: none;
-  outline: none;
-  margin-left: 4px;
-  cursor: pointer;
+    background-color: transparent;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    margin-left: 4px;
+    cursor: pointer;
 }
 
 .contentBottom {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  .outputs {
-    width: 100%;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-    border-bottom: 4px solid #00a0df;
-    .o1 {
-      display: flex;
-      align-items: flex-end;
-      justify-content: flex-end;
-      flex-direction: column;
-      font-size: 30px;
-      color: #00a0df;
-      font-weight: bold;
-      width: 47%;
-      padding: 20px;
-      margin-right: 26px;
-      span {
-        font-weight: normal;
-        font-size: 14px;
-        color: #707070;
-      }
-      .inpField {
+    flex-direction: column;
+    .outputs {
+        width: 100%;
         display: flex;
-      }
-      .inpt3,
-      .datet3 {
-        input,
-        div {
-          height: 47px !important;
-          width: 178px !important;
-          border-radius: 0px !important;
-          border: none !important;
+        align-items: flex-start;
+        justify-content: center;
+        border-bottom: 4px solid #3fb7e7;
+        .o1 {
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            flex-direction: column;
+            font-size: 30px;
+            color: #3fb7e7;
+            font-weight: bold;
+            width: 47%;
+            padding: 20px 0;
+            margin-right: 26px;
+            span {
+                font-weight: normal;
+                font-size: 14px;
+                color: #707070;
+            }
+            .inpField {
+                display: flex;
+                align-self: flex-start;
+            }
+            .inpt3,
+            .datet3 {
+                input,
+                div {
+                    height: 47px !important;
+                    width: 178px !important;
+                    border-radius: 0px !important;
+                    border: none !important;
+                }
+            }
+            .inpt3 {
+                input {
+                    border-bottom: 3px solid #5df0e2 !important;
+                    border-top: 1px solid #e5f4f5 !important;
+                    border-left: 1px solid #e5f4f5 !important;
+                    border-right: 0px solid #5df0e2 !important;
+                    padding: 0px 12px !important;
+                    height: 43px !important;
+                    &[disabled] {
+                        border: 0px solid #5df0e2 !important;
+                    }
+                }
+            }
+            .datet3 {
+                input {
+                    border-bottom: 3px solid #5df0e2 !important;
+                    border-top: 1px solid #e5f4f5 !important;
+                    border-left: 0px solid #e5f4f5 !important;
+                    border-right: 1px solid #e5f4f5 !important;
+                    &[disabled] {
+                        border: 0px solid #5df0e2 !important;
+                    }
+                }
+                input,
+                div {
+                    background-color: #f7f8f9 !important;
+                }
+            }
         }
-      }
-      .inpt3 {
-        div {
-          border-bottom: 3px solid #a2a2a2 !important;
-          padding: 0px 12px !important;
+        .o2 {
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            flex-direction: column;
+            font-size: 40px;
+            color: #3fb7e7;
+            font-weight: bold;
+            width: 80%;
+            padding: 20px;
+            margin-right: 40px;
+            span {
+                font-weight: normal;
+                font-size: 14px;
+                color: #707070;
+            }
         }
-      }
-      .datet3 {
-        input {
-          border-bottom: 3px solid #a2a2a2 !important;
-        }
-        input,
-        div {
-          background-color: #e5e5e525 !important;
-        }
-      }
     }
-    .o2 {
-      display: flex;
-      align-items: flex-end;
-      justify-content: flex-end;
-      flex-direction: column;
-      font-size: 40px;
-      color: #00a0df;
-      font-weight: bold;
-      width: 80%;
-      padding: 20px;
-      margin-right: 40px;
-      span {
-        font-weight: normal;
-        font-size: 14px;
-        color: #707070;
-      }
-    }
-  }
 }
+
 .HoursRow {
-  display: flex;
-  .hours {
-    width: 200px;
-    text-align: right;
-  }
+    display: flex;
+    .hours {
+        width: 200px;
+        text-align: right;
+    }
 }
 
 .Dublicate {
-  display: flex;
+    display: flex;
 }
-.options{
-  position: relative;
+
+.options {
+    position: relative;
 }
+
 .optionSection {
-  // width: 64px;
-  font-size:1rem;
-  font-weight: normal;
-  color:#000;
-  background-color: #fff;
-  position: absolute;
-  top: 26px;
-  border: 1px solid #cacaca;
-  border-radius: 7px;
-  z-index: 10;
-  div {
+    // width: 64px;
+    font-size: 1rem;
+    font-weight: normal;
+    color: #000;
     background-color: #fff;
-      padding: 0.25rem 1rem;
-      cursor: pointer;
-  }
+    position: absolute;
+    top: 26px;
+    border: 1px solid #cacaca;
+    border-radius: 7px;
+    z-index: 10;
+    div {
+        background-color: #fff;
+        padding: 0.25rem 1rem;
+        cursor: pointer;
+    }
+}
+
+.doneIcon {
+    min-width: 2rem !important;
+    min-height: 2rem !important;
 }

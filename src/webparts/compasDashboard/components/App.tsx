@@ -29,7 +29,7 @@ import {
 const sortIcon = require("../../../ExternalRef/img/sort.png");
 const editIcon = require("../../../ExternalRef/img/EditIcon.png");
 const searchIcon = require("../../../ExternalRef/img/searchIcon.png");
-
+const clockIcon = require("../../../ExternalRef/img/clock.png");
 const objFilterVal = {
   ID: 0,
   Status: [],
@@ -718,14 +718,16 @@ const App = (props: any) => {
                         });
                     setTableData([
                       ...tableData.sort((a, b) =>
-                        objSorted.EngagementType == "ascending" ||
-                        objSorted.EngagementType == ""
-                          ? b.EngagementType.toLowerCase().localeCompare(
-                              a.EngagementType.toLowerCase()
-                            )
-                          : a.EngagementType.toLowerCase().localeCompare(
-                              b.EngagementType.toLowerCase()
-                            )
+                        b.EngagementType && a.EngagementType
+                          ? objSorted.EngagementType == "ascending" ||
+                            objSorted.EngagementType == ""
+                            ? b.EngagementType.toLowerCase().localeCompare(
+                                a.EngagementType.toLowerCase()
+                              )
+                            : a.EngagementType.toLowerCase().localeCompare(
+                                b.EngagementType.toLowerCase()
+                              )
+                          : ""
                       ),
                     ]);
                     setData(tableData.slice(0, pageSize));
@@ -768,14 +770,16 @@ const App = (props: any) => {
                         });
                     setTableData([
                       ...tableData.sort((a, b) =>
-                        objSorted.EngagementSubType == "ascending" ||
-                        objSorted.EngagementSubType == ""
-                          ? b.EngagementSubType.toLowerCase().localeCompare(
-                              a.EngagementSubType.toLowerCase()
-                            )
-                          : a.EngagementSubType.toLowerCase().localeCompare(
-                              b.EngagementSubType.toLowerCase()
-                            )
+                        b.EngagementSubType && a.EngagementSubType
+                          ? objSorted.EngagementSubType == "ascending" ||
+                            objSorted.EngagementSubType == ""
+                            ? b.EngagementSubType.toLowerCase().localeCompare(
+                                a.EngagementSubType.toLowerCase()
+                              )
+                            : a.EngagementSubType.toLowerCase().localeCompare(
+                                b.EngagementSubType.toLowerCase()
+                              )
+                          : ""
                       ),
                     ]);
                     setData(tableData.slice(0, pageSize));
@@ -818,14 +822,16 @@ const App = (props: any) => {
                         });
                     setTableData([
                       ...tableData.sort((a, b) =>
-                        objSorted.UnitName == "ascending" ||
-                        objSorted.UnitName == ""
-                          ? b.UnitName.toLowerCase().localeCompare(
-                              a.UnitName.toLowerCase()
-                            )
-                          : a.UnitName.toLowerCase().localeCompare(
-                              b.UnitName.toLowerCase()
-                            )
+                        b.UnitName && a.UnitName
+                          ? objSorted.UnitName == "ascending" ||
+                            objSorted.UnitName == ""
+                            ? b.UnitName.toLowerCase().localeCompare(
+                                a.UnitName.toLowerCase()
+                              )
+                            : a.UnitName.toLowerCase().localeCompare(
+                                b.UnitName.toLowerCase()
+                              )
+                          : ""
                       ),
                     ]);
                     setData(tableData.slice(0, pageSize));
@@ -916,14 +922,16 @@ const App = (props: any) => {
                         });
                     setTableData([
                       ...tableData.sort((a, b) =>
-                        objSorted.CountryIBVT == "ascending" ||
-                        objSorted.CountryIBVT == ""
-                          ? b.CountryIBVT.toLowerCase().localeCompare(
-                              a.CountryIBVT.toLowerCase()
-                            )
-                          : a.CountryIBVT.toLowerCase().localeCompare(
-                              b.CountryIBVT.toLowerCase()
-                            )
+                        b.CountryIBVT && a.CountryIBVT
+                          ? objSorted.CountryIBVT == "ascending" ||
+                            objSorted.CountryIBVT == ""
+                            ? b.CountryIBVT.toLowerCase().localeCompare(
+                                a.CountryIBVT.toLowerCase()
+                              )
+                            : a.CountryIBVT.toLowerCase().localeCompare(
+                                b.CountryIBVT.toLowerCase()
+                              )
+                          : ""
                       ),
                     ]);
                     setData(tableData.slice(0, pageSize));
@@ -1070,21 +1078,23 @@ const App = (props: any) => {
                           }}
                         >
                           {/* {row.Priority} */}
-                          {row.Priority != "" ? (
-                            <img
-                              src={
-                                prioLi.filter(
-                                  (li) => li.Title == row.Priority
-                                )[0].IconUrl
-                              }
-                              width={30}
-                              height={30}
-                            />
-                          ) : (
-                            ""
-                          )}
+                          <div className={classes.prioritySection}>
+                            {row.Priority != "" ? (
+                              <img
+                                src={
+                                  prioLi.filter(
+                                    (li) => li.Title == row.Priority
+                                  )[0].IconUrl
+                                }
+                                width={30}
+                                height={30}
+                              />
+                            ) : (
+                              ""
+                            )}
+                          </div>
                         </TableCell>
-                        <TableCell style={{ fontSize: 20, width: 250 }}>
+                        <TableCell style={{ fontSize: 20, width: 150 }}>
                           <div className={`${classes.bold} ${classes.PName}`}>
                             {row.Name}
                           </div>
@@ -1106,7 +1116,7 @@ const App = (props: any) => {
                             fontSize: 14,
                             fontWeight: 600,
                             color: "#707070",
-                            width: 150,
+                            width: 160,
                           }}
                         >
                           <div className={classes.bold}>
@@ -1118,7 +1128,7 @@ const App = (props: any) => {
                             fontSize: 14,
                             fontWeight: 600,
                             color: "#707070",
-                            width: 130,
+                            width: 160,
                           }}
                         >
                           <div className={classes.bold}>{row.UnitName}</div>
@@ -1127,7 +1137,7 @@ const App = (props: any) => {
                           style={{
                             fontSize: 14,
                             color: "#707070",
-                            width: 150,
+                            width: 160,
                           }}
                         >
                           {/* {new Date(row.CreationDate).getDate() +
@@ -1171,7 +1181,7 @@ const App = (props: any) => {
                           style={{
                             fontSize: 14,
                             color: "#707070",
-                            width: 100,
+                            width: 80,
                           }}
                           onMouseEnter={() => {
                             data.forEach((dT) => {
@@ -1394,7 +1404,7 @@ const App = (props: any) => {
                           style={{
                             fontSize: 14,
                             color: "#707070",
-                            width: 420,
+                            width: 200,
                           }}
                           onMouseEnter={() => {
                             data.forEach((dT) => {
@@ -1433,9 +1443,20 @@ const App = (props: any) => {
                                     row.LatestComment.AuthorName}
                                 </div>
                                 <div className={classes.LAPostedTime}>
-                                  {row.LatestComment &&
-                                    `${
-                                      +new Date(row.LatestComment.Modified)
+                                  {row.LatestComment && (
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                      }}
+                                    >
+                                      <img
+                                        src={`${clockIcon}`}
+                                        width={12}
+                                        height={12}
+                                        style={{ marginRight: "0.3rem" }}
+                                      />
+                                      {+new Date(row.LatestComment.Modified)
                                         .toLocaleDateString()
                                         .split("/")[0] < 10
                                         ? "0" +
@@ -1444,9 +1465,9 @@ const App = (props: any) => {
                                             .split("/")[0]
                                         : new Date(row.LatestComment.Modified)
                                             .toLocaleDateString()
-                                            .split("/")[0]
-                                    }/${
-                                      +new Date(row.LatestComment.Modified)
+                                            .split("/")[0]}
+                                      /
+                                      {+new Date(row.LatestComment.Modified)
                                         .toLocaleDateString()
                                         .split("/")[1] < 10
                                         ? "0" +
@@ -1455,12 +1476,15 @@ const App = (props: any) => {
                                             .split("/")[1]
                                         : new Date(row.LatestComment.Modified)
                                             .toLocaleDateString()
-                                            .split("/")[1]
-                                    }/${
-                                      new Date(row.LatestComment.Modified)
-                                        .toLocaleDateString()
-                                        .split("/")[2]
-                                    }`}
+                                            .split("/")[1]}
+                                      /
+                                      {
+                                        new Date(row.LatestComment.Modified)
+                                          .toLocaleDateString()
+                                          .split("/")[2]
+                                      }
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                               <div
