@@ -66,16 +66,15 @@ let pageSize = 21;
 let AdminsArr = [];
 let currentUser = "";
 let Admin;
-let latestData;
 let arrPriority = [];
-
+let objSelectedUser = {
+  Name: "",
+  Email: "",
+  JobTitle: "",
+};
+let arrSelectedRemainig = [];
 const App = (props: any) => {
   const [tableData, setTableData] = useState([]);
-  const [filterData, setFilterData] = useState([]);
-  const [filterPriority, setFilterPriority] = useState([]);
-  const [filterCountry, setFilterCountry] = useState([]);
-  const [filterUnit, setFilterUnit] = useState([]);
-  const [actionData, setActionDate] = useState([]);
   const [filterValue, setFilterValues] = useState(objFilterVal);
   const [renderTable, setRenderTable] = useState(false);
   const [countryChoice, setCountryChoice] = useState(arrCountries);
@@ -86,14 +85,14 @@ const App = (props: any) => {
     Title: "",
     num: "1",
   });
-  const [sorted, setSorted] = useState(objSorted);
   const [page, setPage] = useState(1);
   const [data, setData] = useState(tableData.slice(firstIndex, pageSize));
   const [callList, setCallList] = useState(true);
-  const [users, setUsers] = useState("");
-  const [admArr, setAdmArr] = useState([]);
-  const [latest, setlatest] = useState({ Id: null, text: "" });
   const [prioLi, setPrioLi] = useState([]);
+  const [selectedUserDetails, setSelectedUserDetails] =
+    useState(objSelectedUser);
+  const [selectedRemainigUsers, setSelectedRemainingUsers] =
+    useState(arrSelectedRemainig);
   // Life Cycle of Onload
   useEffect(() => {
     // get all group users
@@ -179,6 +178,7 @@ const App = (props: any) => {
                 "CASStatus",
                 "CASEngSubType"
               )
+              .top(4000)
               .orderBy("Modified", false)
               .get()
               .then(async (response) => {
@@ -188,11 +188,12 @@ const App = (props: any) => {
                     (aData) => aData.Ref == item.ID
                   );
                   let requestorDetails = [];
-
                   requestorDetails = item.CASUser
                     ? item.CASUser.map((user) => ({
                         Name: user.Title,
                         Email: user.EMail,
+                        ShowUserDetail: false,
+                        ShowRemUsers: false,
                       }))
                     : [];
                   return {
@@ -220,6 +221,7 @@ const App = (props: any) => {
                       filteredComments.length > 0
                         ? filteredComments[0].Modified
                         : null,
+                    ShowRemainingUsers: false,
                   };
                 });
                 setRenderTable(true);
@@ -245,6 +247,7 @@ const App = (props: any) => {
                 "CASStatus",
                 "CASEngSubType"
               )
+              .top(4000)
               .filter(`CASUser/EMail eq '${currentUser}'`)
               .orderBy("Modified", false)
               .get()
@@ -260,6 +263,8 @@ const App = (props: any) => {
                     ? item.CASUser.map((user) => ({
                         Name: user.Title,
                         Email: user.EMail,
+                        ShowUserDetail: false,
+                        ShowRemUsers: false,
                       }))
                     : [];
                   return {
@@ -287,6 +292,7 @@ const App = (props: any) => {
                       filteredComments.length > 0
                         ? filteredComments[0].Modified
                         : null,
+                    ShowRemainingUsers: false,
                   };
                 });
                 setRenderTable(true);
@@ -408,6 +414,59 @@ const App = (props: any) => {
   const Edit = (key, IdValue, data, num) => {
     setShowModal(true);
     setShowEdit({ flagEdit: key, item: IdValue, Title: data, num: num });
+  };
+  const getSelectedUserDetails = (userMail) => {
+    props.sp.profiles
+      .getPropertiesFor(`i:0#.f|membership|${userMail}`)
+      .then((res) => {
+        (objSelectedUser = {
+          Name: res.DisplayName,
+          Email: userMail,
+          JobTitle: res.UserProfileProperties.filter(
+            (uProfile) => uProfile.Key == "SPS-JobTitle"
+          )[0].Value,
+        }),
+          console.log(objSelectedUser);
+        setSelectedUserDetails({ ...objSelectedUser });
+      })
+      .catch((err) => console.log(err));
+  };
+  const getRemainingUserDetails = (arrUsers) => {
+    arrSelectedRemainig = [];
+    setSelectedRemainingUsers([]);
+    arrUsers.forEach((user, i) => {
+      if (i > 2) {
+        props.sp.profiles
+          .getPropertiesFor(`i:0#.f|membership|${user.Email}`)
+          .then((res) => {
+            arrSelectedRemainig.push({
+              Name: res.DisplayName,
+              Email: user.Email,
+              JobTitle: res.UserProfileProperties.filter(
+                (uProfile) => uProfile.Key == "SPS-JobTitle"
+              )[0].Value,
+            });
+
+            if (i == arrUsers.length - 1) {
+              console.log(arrSelectedRemainig);
+              setTimeout(() => {
+                setSelectedRemainingUsers([]);
+                setSelectedRemainingUsers(arrSelectedRemainig);
+              }, 100);
+            }
+            // return {
+            //   Name: res.DisplayName,
+            //   Email: user.Email,
+            //   JobTitle: res.UserProfileProperties.filter(
+            //     (uProfile) => uProfile.Key == "SPS-JobTitle"
+            //   )[0].Value,
+            // };
+          })
+          .catch((err) => console.log(err));
+      }
+    });
+    // return arrSelectedRemainig;
+    // setSelectedRemainingUsers(arrSelectedRemainig);
   };
   return (
     <>
@@ -940,7 +999,20 @@ const App = (props: any) => {
                 {data.length > 0 &&
                   data.map((row, i) => {
                     return (
-                      <TableRow key={i}>
+                      <TableRow
+                        key={i}
+                        onMouseEnter={() => {
+                          data.forEach((dT) => {
+                            dT.ShowRemainingUsers = false;
+                          });
+                          data.forEach((dT) => {
+                            dT.Requestor.forEach((person) => {
+                              person.ShowUserDetail = false;
+                            });
+                          });
+                          setData([...data]);
+                        }}
+                      >
                         <TableCell style={{ width: "20px" }}>
                           <div className={classes.TableID}> {row.ID}</div>
                         </TableCell>
@@ -1101,6 +1173,17 @@ const App = (props: any) => {
                             color: "#707070",
                             width: 100,
                           }}
+                          onMouseEnter={() => {
+                            data.forEach((dT) => {
+                              dT.ShowRemainingUsers = false;
+                            });
+                            data.forEach((dT) => {
+                              dT.Requestor.forEach((person) => {
+                                person.ShowUserDetail = false;
+                              });
+                            });
+                            setData([...data]);
+                          }}
                         >
                           <div className={classes.normal}>
                             {row.CountryIBVT}
@@ -1111,47 +1194,196 @@ const App = (props: any) => {
                             width: 60,
                             padding: 0,
                           }}
+                          onClick={() => {
+                            data.forEach((dT) => {
+                              dT.ShowRemainingUsers = false;
+                            });
+                            data.forEach((dT) => {
+                              dT.Requestor.forEach((person) => {
+                                person.ShowUserDetail = false;
+                              });
+                            });
+                          }}
                         >
                           <div className={classes.PeopleIcons}>
                             {row.Requestor.map((peopleIcon, i) =>
                               i < 3 ? (
-                                <Persona
-                                  styles={{
-                                    root: {
-                                      width: 48,
-                                      position: "relative",
-                                      zIndex: 3 - i,
-                                      left: i * -20,
-                                    },
-                                  }}
-                                  imageUrl={
-                                    "/_layouts/15/userphoto.aspx?size=S&username=" +
-                                    // peopleIcon.EMail
-                                    peopleIcon.Email
-                                  }
-                                />
+                                <div className={classes.RequestorSection}>
+                                  {" "}
+                                  <Persona
+                                    styles={{
+                                      root: {
+                                        width: 48,
+                                        position: "relative",
+                                        zIndex: 3 - i,
+                                        left: i * -20,
+                                        cursor: "pointer",
+                                      },
+                                    }}
+                                    imageUrl={
+                                      "/_layouts/15/userphoto.aspx?size=S&username=" +
+                                      peopleIcon.Email
+                                    }
+                                    onMouseLeave={() => {
+                                      data.forEach((dT) => {
+                                        dT.ShowRemainingUsers = false;
+                                      });
+                                      data.forEach((dT) => {
+                                        dT.Requestor.forEach((person) => {
+                                          person.ShowUserDetail = false;
+                                        });
+                                      });
+                                    }}
+                                    onMouseEnter={() => {
+                                      getSelectedUserDetails(peopleIcon.Email);
+                                      data.forEach((dT) => {
+                                        dT.ShowRemainingUsers = false;
+                                      });
+                                      data.forEach((dT) => {
+                                        dT.Requestor.forEach((person) => {
+                                          person.ShowUserDetail = false;
+                                        });
+                                      });
+                                      data
+                                        .filter((tD) => tD.ID == row.ID)[0]
+                                        .Requestor.filter(
+                                          (req) => req.Email == peopleIcon.Email
+                                        )[0].ShowUserDetail = true;
+                                      setData([
+                                        ...data.slice(firstIndex, pageSize),
+                                      ]);
+                                    }}
+                                  />
+                                  {peopleIcon.ShowUserDetail && (
+                                    <div className={classes.userDetails}>
+                                      <div
+                                        className={classes.userDetailsHeader}
+                                      >
+                                        <div className={classes.userDetailsDP}>
+                                          <Persona
+                                            styles={{
+                                              root: {
+                                                width: 72,
+                                                margin: "auto",
+                                              },
+                                            }}
+                                            imageUrl={
+                                              "/_layouts/15/userphoto.aspx?size=S&username=" +
+                                              peopleIcon.Email
+                                            }
+                                            size={PersonaSize.size72}
+                                          />
+                                        </div>
+                                        <div className={classes.userContent}>
+                                          <div className={classes.userName}>
+                                            {selectedUserDetails.Name}
+                                          </div>
+                                          <div className={classes.userjobTitle}>
+                                            {selectedUserDetails.JobTitle}
+                                          </div>
+                                          <div className={classes.userEmail}>
+                                            <a
+                                              href={`mailto:${selectedUserDetails.Email}`}
+                                            >
+                                              {selectedUserDetails.Email}
+                                            </a>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
                               ) : (
                                 ""
                               )
                             )}
                             {row.Requestor.length > 3 ? (
-                              <div
-                                style={{
-                                  width: 48,
-                                  height: 48,
-                                  position: "relative",
-                                  left: -53,
-                                  borderRadius: "50%",
-                                  fontSize: "1.5rem",
-                                  fontWeight: "bold",
-                                  color: "#fff",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  backgroundColor: "#00e8d1",
-                                }}
-                              >
-                                +{row.Requestor.length - 3}
+                              <div className={classes.RequestorSection}>
+                                <div
+                                  onMouseLeave={() => {
+                                    data.forEach((dT) => {
+                                      dT.ShowRemainingUsers = false;
+                                    });
+                                    data.forEach((dT) => {
+                                      dT.Requestor.forEach((person) => {
+                                        person.ShowUserDetail = false;
+                                      });
+                                    });
+                                  }}
+                                  onMouseEnter={() => {
+                                    setSelectedRemainingUsers([]);
+                                    getRemainingUserDetails(row.Requestor);
+
+                                    data.forEach((dT) => {
+                                      dT.ShowRemainingUsers = false;
+                                    });
+                                    data.forEach((dT) => {
+                                      dT.Requestor.forEach((person) => {
+                                        person.ShowUserDetail = false;
+                                      });
+                                    });
+                                    data.filter(
+                                      (dT) => dT.ID == row.ID
+                                    )[0].ShowRemainingUsers = true;
+                                    setData([
+                                      ...data.slice(firstIndex, pageSize),
+                                    ]);
+                                  }}
+                                  style={{
+                                    width: 48,
+                                    height: 48,
+                                    position: "relative",
+                                    left: -53,
+                                    borderRadius: "50%",
+                                    fontSize: "1.5rem",
+                                    fontWeight: "bold",
+                                    color: "#fff",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    backgroundColor: "#00e8d1",
+                                    cursor: "pointer",
+                                  }}
+                                >
+                                  +{row.Requestor.length - 3}
+                                </div>
+
+                                {row.ShowRemainingUsers && (
+                                  <div className={classes.userDetails}>
+                                    {selectedRemainigUsers.map((remainUser) => (
+                                      <div className={classes.singleUser}>
+                                        <div>
+                                          <Persona
+                                            styles={{
+                                              root: {
+                                                width: 72,
+                                                margin: "auto",
+                                              },
+                                            }}
+                                            imageUrl={
+                                              "/_layouts/15/userphoto.aspx?size=S&username=" +
+                                              remainUser.Email
+                                            }
+                                            size={PersonaSize.size48}
+                                          />
+                                        </div>
+                                        <div>
+                                          <div className={classes.singleName}>
+                                            {remainUser.Name}
+                                          </div>
+                                          <div
+                                            className={classes.singleJobTitle}
+                                          >
+                                            {remainUser.JobTitle}
+                                          </div>
+                                          <div className={classes.singleEmail}>
+                                            <a>{remainUser.Email}</a>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
                               </div>
                             ) : (
                               ""
@@ -1163,6 +1395,17 @@ const App = (props: any) => {
                             fontSize: 14,
                             color: "#707070",
                             width: 420,
+                          }}
+                          onMouseEnter={() => {
+                            data.forEach((dT) => {
+                              dT.ShowRemainingUsers = false;
+                            });
+                            data.forEach((dT) => {
+                              dT.Requestor.forEach((person) => {
+                                person.ShowUserDetail = false;
+                              });
+                            });
+                            setData([...data]);
                           }}
                         >
                           {row.LatestComment && (
