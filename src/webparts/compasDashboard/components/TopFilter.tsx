@@ -32,7 +32,7 @@ const resetIcon = require("../../../ExternalRef/img/ResetIcon.svg");
 const filterIcon = require("../../../ExternalRef/img/filterIcon.png");
 let filterData = {
   ID: 0,
-  Status: [],
+  Status: ["IN PROGRESS", "WAITING FOR FEEDBACK", "LEAD"],
   Priority: null,
   Name: "",
   EngagementType: "",
@@ -67,12 +67,13 @@ const TopFilter = (props: any) => {
   const [idNumberChoice, setIdNumberChoice] = useState(arrIDNumber);
   const [priorityChoice, setPriorityChoice] = useState(arrPriority);
   const [expandFilter, setExpandFilter] = useState(false);
-  const [value, setvalue] = useState("IN PROGRESS,WAITING FOR FEEDBACK,LEAD");
+  const [value, setvalue] = useState(filterArr.Status.join(","));
 
   const handleOnchange = (val) => {
     console.log(val);
     let arrSelectedStatus = val.split(",")[0] != "" ? val.split(",") : [];
     getOnChange("Status", arrSelectedStatus);
+    setvalue(filterArr.Status.join(","));
   };
 
   // UseRef Section

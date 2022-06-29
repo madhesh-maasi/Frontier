@@ -106,7 +106,6 @@ const App = (props: any) => {
       .catch((err) => {
         console.log(err);
       });
-
     // get current user
     props.sp.web
       .currentUser()
