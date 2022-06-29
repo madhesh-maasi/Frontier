@@ -22,7 +22,7 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    width: 46%;
+    width: 54%;
   }
   .inputs {
     display: flex;
@@ -67,7 +67,7 @@
   border-radius: 50%;
   border: none;
   outline: none;
-  margin-left: 20px;
+  margin-left: 4px;
   cursor: pointer;
 }
 
@@ -156,4 +156,24 @@
 
 .Dublicate {
   display: flex;
+}
+.options{
+  position: relative;
+}
+.optionSection {
+  // width: 64px;
+  font-size:1rem;
+  font-weight: normal;
+  color:#000;
+  background-color: #fff;
+  position: absolute;
+  top: 26px;
+  border: 1px solid #cacaca;
+  border-radius: 7px;
+  z-index: 10;
+  div {
+    background-color: #fff;
+      padding: 0.25rem 1rem;
+      cursor: pointer;
+  }
 }

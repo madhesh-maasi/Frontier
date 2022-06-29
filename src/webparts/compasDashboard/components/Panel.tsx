@@ -272,7 +272,7 @@ const Panel = (props: any) => {
               EngagementSubType: response.CASEngSubTypeId ? response.CASEngSubTypeId : 0,
               Requestor: PeoEMailArr ? PeoEMailArr : [],
               StatusType: response.CASStatusId ? response.CASStatusId : 0,
-              IDNumber: response.ID ? response.ID : 0,
+              IDNumber: response.ID != 0 ? response.ID : 0,
               CreationDate: response.Created
                 ? new Date(response.Created)
                 : null,
@@ -387,6 +387,7 @@ const Panel = (props: any) => {
         });
         alertify.success("Record submitted successfully");
         setReRenderTable(true);
+        props.Panel(false);
       })
       .catch((error) => {
         console.log(error);
@@ -440,6 +441,7 @@ const Panel = (props: any) => {
         });
         setIsEdit(false);
         setReRenderTable(true);
+        props.Panel(false);
       })
       .catch((error) => {
         console.log(error);
@@ -768,7 +770,7 @@ const Panel = (props: any) => {
                         id="demo-simple-select"
                         variant="outlined"
                         labelWidth={0}
-                        value={addDatas.IDNumber}
+                        value={addDatas.IDNumber != 0 ? addDatas.IDNumber : null}
                       >
                         {ProjectArr.map((data) => {
                           return <MenuItem value={data}>{data}</MenuItem>;
