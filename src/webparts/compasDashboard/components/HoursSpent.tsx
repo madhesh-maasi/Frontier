@@ -440,37 +440,57 @@ const HoursSpent = (props: any) => {
                   {e.Company == "AALTO" && (
                     <div className={classes.inpField}>
                       <div>
-                        <TextField
-                          disabled={!e.isEdit}
-                          className={classes.inpt3}
-                          value={e.isEdit ? listData.hours : e.Hours}
-                          onChange={(e) => {
-                            listData.hours = e.target.value;
-                            setListData({ ...listData });
-                          }}
-                        />
+                        {e.isEdit ? (
+                          <TextField
+                            type="number"
+                            disabled={!e.isEdit}
+                            className={classes.inpt3}
+                            value={+listData.hours}
+                            onChange={(e) => {
+                              listData.hours = e.target.value;
+                              setListData({ ...listData });
+                            }}
+                          />
+                        ) : (
+                          <InputLabel className={classes.hourView}>
+                            {`${String(e.Hours).split(".").join(",")} `}{" "}
+                            <span className={classes.hourViewHour}>h</span>
+                          </InputLabel>
+                        )}
                       </div>
                       <div>
-                        <DatePicker
-                          disabled={!e.isEdit}
-                          className={classes.datet3}
-                          formatDate={(date: Date): string => {
-                            return `${
-                              date.toLocaleDateString().split("/")[2]
-                            }/${
-                              +date.toLocaleDateString().split("/")[0] < 10
-                                ? "0" + date.toLocaleDateString().split("/")[0]
-                                : date.toLocaleDateString().split("/")[0]
-                            }`;
-                          }}
-                          onSelectDate={(date) => {
-                            listData.Date = date.toISOString();
-                            setListData({ ...listData });
-                          }}
-                          value={
-                            listData.Date ? new Date(listData.Date) : e.Date
-                          }
-                        />
+                        {e.isEdit ? (
+                          <DatePicker
+                            disabled={!e.isEdit}
+                            className={classes.datet3}
+                            formatDate={(date: Date): string => {
+                              return `${
+                                date.toLocaleDateString().split("/")[2]
+                              }/${
+                                +date.toLocaleDateString().split("/")[0] < 10
+                                  ? "0" +
+                                    date.toLocaleDateString().split("/")[0]
+                                  : date.toLocaleDateString().split("/")[0]
+                              }`;
+                            }}
+                            onSelectDate={(date) => {
+                              listData.Date = date.toISOString();
+                              setListData({ ...listData });
+                            }}
+                            value={
+                              listData.Date ? new Date(listData.Date) : e.Date
+                            }
+                          />
+                        ) : (
+                          <InputLabel className={classes.dateView}>
+                            {`${e.Date.toLocaleDateString().split("/")[2]}/${
+                              +e.Date.toLocaleDateString().split("/")[0] < 10
+                                ? "0" +
+                                  e.Date.toLocaleDateString().split("/")[0]
+                                : e.Date.toLocaleDateString().split("/")[0]
+                            }`}
+                          </InputLabel>
+                        )}
                       </div>
                       <div className={classes.options}>
                         {!e.isEdit ? (
@@ -510,7 +530,7 @@ const HoursSpent = (props: any) => {
                                     )[0].isEdit = true;
                                     setHoursSpentArr([...hoursSpentArr]);
                                     listData.Date = e.Date;
-                                    listData.hours = e.hours;
+                                    listData.hours = +e.Hours;
                                     setListData({ ...listData });
                                   }}
                                 >
@@ -542,8 +562,10 @@ const HoursSpent = (props: any) => {
                 </>
               );
             })}
-            {addAALTO}
-            <span>AAlto tot.h</span>
+            <div>
+              <div></div>
+              <div></div>
+            </div>
           </div>
 
           {/* JOHNSON & JOHNSON Company Section */}
@@ -554,15 +576,23 @@ const HoursSpent = (props: any) => {
                   {e.Company == "JOHNSON & JOHNSON" && (
                     <div className={classes.inpField}>
                       <div>
-                        <TextField
-                          disabled={!e.isEdit}
-                          className={classes.inpt3}
-                          value={e.isEdit ? listData.hours : e.Hours}
-                          onChange={(e) => {
-                            listData.hours = e.target.value;
-                            setListData({ ...listData });
-                          }}
-                        />
+                        {e.isEdit ? (
+                          <TextField
+                            type="number"
+                            disabled={!e.isEdit}
+                            className={classes.inpt3}
+                            value={+listData.hours}
+                            onChange={(e) => {
+                              listData.hours = e.target.value;
+                              setListData({ ...listData });
+                            }}
+                          />
+                        ) : (
+                          <InputLabel className={classes.hourView}>
+                            {`${String(e.Hours).split(".").join(",")} `}{" "}
+                            <span className={classes.hourViewHour}>h</span>
+                          </InputLabel>
+                        )}
                       </div>
                       <div>
                         <DatePicker
@@ -624,7 +654,7 @@ const HoursSpent = (props: any) => {
                                     )[0].isEdit = true;
                                     setHoursSpentArr([...hoursSpentArr]);
                                     listData.Date = e.Date;
-                                    listData.hours = e.hours;
+                                    listData.hours = +e.Hours;
                                     setListData({ ...listData });
                                   }}
                                 >
@@ -656,14 +686,46 @@ const HoursSpent = (props: any) => {
                 </>
               );
             })}
-            {addJOHN}
-            <span>J&J tot.h </span>
+            <div className={classes.totalSection}>
+              <div></div>
+              <div></div>
+            </div>
           </div>
         </div>
-
+        <div className={classes.totals}>
+          <div className={classes.total}>
+            <div>{`${String(addAALTO).split(".")[0]},${
+              String(addAALTO).split(".").length == 1
+                ? "00"
+                : +String(addAALTO).split(".")[1] > 9
+                ? String(addAALTO).split(".")[1]
+                : `${String(addAALTO).split(".")[1]}0`
+            }`}</div>
+            <div>J&J tot.h </div>
+          </div>
+          <div className={classes.total}>
+            <div>
+              {`${String(addJOHN).split(".")[0]},${
+                String(addJOHN).split(".").length == 1
+                  ? "00"
+                  : +String(addJOHN).split(".")[1] > 9
+                  ? String(addJOHN).split(".")[1]
+                  : `${String(addJOHN).split(".")[1]}0`
+              }`}
+            </div>
+            <div>J&J tot.h </div>
+          </div>
+        </div>
         <div className={classes.outputs} style={{ border: "none" }}>
           <div className={classes.o2}>
-            {totAdd}
+            {/* {String(totAdd).split(".").join(",")} */}
+            {`${String(totAdd).split(".")[0]},${
+              String(totAdd).split(".").length == 1
+                ? "00"
+                : +String(totAdd).split(".")[1] > 9
+                ? String(totAdd).split(".")[1]
+                : `${String(totAdd).split(".")[1]}0`
+            }`}
             <span>tot.h </span>
           </div>
         </div>

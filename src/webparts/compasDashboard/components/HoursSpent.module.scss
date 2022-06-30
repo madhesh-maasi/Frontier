@@ -1,3 +1,34 @@
+@font-face {
+    font-family: karbon-bold;
+    src: url(../../../ExternalRef/fonts/karbon-bold-webfont.ttf);
+    // src: url(../../ExternalRef/fonts/karbon-bold-webfont.ttf);
+}
+
+@font-face {
+    font-family: karbon-regular;
+    src: url(../../../ExternalRef/fonts/karbon-regular-webfont.ttf);
+}
+
+@font-face {
+    font-family: karbon-semibold;
+    src: url(../../../ExternalRef/fonts/karbon-semibold-webfont.ttf);
+}
+
+@font-face {
+    font-family: karbon-medium;
+    src: url(../../../ExternalRef/fonts/karbon-medium-webfont.ttf);
+}
+
+@font-face {
+    font-family: karbon-regularitalic;
+    src: url(../../../ExternalRef/fonts/karbon-regularitalic-webfont.ttf);
+}
+
+@font-face {
+    font-family: karbon-light;
+    src: url(../../../ExternalRef/fonts/karbon-light-webfont.ttf);
+}
+
 // Hours Spent Panel
 .inpLabel {
     font-size: 14px !important;
@@ -81,7 +112,6 @@
         display: flex;
         align-items: flex-start;
         justify-content: center;
-        border-bottom: 4px solid #3fb7e7;
         .o1 {
             display: flex;
             align-items: flex-end;
@@ -101,6 +131,7 @@
             .inpField {
                 display: flex;
                 align-self: flex-start;
+                margin: 0.5rem 0;
             }
             .inpt3,
             .datet3 {
@@ -146,10 +177,10 @@
             align-items: flex-end;
             justify-content: flex-end;
             flex-direction: column;
-            font-size: 40px;
+            font-size: 3.75rem;
             color: #3fb7e7;
-            font-weight: bold;
-            width: 80%;
+            font-family: karbon-medium !important;
+            width: 100%;
             padding: 20px;
             margin-right: 40px;
             span {
@@ -198,4 +229,55 @@
 .doneIcon {
     min-width: 2rem !important;
     min-height: 2rem !important;
+}
+
+.totalSection {
+    margin-top: 1rem;
+    margin-right: 1rem;
+}
+
+.hourView {
+    font-family: karbon-bold !important;
+    font-size: 1.2rem !important;
+    width: 180px;
+    padding-top: 0.6rem !important;
+    padding-left: 0.6rem !important;
+}
+
+.dateView {
+    font-family: karbon-bold !important;
+    font-size: 1.2rem !important;
+    width: 180px;
+    padding: 0.6rem !important;
+    background-color: #f7f8f9 !important;
+}
+
+.hourViewHour {
+    font-family: karbon-regular !important;
+    font-size: 1.2rem !important;
+}
+
+.totals {
+    display: flex;
+    border-bottom: 4px solid #3fb7e7;
+    width: 100%;
+    padding-bottom: 1rem;
+    .total {
+        width: 50%;
+        text-align: right;
+        margin-right: 5rem;
+        div {
+            &:first-child {
+                font-family: karbon-medium !important;
+                color: #3fb7e7;
+                font-size: 3.125rem;
+            }
+            &:nth-child(2) {
+                font-family: karbon-regular !important;
+                color: #707070;
+                font-size: 1.25rem;
+                margin-top: 0.5rem;
+            }
+        }
+    }
 }
