@@ -220,8 +220,17 @@ const App = (props: any) => {
                     LatestActionModified:
                       filteredComments.length > 0
                         ? filteredComments[0].Modified
-                        : null,
+                        : new Date("07/08/1989").toISOString(),
                     ShowRemainingUsers: false,
+                    PriorityNo: item.CASPriority.Title
+                      ? item.CASPriority.Title.toLowerCase() == "low"
+                        ? "1"
+                        : item.CASPriority.Title.toLowerCase() == "medium"
+                        ? "2"
+                        : item.CASPriority.Title.toLowerCase() == "high"
+                        ? "3"
+                        : ""
+                      : "",
                   };
                 });
                 setRenderTable(true);
@@ -291,8 +300,17 @@ const App = (props: any) => {
                     LatestActionModified:
                       filteredComments.length > 0
                         ? filteredComments[0].Modified
-                        : null,
+                        : new Date("07/08/1989").toISOString(),
                     ShowRemainingUsers: false,
+                    PriorityNo: item.CASPriority.Title
+                      ? item.CASPriority.Title.toLowerCase() == "low"
+                        ? "1"
+                        : item.CASPriority.Title.toLowerCase() == "medium"
+                        ? "2"
+                        : item.CASPriority.Title.toLowerCase() == "high"
+                        ? "3"
+                        : ""
+                      : "",
                   };
                 });
                 setRenderTable(true);
@@ -626,11 +644,11 @@ const App = (props: any) => {
                       ...tableData.sort((a, b) =>
                         objSorted.Priority == "ascending" ||
                         objSorted.Priority == ""
-                          ? b.Priority - a.Priority
-                          : a.Priority - b.Priority
+                          ? b.PriorityNo - a.PriorityNo
+                          : a.PriorityNo - b.PriorityNo
                       ),
                     ]);
-                    setData(tableData.slice(0, pageSize));
+                    setData([...tableData.slice(0, pageSize)]);
                   }}
                 >
                   <div style={{ color: "#7d7d7d", display: "flex" }}>
@@ -977,16 +995,17 @@ const App = (props: any) => {
                           CountryIBVT: "",
                           LatestAction: "ascending",
                         });
+
                     setTableData([
-                      ...tableData.sort((a, b) =>
-                        (objSorted.LatestAction == "ascending" ||
-                          objSorted.LatestAction == "") &&
-                        a.LatestComment &&
-                        b.LatestComment
-                          ? Date.parse(a.LatestActionModified) -
-                            Date.parse(b.LatestActionModified)
-                          : Date.parse(b.LatestActionModified) -
-                            Date.parse(a.LatestActionModified)
+                      ...tableData.sort((a, b) => 
+                        //  (a.LatestComment && b.LatestComment) &&
+                          (objSorted.LatestAction == "ascending" ||
+                          objSorted.LatestAction == "")
+                            ? Date.parse(a.LatestActionModified) -
+                              Date.parse(b.LatestActionModified)
+                            : Date.parse(b.LatestActionModified) -
+                              Date.parse(a.LatestActionModified)
+                        
                       ),
                     ]);
                     setData(tableData.slice(0, pageSize));

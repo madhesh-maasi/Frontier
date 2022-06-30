@@ -15,11 +15,16 @@ import classes from "./LatestAction.module.scss";
 import { Persona, PersonaSize } from "office-ui-fabric-react";
 import alertify from "alertifyjs";
 import "alertifyjs/build/css/alertify.css";
+
 const moreIcon = require("../../../ExternalRef/img/more.png");
 const clockIcon = require("../../../ExternalRef/img/clock.png");
+const Postmsg = require("../../../ExternalRef/img/Postmsg.png");
+const Postmail = require("../../../ExternalRef/img/Postmail.png");
+
 let latestId;
 let editId;
 let isSendMail = false;
+
 const LatestAction = (props) => {
   const [timeNow, setTimeNow] = useState(
     `${
@@ -134,6 +139,9 @@ const LatestAction = (props) => {
       .getByTitle("Actions")
       .items.getById(ID)
       .delete()
+      .then(() => {
+        alertify.success("Message Deleted successfully");
+      })
       .catch((err) => console.log(err));
     setRenderLi(true);
     props.renderProject();
@@ -201,8 +209,9 @@ const LatestAction = (props) => {
                 AddNewMessage();
               }}
             >
-              Post message and send update via email{" "}
-              <Mail style={{ color: "#707070", marginLeft: "10px" }} />
+              Post message and send update via email
+              <img style={{ padding: "0px 0px 0px 10px" }} src={`${Postmail}`} />
+              {/* <Mail style={{ color: "#707070", marginLeft: "10px" }} /> */}
             </button>
             <button
               className={`${classes.msgBtn} ${classes.msgBtn2}`}
@@ -212,14 +221,15 @@ const LatestAction = (props) => {
               }}
             >
               Post message
-              <Send
+              <img style={{ padding: "0px 0px 0px 10px" }} src={`${Postmsg}`} />
+              {/* <Send
                 style={{
                   color: "#fff",
                   backgroundColor: "#00a0df",
                   padding: "3px 9px",
                   borderRadius: "50%",
                 }}
-              />
+              /> */}
             </button>
           </div>
         </>
