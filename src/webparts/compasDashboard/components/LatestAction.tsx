@@ -391,6 +391,7 @@ const LatestAction = (props) => {
                           className={classes.editMsgIcons}
                           onClick={() => {
                             UpdateMessage(editingMessage);
+                            setIsUpdating(false);
                           }}
                         />
                         <Cancel
@@ -399,6 +400,7 @@ const LatestAction = (props) => {
                           onClick={() => {
                             setRenderLi(true);
                             props.renderProject();
+                            setIsUpdating(false);
                           }}
                         />
                       </div>
