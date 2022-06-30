@@ -384,7 +384,7 @@ const LatestAction = (props) => {
                         id="standard-basic"
                         label=""
                         variant="standard"
-                      />
+                      /> 
                       <div className={classes.editMessageIcons}>
                         <Send
                           style={{ color: "#00a0df" }}
