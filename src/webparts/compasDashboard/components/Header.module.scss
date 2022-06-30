@@ -7,7 +7,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
+    padding: 10px 40px ; 
     margin: 20px 0;
 }
 
@@ -26,6 +26,7 @@
 
 .profilePicture {
     margin-left: 20px;
+    width:72px;
 }
 
 .userRole {
@@ -50,7 +51,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 15px 0 35px;
+    padding: 0  35px;
     img {
         height: 86px;
         width: 260px;
@@ -79,4 +80,7 @@
     border-radius: 33px;
     outline: none;
     border: none;
+    img{
+        width:100px;
+    }
 }

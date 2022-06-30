@@ -43,6 +43,11 @@ import "alertifyjs/build/css/alertify.css";
 import LatestAction from "./LatestAction";
 import HoursSpent from "./HoursSpent";
 
+
+const ProjectIcon = require("../../../ExternalRef/img/ProjectEdit.png")
+const LatestActionIcon = require("../../../ExternalRef/img/LatestAction.png")
+const HoursSpentIcon = require("../../../ExternalRef/img/HoursSpent.png")
+
 const objProjInfo = {
   ProjectName: "",
   Priority: null,
@@ -469,6 +474,11 @@ const Panel = (props: any) => {
               <Close />
             </button>
           </div>
+          <div className={classes.IconsSection}>
+            <img className={classes.projIcon} src={`${ProjectIcon}`} width={18} height={18}/>
+            <img className={classes.lAIcon} src={`${LatestActionIcon}`} width={18} height={18}/>
+            <img className={classes.hSIcon} src={`${HoursSpentIcon}`} width={18} height={18}/>
+          </div>
           {/* Pivot - Section */}
           <Pivot
             aria-label="Basic Pivot Example"
@@ -590,8 +600,9 @@ const Panel = (props: any) => {
                     Organization Unit:
                   </InputLabel>
                   <TextField
+                  className="orgUnitTextField"
                     disabled={props.Admin ? false : true}
-                    style={{ width: "200%", }}
+                    style={{ width: "200%"}}
                     id="standard-basic"
                     variant="outlined"
                     placeholder={`Insert Organization Unit`}
@@ -643,7 +654,7 @@ const Panel = (props: any) => {
                 {/* org unit */}
 
                 {/* eng type */}
-                <div style={{ width: "50%" }}>
+                <div style={{ width: "48%" }}>
                   <InputLabel className={classes.inpLabel}>
                     Engagement Subtype:
                   </InputLabel>
@@ -706,10 +717,10 @@ const Panel = (props: any) => {
                 </div>
               </div>
 
-              <div className={`${classes.flex} ${classes.panelInput}`}>
+              <div className={`${classes.flex} ${classes.panelInput}`} style={{marginTop:"1.5rem"}}>
                 {/* status type */}
                 <div>
-                  <InputLabel className={classes.inpLabel}>
+                  <InputLabel className={classes.inpLabel} >
                     Status Type:
                   </InputLabel>
                   <Select
