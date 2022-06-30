@@ -384,13 +384,14 @@ const LatestAction = (props) => {
                         id="standard-basic"
                         label=""
                         variant="standard"
-                      />
+                      /> 
                       <div className={classes.editMessageIcons}>
                         <Send
                           style={{ color: "#00a0df" }}
                           className={classes.editMsgIcons}
                           onClick={() => {
                             UpdateMessage(editingMessage);
+                            setIsUpdating(false);
                           }}
                         />
                         <Cancel
@@ -399,6 +400,7 @@ const LatestAction = (props) => {
                           onClick={() => {
                             setRenderLi(true);
                             props.renderProject();
+                            setIsUpdating(false);
                           }}
                         />
                       </div>
