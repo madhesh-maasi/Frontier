@@ -160,7 +160,7 @@ const TopFilter = (props: any) => {
       });
     props.sp.web.lists
       .getByTitle("Projects")
-      .items.select("*", "CASUser/Title", "CASUser/ID", "CASUser/EMail")
+      .items.top(2000).select("*", "CASUser/Title", "CASUser/ID", "CASUser/EMail")
       .expand("CASUser")
       .get()
       .then((response) => {
@@ -371,7 +371,7 @@ const TopFilter = (props: any) => {
                     marginRight: "10px",
                   }}
                   id=""
-                  value={filterArr.EngagementType}
+                  value={filterArr.EngagementSubType}
                   onChange={(e) => {
                     getOnChange("EngagementSubType", e.target.value);
                   }}

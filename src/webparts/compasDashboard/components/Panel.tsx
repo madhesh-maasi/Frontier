@@ -490,7 +490,7 @@ const Panel = (props: any) => {
               <div className={classes.titleOne}>Primary Information</div>
 
               {/* ProjectName */}
-              <div className={classes.panelInput}>
+              <div style={{height: "125px",}} className={classes.panelInput}>
                 <InputLabel required className={classes.inpLabel}>
                   Project Name:
                 </InputLabel>
@@ -591,7 +591,7 @@ const Panel = (props: any) => {
                   </InputLabel>
                   <TextField
                     disabled={props.Admin ? false : true}
-                    style={{ width: "200%" }}
+                    style={{ width: "200%", }}
                     id="standard-basic"
                     variant="outlined"
                     placeholder={`Insert Organization Unit`}
@@ -920,7 +920,7 @@ const Panel = (props: any) => {
               </div>
 
               {/* Cross charge information */}
-              <div className={classes.panelInput}>
+              <div style={{height: "130px"}} className={classes.panelInput}>
                 <InputLabel className={classes.inpLabel}>
                   Cross charge information:
                 </InputLabel>
@@ -938,7 +938,7 @@ const Panel = (props: any) => {
                 />
               </div>
 
-              <div className={`${classes.flex} ${classes.panelInput}`}>
+              <div style={{ height: "110px" }} className={`${classes.flex} ${classes.panelInput}`}>
                 {/* project start date */}
                 <div>
                   <InputLabel className={classes.inpLabel}>
@@ -1015,7 +1015,7 @@ const Panel = (props: any) => {
               </div>
 
               {/* Engagement Notes */}
-              <div className={classes.panelInput}>
+              <div style={{ height: "130px" }} className={classes.panelInput}>
                 <InputLabel className={classes.inpLabel}>
                   Engagement Notes:
                 </InputLabel>
