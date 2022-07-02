@@ -14,7 +14,7 @@ let latestId;
 let EditId;
 
 const InitialTime = {
-  hours: null,
+  hours: "",
   Date: null,
   comName: "",
 };
@@ -26,8 +26,16 @@ let setdata = [];
 
 const HoursSpent = (props: any) => {
   const [hoursSec, setHoursSec] = useState(0);
-  const [addNewAATLO, setAddNewAATLO] = useState(InitialTime);
-  const [addNewJJ, setAddNewJJ] = useState(InitialTime);
+  const [addNewAATLO, setAddNewAATLO] = useState({
+    hours: "",
+    Date: null,
+    comName: "",
+  });
+  const [addNewJJ, setAddNewJJ] = useState({
+    hours: "",
+    Date: null,
+    comName: "",
+  });
   const [editHour, setEditHour] = useState(0);
   const [editValue, setEditValue] = useState(false);
   const [hoursSpentArr, setHoursSpentArr] = useState([]);
@@ -35,23 +43,27 @@ const HoursSpent = (props: any) => {
   const [addAALTO, setAddAALTO] = useState(0);
   const [addJOHN, setAddJOHN] = useState(0);
   const [totAdd, setTotAdd] = useState(0);
-  const [listData, setListData] = useState(InitialTime);
+  const [listData, setListData] = useState({
+    hours: "",
+    Date: null,
+    comName: "",
+  });
   const [reEnter, setReEnter] = useState(true);
   const [show, setShow] = useState([false, 0]);
   // const [showOption, setShowOption] = useState(true);
 
   // Life Cycle of onload
   useEffect(() => {
-    setAddNewAATLO({
-      hours: null,
-      Date: null,
-      comName: "",
-    });
-    setAddNewJJ({
-      hours: null,
-      Date: null,
-      comName: "",
-    });
+    // setAddNewAATLO({
+    //   hours: "",
+    //   Date: null,
+    //   comName: "",
+    // });
+    // setAddNewJJ({
+    //   hours: "",
+    //   Date: null,
+    //   comName: "",
+    // });
 
     latestId = 0;
     EditId = 0;
@@ -134,11 +146,12 @@ const HoursSpent = (props: any) => {
   }, [addData]);
 
   // GetDatas section
-  const GetDatas = () => {
+  const GetDatas = (company) => {
     let isValue =
-      addNewAATLO.comName == "AALTO" ? ValitationAA() : ValitationJJ();
+      // addNewAATLO.comName == "AALTO" ? ValitationAA() : ValitationJJ();
+      company == "Aalto" ? ValitationAA() : ValitationJJ();
     if (isValue) {
-      AddHours();
+      AddHours(company);
     }
   };
 
@@ -169,69 +182,71 @@ const HoursSpent = (props: any) => {
   };
 
   // Hours Add function
-  const AddHours = () => {
-    dropValue.map((data) => {
-      return addNewAATLO.comName == data
-        ? props.sp.web.lists
-            .getByTitle("Spent time")
-            .items.add({
-              Title:
-                hoursSec != 0
-                  ? props.Latest.text
-                  : editHour == 0
-                  ? true
-                  : props.Edit.Title,
-              CASHours: addNewAATLO.hours ? addNewAATLO.hours : null,
-              CASDate: addNewAATLO.Date ? addNewAATLO.Date : null,
-              CASCompany: addNewAATLO.comName ? addNewAATLO.comName : "",
-              CASRefId:
-                hoursSec != 0
-                  ? props.Latest.key
-                  : editHour == 0
-                  ? true
-                  : props.Edit.item,
-            })
-            .then((response) => {
-              console.log(response);
-              alertify.success("Record submitted successfully");
-              addNewAATLO.hours = "";
-              addNewAATLO.Date = null;
-              setAddNewAATLO({
-                ...addNewAATLO,
-              });
-              setReEnter(true);
-            })
-        : addNewJJ.comName == data &&
-            props.sp.web.lists
-              .getByTitle("Spent time")
-              .items.add({
-                Title:
-                  hoursSec != 0
-                    ? props.Latest.text
-                    : editHour == 0
-                    ? true
-                    : props.Edit.Title,
-                CASHours: addNewJJ.hours ? addNewJJ.hours : null,
-                CASDate: addNewJJ.Date ? addNewJJ.Date : null,
-                CASCompany: addNewJJ.comName ? addNewJJ.comName : "",
-                CASRefId:
-                  hoursSec != 0
-                    ? props.Latest.key
-                    : editHour == 0
-                    ? true
-                    : props.Edit.item,
-              })
-              .then((response) => {
-                console.log(response);
-                alertify.success("Record submitted successfully");
-                addNewJJ.hours = "";
-                addNewJJ.Date = null;
-                setAddNewJJ({
-                  ...addNewJJ,
-                });
-                setReEnter(true);
-              });
-    });
+  const AddHours = (company) => {
+    // dropValue.map((data) => {
+    // return
+    // addNewAATLO.comName == data
+    company == "Aalto"
+      ? props.sp.web.lists
+          .getByTitle("Spent time")
+          .items.add({
+            Title:
+              hoursSec != 0
+                ? props.Latest.text
+                : editHour == 0
+                ? true
+                : props.Edit.Title,
+            CASHours: addNewAATLO.hours ? addNewAATLO.hours : null,
+            CASDate: addNewAATLO.Date ? addNewAATLO.Date : null,
+            CASCompany: addNewAATLO.comName ? addNewAATLO.comName : "",
+            CASRefId:
+              hoursSec != 0
+                ? props.Latest.key
+                : editHour == 0
+                ? true
+                : props.Edit.item,
+          })
+          .then((response) => {
+            console.log(response);
+            alertify.success("Record submitted successfully");
+            addNewAATLO.hours = "";
+            addNewAATLO.Date = null;
+            setAddNewAATLO({
+              ...addNewAATLO,
+            });
+            setReEnter(true);
+          })
+      : // addNewJJ.comName == data &&
+        props.sp.web.lists
+          .getByTitle("Spent time")
+          .items.add({
+            Title:
+              hoursSec != 0
+                ? props.Latest.text
+                : editHour == 0
+                ? true
+                : props.Edit.Title,
+            CASHours: addNewJJ.hours ? addNewJJ.hours : null,
+            CASDate: addNewJJ.Date ? addNewJJ.Date : null,
+            CASCompany: addNewJJ.comName ? addNewJJ.comName : "",
+            CASRefId:
+              hoursSec != 0
+                ? props.Latest.key
+                : editHour == 0
+                ? true
+                : props.Edit.item,
+          })
+          .then((response) => {
+            console.log(response);
+            alertify.success("Record submitted successfully");
+            addNewJJ.hours = "";
+            addNewJJ.Date = null;
+            setAddNewJJ({
+              ...addNewJJ,
+            });
+            setReEnter(true);
+          });
+    // });
   };
 
   // getEdit function
@@ -311,7 +326,8 @@ const HoursSpent = (props: any) => {
                 InputLabelProps={{ shrink: false }}
                 value={addNewAATLO.hours}
                 onChange={(e) => {
-                  addNewAATLO.hours = e.target.value;
+                  addNewAATLO.hours =
+                    +e.target.value < 0 ? "0" : e.target.value;
                   addNewAATLO.comName = "AALTO";
                   setAddNewAATLO({ ...addNewAATLO });
                 }}
@@ -344,7 +360,7 @@ const HoursSpent = (props: any) => {
             <button
               disabled={hoursSec != 0 ? false : editHour == 0 ? true : false}
               className={classes.AddBtn}
-              onClick={() => GetDatas()}
+              onClick={() => GetDatas("Aalto")}
             >
               <Add
                 style={{
@@ -378,8 +394,8 @@ const HoursSpent = (props: any) => {
                 InputLabelProps={{ shrink: false }}
                 value={addNewJJ.hours}
                 onChange={(e) => {
-                  addNewJJ.hours = e.target.value;
-                  addNewJJ.comName = "JOHNSON & JOHNSON";
+                  addNewJJ.hours = +e.target.value < 0 ? "0" : e.target.value;
+                  addNewJJ.comName = "JOHNSON and JOHNSON";
                   setAddNewJJ({ ...addNewJJ });
                 }}
               />
@@ -411,7 +427,7 @@ const HoursSpent = (props: any) => {
             <button
               disabled={hoursSec != 0 ? false : editHour == 0 ? true : false}
               className={classes.AddBtn}
-              onClick={() => GetDatas()}
+              onClick={() => GetDatas("j&j")}
             >
               <Add
                 style={{
@@ -433,7 +449,7 @@ const HoursSpent = (props: any) => {
       <div className={classes.contentBottom}>
         <div className={classes.outputs}>
           {/* AALTO Company Section */}
-          <div className={classes.o1}>
+          <div className={`${classes.o1} optionOne`}>
             {hoursSpentArr.map((e) => {
               return (
                 <>
@@ -447,7 +463,157 @@ const HoursSpent = (props: any) => {
                             className={classes.inpt3}
                             value={+listData.hours}
                             onChange={(e) => {
-                              listData.hours = e.target.value;
+                              listData.hours =
+                                +e.target.value < 0 ? "0" : e.target.value;
+                              setListData({ ...listData });
+                            }}
+                          />
+                        ) : (
+                          <InputLabel
+                            className={`${classes.hourView} hourViewOne`}
+                            style={{ width: "172px" }}
+                          >
+                            {`${String(e.Hours).split(".").join(",")} `}{" "}
+                            <span className={classes.hourViewHour}>h</span>
+                          </InputLabel>
+                        )}
+                      </div>
+                      <div>
+                        {e.isEdit ? (
+                          <DatePicker
+                            disabled={!e.isEdit}
+                            className={classes.datet3}
+                            formatDate={(date: Date): string => {
+                              return `${
+                                date.toLocaleDateString().split("/")[2]
+                              }/${
+                                +date.toLocaleDateString().split("/")[0] < 10
+                                  ? "0" +
+                                    date.toLocaleDateString().split("/")[0]
+                                  : date.toLocaleDateString().split("/")[0]
+                              }`;
+                            }}
+                            onSelectDate={(date) => {
+                              listData.Date = date.toISOString();
+                              setListData({ ...listData });
+                            }}
+                            value={
+                              listData.Date ? new Date(listData.Date) : e.Date
+                            }
+                          />
+                        ) : (
+                          <InputLabel
+                            className={classes.dateView}
+                            style={{ width: 162 }}
+                          >
+                            {`${e.Date.toLocaleDateString().split("/")[2]}/${
+                              +e.Date.toLocaleDateString().split("/")[0] < 10
+                                ? "0" +
+                                  e.Date.toLocaleDateString().split("/")[0]
+                                : e.Date.toLocaleDateString().split("/")[0]
+                            }`}
+                          </InputLabel>
+                        )}
+                      </div>
+                      <div
+                        className={classes.options}
+                        style={{ marginLeft: 20 }}
+                      >
+                        {!e.isEdit ? (
+                          <>
+                            {hoursSpentArr.every(
+                              (data) => data.isEdit == false
+                            ) && (
+                              <img
+                                style={{ cursor: "pointer" }}
+                                src={`${moreIcon}`}
+                                width={18}
+                                height={20}
+                                alt="more"
+                                onClick={() => {
+                                  hoursSpentArr.forEach((row) => {
+                                    row.showOption = false;
+                                  });
+                                  hoursSpentArr.filter(
+                                    (row) => row.spentId == e.spentId
+                                  )[0].showOption = true;
+                                  setHoursSpentArr([...hoursSpentArr]);
+                                }}
+                              />
+                            )}
+                            {e.showOption ? (
+                              <div className={classes.optionSection}>
+                                <div
+                                  style={{
+                                    borderBottom: "1px solid #cacaca",
+                                  }}
+                                  onClick={() => {
+                                    hoursSpentArr.forEach((row) => {
+                                      row.showOption = false;
+                                    });
+                                    hoursSpentArr.filter(
+                                      (row) => row.spentId == e.spentId
+                                    )[0].isEdit = true;
+                                    setHoursSpentArr([...hoursSpentArr]);
+                                    listData.Date = e.Date;
+                                    listData.hours = e.Hours;
+                                    setListData({ ...listData });
+                                  }}
+                                >
+                                  Edit
+                                </div>
+                                <div onClick={() => getDelete(e.spentId)}>
+                                  Cancel
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                          </>
+                        ) : (
+                          <Done
+                            className={classes.doneIcon}
+                            style={{
+                              cursor: "pointer",
+                              color: "green",
+                            }}
+                            onClick={() => {
+                              SaveData(e.spentId);
+                            }}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </>
+              );
+            })}
+            <div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+
+          {/* JOHNSON & JOHNSON Company Section */}
+          <div
+            className={`${classes.o1} ${classes.o1_1}`}
+            style={{ paddingLeft: "16px" }}
+          >
+            {hoursSpentArr.map((e) => {
+              return (
+                <>
+                  {e.Company.toLowerCase() == "johnson and johnson" && (
+                    <div className={classes.inpField}>
+                      <div>
+                        {e.isEdit ? (
+                          <TextField
+                            type="number"
+                            disabled={!e.isEdit}
+                            className={classes.inpt3}
+                            value={+listData.hours}
+                            onChange={(e) => {
+                              listData.hours =
+                                +e.target.value < 0 ? "0" : e.target.value;
                               setListData({ ...listData });
                             }}
                           />
@@ -459,6 +625,26 @@ const HoursSpent = (props: any) => {
                         )}
                       </div>
                       <div>
+                        {/* <DatePicker
+                          disabled={!e.isEdit}
+                          className={classes.datet3}
+                          formatDate={(date: Date): string => {
+                            return `${
+                              date.toLocaleDateString().split("/")[2]
+                            }/${
+                              +date.toLocaleDateString().split("/")[0] < 10
+                                ? "0" + date.toLocaleDateString().split("/")[0]
+                                : date.toLocaleDateString().split("/")[0]
+                            }`;
+                          }}
+                          onSelectDate={(date) => {
+                            listData.Date = date.toISOString();
+                            setListData({ ...listData });
+                          }}
+                          value={
+                            listData.Date ? new Date(listData.Date) : e.Date
+                          }
+                        /> */}
                         {e.isEdit ? (
                           <DatePicker
                             disabled={!e.isEdit}
@@ -530,131 +716,7 @@ const HoursSpent = (props: any) => {
                                     )[0].isEdit = true;
                                     setHoursSpentArr([...hoursSpentArr]);
                                     listData.Date = e.Date;
-                                    listData.hours = +e.Hours;
-                                    setListData({ ...listData });
-                                  }}
-                                >
-                                  Edit
-                                </div>
-                                <div onClick={() => getDelete(e.spentId)}>
-                                  Cancel
-                                </div>
-                              </div>
-                            ) : (
-                              ""
-                            )}
-                          </>
-                        ) : (
-                          <Done
-                            className={classes.doneIcon}
-                            style={{
-                              cursor: "pointer",
-                              color: "green",
-                            }}
-                            onClick={() => {
-                              SaveData(e.spentId);
-                            }}
-                          />
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </>
-              );
-            })}
-            <div>
-              <div></div>
-              <div></div>
-            </div>
-          </div>
-
-          {/* JOHNSON & JOHNSON Company Section */}
-          <div className={classes.o1}>
-            {hoursSpentArr.map((e) => {
-              return (
-                <>
-                  {e.Company == "JOHNSON & JOHNSON" && (
-                    <div className={classes.inpField}>
-                      <div>
-                        {e.isEdit ? (
-                          <TextField
-                            type="number"
-                            disabled={!e.isEdit}
-                            className={classes.inpt3}
-                            value={+listData.hours}
-                            onChange={(e) => {
-                              listData.hours = e.target.value;
-                              setListData({ ...listData });
-                            }}
-                          />
-                        ) : (
-                          <InputLabel className={classes.hourView}>
-                            {`${String(e.Hours).split(".").join(",")} `}{" "}
-                            <span className={classes.hourViewHour}>h</span>
-                          </InputLabel>
-                        )}
-                      </div>
-                      <div>
-                        <DatePicker
-                          disabled={!e.isEdit}
-                          className={classes.datet3}
-                          formatDate={(date: Date): string => {
-                            return `${
-                              date.toLocaleDateString().split("/")[2]
-                            }/${
-                              +date.toLocaleDateString().split("/")[0] < 10
-                                ? "0" + date.toLocaleDateString().split("/")[0]
-                                : date.toLocaleDateString().split("/")[0]
-                            }`;
-                          }}
-                          onSelectDate={(date) => {
-                            listData.Date = date.toISOString();
-                            setListData({ ...listData });
-                          }}
-                          value={
-                            listData.Date ? new Date(listData.Date) : e.Date
-                          }
-                        />
-                      </div>
-                      <div className={classes.options}>
-                        {!e.isEdit ? (
-                          <>
-                            {hoursSpentArr.every(
-                              (data) => data.isEdit == false
-                            ) && (
-                              <img
-                                style={{ cursor: "pointer" }}
-                                src={`${moreIcon}`}
-                                width={18}
-                                height={20}
-                                alt="more"
-                                onClick={() => {
-                                  hoursSpentArr.forEach((row) => {
-                                    row.showOption = false;
-                                  });
-                                  hoursSpentArr.filter(
-                                    (row) => row.spentId == e.spentId
-                                  )[0].showOption = true;
-                                  setHoursSpentArr([...hoursSpentArr]);
-                                }}
-                              />
-                            )}
-                            {e.showOption ? (
-                              <div className={classes.optionSection}>
-                                <div
-                                  style={{
-                                    borderBottom: "1px solid #cacaca",
-                                  }}
-                                  onClick={() => {
-                                    hoursSpentArr.forEach((row) => {
-                                      row.showOption = false;
-                                    });
-                                    hoursSpentArr.filter(
-                                      (row) => row.spentId == e.spentId
-                                    )[0].isEdit = true;
-                                    setHoursSpentArr([...hoursSpentArr]);
-                                    listData.Date = e.Date;
-                                    listData.hours = +e.Hours;
+                                    listData.hours = e.Hours;
                                     setListData({ ...listData });
                                   }}
                                 >
@@ -701,7 +763,7 @@ const HoursSpent = (props: any) => {
                 ? String(addAALTO).split(".")[1]
                 : `${String(addAALTO).split(".")[1]}0`
             }`}</div>
-            <div>J&J tot.h </div>
+            <div>AAlto tot.h </div>
           </div>
           <div className={classes.total}>
             <div>

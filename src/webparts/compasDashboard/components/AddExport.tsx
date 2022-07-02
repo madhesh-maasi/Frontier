@@ -24,14 +24,15 @@ const AddExport = (props) => {
     const worksheet = workbook.addWorksheet("My Sheet");
     worksheet.columns = [
       { header: "ID", key: "id", width: 25 },
-      { header: "Status", key: "status", width: 25 },
-      { header: "Priority", key: "priority", width: 25 },
       { header: "Name", key: "name", width: 60 },
-      { header: "Engagement Type", key: "engagementtype", width: 25 },
-      { header: "Unit Name", key: "unitname", width: 25 },
-      { header: "Created Date", key: "createddate", width: 25 },
+      { header: "Priority", key: "priority", width: 25 },
       { header: "Country/IBVT", key: "country", width: 25 },
+      { header: "Organization Unit", key: "unitname", width: 25 },
       { header: "Requestor", key: "requestor", width: 75 },
+      { header: "Engagement Type", key: "engagementtype", width: 25 },
+      { header: "Status", key: "status", width: 25 },
+      // { header: "Created Date", key: "createddate", width: 25 },
+      { header: "Cross charge information", key: "CrossChargeInfo", width: 25 },
     ];
     arrExport.forEach((item) => {
       let userNames =
@@ -46,9 +47,10 @@ const AddExport = (props) => {
         name: item.Name,
         engagementtype: item.EngagementType,
         unitname: item.UnitName,
-        createddate: new Date(item.CreationDate).toLocaleDateString(),
+        // createddate: new Date(item.CreationDate).toLocaleDateString(),
         country: item.CountryIBVT,
         requestor: userNames,
+        CrossChargeInfo: item.CrossChargeInfo,
       });
     });
     ["A1", "B1", "C1", "D1", "E1", "F1", "G1", "H1", "I1"].map((key) => {

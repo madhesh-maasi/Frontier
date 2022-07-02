@@ -211,7 +211,7 @@ const App = (props: any) => {
                       ? item.CASEngSubType.Title
                       : "",
                     UnitName: item.CASOrgUnit ? item.CASOrgUnit : "",
-                    CreationDate: new Date(item.Modified),
+                    CreationDate: new Date(item.Created),
                     CountryIBVT: item.CASCountry.Title
                       ? item.CASCountry.Title
                       : "",
@@ -231,6 +231,7 @@ const App = (props: any) => {
                         ? "3"
                         : ""
                       : "",
+                    CrossChargeInfo: item.CASCCI,
                   };
                 });
                 setRenderTable(true);
@@ -291,7 +292,7 @@ const App = (props: any) => {
                       ? item.CASEngSubType.Title
                       : "",
                     UnitName: item.CASOrgUnit ? item.CASOrgUnit : "",
-                    CreationDate: new Date(item.Modified),
+                    CreationDate: new Date(item.Created),
                     CountryIBVT: item.CASCountry.Title
                       ? item.CASCountry.Title
                       : "",
@@ -311,6 +312,7 @@ const App = (props: any) => {
                         ? "3"
                         : ""
                       : "",
+                    CrossChargeInfo: item.CASCCI,
                   };
                 });
                 setRenderTable(true);
@@ -856,7 +858,7 @@ const App = (props: any) => {
                   }}
                 >
                   <div style={{ color: "#7d7d7d", display: "flex" }}>
-                    Unit Name{" "}
+                    Organization Unit{" "}
                     <div>
                       <img height="10" width="10" src={`${sortIcon}`} />
                     </div>
@@ -997,15 +999,14 @@ const App = (props: any) => {
                         });
 
                     setTableData([
-                      ...tableData.sort((a, b) => 
+                      ...tableData.sort((a, b) =>
                         //  (a.LatestComment && b.LatestComment) &&
-                          (objSorted.LatestAction == "ascending" ||
-                          objSorted.LatestAction == "")
-                            ? Date.parse(a.LatestActionModified) -
-                              Date.parse(b.LatestActionModified)
-                            : Date.parse(b.LatestActionModified) -
-                              Date.parse(a.LatestActionModified)
-                        
+                        objSorted.LatestAction == "ascending" ||
+                        objSorted.LatestAction == ""
+                          ? Date.parse(a.LatestActionModified) -
+                            Date.parse(b.LatestActionModified)
+                          : Date.parse(b.LatestActionModified) -
+                            Date.parse(a.LatestActionModified)
                       ),
                     ]);
                     setData(tableData.slice(0, pageSize));

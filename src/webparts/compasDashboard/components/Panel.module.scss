@@ -312,7 +312,7 @@
         width: 100%;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         border-bottom: 4px solid #00a0df;
         .o1 {
             display: flex;
@@ -322,9 +322,12 @@
             font-size: 30px;
             color: #00a0df;
             font-weight: bold;
-            width: 35%;
+            width: 47%;
             padding: 20px;
             margin-right: 48px;
+            &.optionOne {
+                width: 45% !important;
+            }
             span {
                 font-weight: normal;
                 font-size: 14px;
@@ -364,21 +367,22 @@
         margin: 0px 15px;
     }
 }
-.IconsSection{
+
+.IconsSection {
     height: 0;
-    .projIcon{
+    .projIcon {
         position: relative;
         top: 10px;
         left: 52px;
     }
-    .lAIcon{
+    .lAIcon {
         position: relative;
         top: 10px;
-    left: 264px;
+        left: 264px;
     }
-    .hSIcon{
+    .hSIcon {
         position: relative;
         top: 10px;
-    left: 405px;
+        left: 405px;
     }
 }

@@ -44,7 +44,7 @@
 
   <Field ID="{cb243206-2e1a-4fb6-beac-f2ecd36f9d12}" Name="CASEngSubType" DisplayName="Engagement Subtype" StaticName="CASEngSubType" Type="Lookup" ShowField="Title" List="Lists/EngagementSubtypes" Required="TRUE" Group="_CAS" />
 
-  <Field ID="{2bdcfae8-3ee3-4aaa-a971-327be5072202}" Name="CASUser" DisplayName="Requestor" Type="UserMulti" StaticName="CASUser" Required="TRUE" Group="_CAS" />
+  <Field ID="{2bdcfae8-3ee3-4aaa-a971-327be5072202}" Name="CASUser" DisplayName="Requestor" Type="UserMulti" Mult="TRUE" StaticName="CASUser" Required="TRUE" Group="_CAS" />
 
   <Field ID="{7efb3d0b-5b34-4078-bf22-c5e64f833891}" Name="CASStatus" DisplayName="Status Type" Type="Lookup" ShowField="Title" List="Lists/StatusTypes" Required="TRUE" Group="_CAS" />
 

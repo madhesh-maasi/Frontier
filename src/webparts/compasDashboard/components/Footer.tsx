@@ -5,7 +5,7 @@ const Footer = (props) => {
   return (
     <div>
       <div className={styles.footer}>
-        <div className={styles.footerLinks}>
+        {/* <div className={styles.footerLinks}>
           <li>
             <a href="#">COPYRIGHTS</a>
           </li>
@@ -15,7 +15,7 @@ const Footer = (props) => {
           <li>
             <a href="#">LEGAL NOTICE</a>
           </li>
-        </div>
+        </div> */}
 
         <div className={styles.footerContent}>
           <p>

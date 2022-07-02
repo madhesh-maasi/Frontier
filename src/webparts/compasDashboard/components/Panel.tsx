@@ -43,10 +43,9 @@ import "alertifyjs/build/css/alertify.css";
 import LatestAction from "./LatestAction";
 import HoursSpent from "./HoursSpent";
 
-
-const ProjectIcon = require("../../../ExternalRef/img/ProjectEdit.png")
-const LatestActionIcon = require("../../../ExternalRef/img/LatestAction.png")
-const HoursSpentIcon = require("../../../ExternalRef/img/HoursSpent.png")
+const ProjectIcon = require("../../../ExternalRef/img/ProjectEdit.png");
+const LatestActionIcon = require("../../../ExternalRef/img/LatestAction.png");
+const HoursSpentIcon = require("../../../ExternalRef/img/HoursSpent.png");
 
 const objProjInfo = {
   ProjectName: "",
@@ -254,6 +253,18 @@ const Panel = (props: any) => {
   }, []);
 
   useEffect(() => {
+    props.sp.web.lists
+      .getByTitle("Engagement subtypes")
+      .items.select("*", "CASEngType/Title", "CASEngType/ID")
+      .expand("CASEngType")
+      .get()
+      .then((res) => {
+        EngagementTypeSubArr = res.map((rs) => ({
+          key: rs.ID,
+          text: rs.Title,
+          type: rs.CASEngType.ID,
+        }));
+      });
     props.Edit.flagEdit
       ? props.sp.web.lists
           .getByTitle("Projects")
@@ -264,10 +275,20 @@ const Panel = (props: any) => {
           .then((response) => {
             console.log(response);
             let PeoEMailArr = [];
+
             if (response.CASUser) {
               setPeopleId(response.CASUser.map((res) => res.Id));
               PeoEMailArr = response.CASUser.map((res) => res.EMail);
             }
+            setEngSubTypeChoice(
+              response.CASEngTypeId
+                ? [
+                    ...EngagementTypeSubArr.filter(
+                      (choice) => choice.type == response.CASEngTypeId
+                    ),
+                  ]
+                : []
+            );
             setAddDatas({
               ProjectName: response.Title ? response.Title : "",
               Priority: response.CASPriorityId ? response.CASPriorityId : 0,
@@ -299,6 +320,15 @@ const Panel = (props: any) => {
                 : null,
               EngagementNotes: response.CASEngNotes ? response.CASEngNotes : "",
             });
+            setEngSubTypeChoice(
+              response.CASEngTypeId
+                ? [
+                    ...EngagementTypeSubArr.filter(
+                      (choice) => choice.type == response.CASEngTypeId
+                    ),
+                  ]
+                : []
+            );
             setBtnDisabled(false);
             setIsEdit(true);
           })
@@ -373,6 +403,7 @@ const Panel = (props: any) => {
           ID: response.ID,
           Title: response.Title,
         };
+        RequestorIdArr = [];
         setForAction({ ...objForAction });
         setLatestSec({ key: response.data.ID, text: response.data.Title });
         setAddDatas({
@@ -462,6 +493,7 @@ const Panel = (props: any) => {
   // close Panel function
   const closePanel = () => {
     props.Panel(false);
+    RequestorIdArr = [];
   };
 
   //   Tab Panel Section
@@ -475,9 +507,26 @@ const Panel = (props: any) => {
             </button>
           </div>
           <div className={classes.IconsSection}>
-            <img className={classes.projIcon} src={`${ProjectIcon}`} width={18} height={18}/>
-            <img className={classes.lAIcon} src={`${LatestActionIcon}`} width={18} height={18}/>
-            <img className={classes.hSIcon} src={`${HoursSpentIcon}`} width={18} height={18}/>
+            <img
+              className={classes.projIcon}
+              src={`${ProjectIcon}`}
+              width={18}
+              height={18}
+            />
+            <img
+              className={classes.lAIcon}
+              src={`${LatestActionIcon}`}
+              width={18}
+              height={18}
+            />
+            {props.Admin && (
+              <img
+                className={classes.hSIcon}
+                src={`${HoursSpentIcon}`}
+                width={18}
+                height={18}
+              />
+            )}
           </div>
           {/* Pivot - Section */}
           <Pivot
@@ -500,7 +549,7 @@ const Panel = (props: any) => {
               <div className={classes.titleOne}>Primary Information</div>
 
               {/* ProjectName */}
-              <div style={{height: "125px",}} className={classes.panelInput}>
+              <div style={{ height: "125px" }} className={classes.panelInput}>
                 <InputLabel required className={classes.inpLabel}>
                   Project Name:
                 </InputLabel>
@@ -600,9 +649,9 @@ const Panel = (props: any) => {
                     Organization Unit:
                   </InputLabel>
                   <TextField
-                  className="orgUnitTextField"
+                    className="orgUnitTextField"
                     disabled={props.Admin ? false : true}
-                    style={{ width: "200%"}}
+                    style={{ width: "200%" }}
                     id="standard-basic"
                     variant="outlined"
                     placeholder={`Insert Organization Unit`}
@@ -663,11 +712,7 @@ const Panel = (props: any) => {
                     className={classes.selectL}
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={
-                      !addDatas.EngagementSubType
-                        ? "null"
-                        : addDatas.EngagementSubType
-                    }
+                    value={addDatas.EngagementSubType}
                     onChange={(e) => {
                       addDatas.EngagementSubType = e.target.value;
                       setAddDatas({ ...addDatas });
@@ -717,10 +762,13 @@ const Panel = (props: any) => {
                 </div>
               </div>
 
-              <div className={`${classes.flex} ${classes.panelInput}`} style={{marginTop:"1.5rem"}}>
+              <div
+                className={`${classes.flex} ${classes.panelInput}`}
+                style={{ marginTop: "1.5rem" }}
+              >
                 {/* status type */}
                 <div>
-                  <InputLabel className={classes.inpLabel} >
+                  <InputLabel className={classes.inpLabel}>
                     Status Type:
                   </InputLabel>
                   <Select
@@ -931,7 +979,7 @@ const Panel = (props: any) => {
               </div>
 
               {/* Cross charge information */}
-              <div style={{height: "130px"}} className={classes.panelInput}>
+              <div style={{ height: "130px" }} className={classes.panelInput}>
                 <InputLabel className={classes.inpLabel}>
                   Cross charge information:
                 </InputLabel>
@@ -949,7 +997,10 @@ const Panel = (props: any) => {
                 />
               </div>
 
-              <div style={{ height: "110px" }} className={`${classes.flex} ${classes.panelInput}`}>
+              <div
+                style={{ height: "110px" }}
+                className={`${classes.flex} ${classes.panelInput}`}
+              >
                 {/* project start date */}
                 <div>
                   <InputLabel className={classes.inpLabel}>
