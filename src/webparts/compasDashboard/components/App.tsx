@@ -47,6 +47,7 @@ const objFilterVal = {
 let arrCountries = [];
 let ArrProjectData = [];
 let arrActionData = [];
+let arrSpentData = [];
 
 let objSorted = {
   ID: "",
@@ -93,6 +94,8 @@ const App = (props: any) => {
     useState(objSelectedUser);
   const [selectedRemainigUsers, setSelectedRemainingUsers] =
     useState(arrSelectedRemainig);
+  // const [spentTimeData, setSpentTimeData] = useState([""]);
+
   // Life Cycle of Onload
   useEffect(() => {
     // get all group users
@@ -155,6 +158,16 @@ const App = (props: any) => {
               return li.Title ? li.Title : "";
             });
             setCountryChoice(arrCountries);
+          })
+          .then(async () => {
+            // SpentTimeData
+            await props.sp.web.lists
+              .getByTitle("Spent time")
+              .items.top(5000)
+              .get()
+              .then((sData) => {
+                arrSpentData = sData;
+              });
           });
         Admin
           ? await props.sp.web.lists
@@ -187,6 +200,12 @@ const App = (props: any) => {
                   let filteredComments = arrActionData.filter(
                     (aData) => aData.Ref == item.ID
                   );
+
+                  let filteredSpentData = arrSpentData.filter(
+                    (aData: any) => aData.CASRefId == item.ID
+                  );
+                  console.log(filteredSpentData);
+
                   let requestorDetails = [];
                   requestorDetails = item.CASUser
                     ? item.CASUser.map((user) => ({
@@ -232,6 +251,9 @@ const App = (props: any) => {
                         : ""
                       : "",
                     CrossChargeInfo: item.CASCCI,
+                    filteredSpentData: filteredSpentData
+                      ? filteredSpentData
+                      : [],
                   };
                 });
                 setRenderTable(true);
@@ -267,6 +289,11 @@ const App = (props: any) => {
                   let filteredComments = arrActionData.filter(
                     (aData) => aData.Ref == item.ID
                   );
+                  let filteredSpentData = arrSpentData.filter(
+                    (aData: any) => aData.CASRefId == item.ID
+                  );
+                  console.log(filteredSpentData);
+
                   let requestorDetails = [];
 
                   requestorDetails = item.CASUser
@@ -313,6 +340,9 @@ const App = (props: any) => {
                         : ""
                       : "",
                     CrossChargeInfo: item.CASCCI,
+                    filteredSpentData: filteredSpentData
+                      ? filteredSpentData
+                      : [],
                   };
                 });
                 setRenderTable(true);
