@@ -1132,6 +1132,7 @@ const Panel = (props: any) => {
                 itemKey="3"
               >
                 <HoursSpent
+                  renderProject={props.renderProject}
                   Latest={latestSec}
                   sp={props.sp}
                   Edit={props.Edit}
