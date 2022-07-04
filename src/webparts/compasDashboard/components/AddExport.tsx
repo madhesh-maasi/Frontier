@@ -384,6 +384,7 @@ const AddExport = (props) => {
         fgColor: { argb: "00e8d1" },
       };
     });
+    
     [
       "A1",
       "B1",
