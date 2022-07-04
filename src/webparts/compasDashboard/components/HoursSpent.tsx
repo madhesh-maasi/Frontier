@@ -214,6 +214,7 @@ const HoursSpent = (props: any) => {
             setAddNewAATLO({
               ...addNewAATLO,
             });
+            props.renderProject();
             setReEnter(true);
           })
       : // addNewJJ.comName == data &&
@@ -244,6 +245,7 @@ const HoursSpent = (props: any) => {
             setAddNewJJ({
               ...addNewJJ,
             });
+            props.renderProject();
             setReEnter(true);
           });
     // });
@@ -279,6 +281,7 @@ const HoursSpent = (props: any) => {
       .then((e) => {
         console.log(e);
         alertify.success("Record submitted successfully");
+        props.renderProject();
         setReEnter(true);
       })
       .catch((e) => {
@@ -294,6 +297,7 @@ const HoursSpent = (props: any) => {
       .delete()
       .then((e) => {
         console.log(e);
+        props.renderProject();
         setReEnter(true);
       })
       .catch((err) => {
