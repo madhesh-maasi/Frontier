@@ -31,6 +31,7 @@ const AddExport = (props) => {
       { header: "Requestor", key: "requestor", width: 75 },
       { header: "Engagement Type", key: "engagementtype", width: 25 },
       { header: "Status", key: "status", width: 25 },
+      { header: "Cross charge information", key: "CrossChargeInfo", width: 25 },
       // { header: "Created Date", key: "createddate", width: 25 },
       { header: "Total", key: "total", width: 25 },
       { header: "January AALTO", key: "JanuaryAALTO", width: 25 },

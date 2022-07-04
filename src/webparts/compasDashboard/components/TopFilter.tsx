@@ -177,6 +177,7 @@ const TopFilter = (props: any) => {
       .catch((error) => {
         console.log(error);
       });
+      getOnChange("Status", ["IN PROGRESS", "WAITING FOR FEEDBACK", "LEAD"]);
   }, []);
 
   // getOncange function
