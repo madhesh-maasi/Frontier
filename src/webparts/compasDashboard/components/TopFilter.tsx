@@ -161,7 +161,8 @@ const TopFilter = (props: any) => {
       });
     props.sp.web.lists
       .getByTitle("Projects")
-      .items.top(2000).select("*", "CASUser/Title", "CASUser/ID", "CASUser/EMail")
+      .items.top(2000)
+      .select("*", "CASUser/Title", "CASUser/ID", "CASUser/EMail")
       .expand("CASUser")
       .get()
       .then((response) => {
@@ -177,7 +178,7 @@ const TopFilter = (props: any) => {
       .catch((error) => {
         console.log(error);
       });
-      getOnChange("Status", ["IN PROGRESS", "WAITING FOR FEEDBACK", "LEAD"]);
+    getOnChange("Status", ["IN PROGRESS", "WAITING FOR FEEDBACK", "LEAD"]);
   }, []);
 
   // getOncange function
@@ -197,7 +198,8 @@ const TopFilter = (props: any) => {
             <TextField
               value={filterArr.Name}
               id="input-with-icon-textfield"
-              style={{ width: "399px", height: "61px", marginRight: "10px" }}
+              className={classes.prName}
+              style={{ width: "399px", height: "61px", marginRight: "5px" }}
               label=""
               InputLabelProps={{ shrink: false }}
               InputProps={{
@@ -227,7 +229,7 @@ const TopFilter = (props: any) => {
                   width: "123px",
                   height: "56px",
                   borderRadius: "7px",
-                  marginRight: "10px",
+                  marginRight: "5px",
                 }}
                 value={filterArr.Priority}
                 onChange={(e) => {
@@ -236,6 +238,7 @@ const TopFilter = (props: any) => {
                 id="demo-simple-select"
                 variant="outlined"
                 labelWidth={0}
+                className={classes.priority}
               >
                 {priorityChoice.map((pChoices) => (
                   <MenuItem value={pChoices}>{pChoices}</MenuItem>
@@ -253,7 +256,7 @@ const TopFilter = (props: any) => {
                   width: "236px",
                   height: "56px",
                   borderRadius: "7px",
-                  marginRight: "10px",
+                  marginRight: "5px",
                 }}
                 id="demo-simple-select"
                 value={filterArr.CountryIBVT}
@@ -263,6 +266,7 @@ const TopFilter = (props: any) => {
                 }}
                 variant="outlined"
                 labelWidth={0}
+                className={classes.country}
               >
                 {countryChoice.map((cchoice, i) => (
                   <MenuItem key={i} value={cchoice}>
@@ -276,8 +280,9 @@ const TopFilter = (props: any) => {
           <div className={classes.filterInput}>
             <InputLabel>Organization Unit:</InputLabel>
             <TextField
+              className={classes.OrgUnit}
               id="input-with-icon-textfield"
-              style={{ width: "260px", height: "61px", marginRight: "10px" }}
+              style={{ width: "260px", height: "61px", marginRight: "5px" }}
               label=""
               InputLabelProps={{ shrink: false }}
               value={filterArr.UnitName}
@@ -326,12 +331,13 @@ const TopFilter = (props: any) => {
             <InputLabel>Engagement type</InputLabel>
             <div className="ddSelect">
               <Select
+                className={classes.engType}
                 labelId="demo-simple-select-label"
                 style={{
                   width: "236px",
                   height: "56px",
                   borderRadius: "7px",
-                  marginRight: "10px",
+                  marginRight: "5px",
                 }}
                 id="demo-simple-select"
                 label="Age"
@@ -365,11 +371,12 @@ const TopFilter = (props: any) => {
               <InputLabel>Engagement subtype</InputLabel>
               <div className="ddSelect">
                 <Select
+                  className={classes.engSubType}
                   style={{
                     width: "236px",
                     height: "56px",
                     borderRadius: "7px",
-                    marginRight: "10px",
+                    marginRight: "5px",
                   }}
                   id=""
                   value={filterArr.EngagementSubType}
@@ -393,6 +400,7 @@ const TopFilter = (props: any) => {
 
               <>
                 <MultiSelect
+                  className={classes.stsType}
                   defaultValue={value}
                   onChange={handleOnchange}
                   options={statusTypeChoice}
@@ -404,6 +412,7 @@ const TopFilter = (props: any) => {
               <InputLabel>ID Number:</InputLabel>
               <div className="ddSelect">
                 <Select
+                  className={classes.IdNum}
                   labelId="demo-multiple-name-label"
                   id="demo-multiple-name"
                   // multiple
@@ -412,7 +421,7 @@ const TopFilter = (props: any) => {
                     width: "220px",
                     height: "56px",
                     borderRadius: "7px",
-                    marginRight: "10px",
+                    marginRight: "5px",
                   }}
                   value={filterArr.ID}
                   onChange={(e) => {
@@ -432,12 +441,13 @@ const TopFilter = (props: any) => {
               <InputLabel>Creation Date:</InputLabel>
 
               <DatePicker
-                className={`TopFilterDatePicker ${datePickerClass}`}
+                id="datepicker"
+                className={`${classes.datepicker} ${datePickerClass}`}
                 style={{
                   width: "350px",
                   height: "56px",
                   borderRadius: "7px",
-                  marginRight: "10px",
+                  marginRight: "5px",
                   border: "1px solid #E4E4E4",
                 }}
                 formatDate={(date: Date): string => {
@@ -465,12 +475,13 @@ const TopFilter = (props: any) => {
               <InputLabel>Last Modified Date:</InputLabel>
 
               <DatePicker
-                className="TopFilterDatePicker"
+                id="datepicker"
+                className={classes.datepicker}
                 style={{
                   width: "350px",
                   height: "56px",
                   borderRadius: "7px",
-                  marginRight: "10px",
+                  marginRight: "5px",
                 }}
                 formatDate={(date: Date): string => {
                   let arrDate = date.toLocaleDateString().split("/");

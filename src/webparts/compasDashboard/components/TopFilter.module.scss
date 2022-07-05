@@ -91,3 +91,104 @@
     // transform: rotate(90deg);
   }
 }
+// 110%
+@media (max-width:1845px) {
+  .filterSectionTop{
+    justify-content: space-evenly !important;
+  }
+  .prName {
+    margin-right:10px !important;
+    width: 399px !important;
+    }
+  
+    .priority {
+     margin-right:10px !important;
+      // width: 80px !important;
+    }
+  
+    .country {
+     margin-right:10px !important;
+      // width: 150px !important;
+    }
+  
+    .OrgUnit {
+     margin-right:10px !important;
+      width: 200px !important;
+    }
+  
+    .engType {
+     margin-right:10px !important;
+      width: 200px !important;
+    }
+        
+    .engSubType {
+          margin-right: 10px !important;
+          width: 250px !important;
+        }
+  
+    .IdNum {
+     margin-right:10px !important;
+      // width: 150px !important;
+    }
+    .stsType{
+      margin-right: 10px !important;
+      // width: 150px !important;
+    }
+  
+    .datepicker {
+     margin-right:10px !important;
+      width: 280px !important;
+    }
+}
+
+// after 125%
+@media (max-width:1645px) {
+  .filterSectionTop {
+    justify-content: space-evenly !important;
+  }
+
+  .prName {
+    margin-right: 10px !important;
+    width: 180px !important;
+  }
+
+  .priority {
+    margin-right: 10px !important;
+    // width: 80px !important;
+  }
+
+  .country {
+    margin-right: 10px !important;
+    width: 150px !important;
+  }
+
+  .OrgUnit {
+    margin-right: 10px !important;
+    width: 150px !important;
+  }
+
+  .engType {
+    margin-right: 10px !important;
+    width: 150px !important;
+  }
+
+  .engSubType {
+    margin-right: 10px !important;
+    width: 150px !important;
+  }
+
+  .IdNum {
+    margin-right: 10px !important;
+    width: 100px !important;
+  }
+
+  .stsType {
+    margin-right: 10px !important;
+    // width: 150px !important;
+  }
+
+  .datepicker {
+    margin-right: 10px !important;
+    width: 180px !important;
+  }
+}
