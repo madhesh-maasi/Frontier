@@ -376,6 +376,7 @@ const AddExport = (props) => {
       "AE1",
       "AF1",
       "AG1",
+      "AH1",
     ].map((key) => {
       worksheet.getCell(key).fill = {
         type: "pattern",
@@ -417,6 +418,7 @@ const AddExport = (props) => {
       "AE1",
       "AF1",
       "AG1",
+      "AH1",
     ].map((key) => {
       worksheet.getCell(key).color = {
         type: "pattern",
