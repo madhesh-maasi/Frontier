@@ -267,93 +267,93 @@ const Panel = (props: any) => {
       });
     props.Edit.flagEdit
       ? props.sp.web.lists
-          .getByTitle("Projects")
-          .items.getById(props.Edit.item)
-          .select("*", "CASUser/EMail", "CASUser/Id")
-          .expand("CASUser")
-          .get()
-          .then((response) => {
-            console.log(response);
-            let PeoEMailArr = [];
+        .getByTitle("Projects")
+        .items.getById(props.Edit.item)
+        .select("*", "CASUser/EMail", "CASUser/Id")
+        .expand("CASUser")
+        .get()
+        .then((response) => {
+          console.log(response);
+          let PeoEMailArr = [];
 
-            if (response.CASUser) {
-              setPeopleId(response.CASUser.map((res) => res.Id));
-              PeoEMailArr = response.CASUser.map((res) => res.EMail);
-            }
-            setEngSubTypeChoice(
-              response.CASEngTypeId
-                ? [
-                    ...EngagementTypeSubArr.filter(
-                      (choice) => choice.type == response.CASEngTypeId
-                    ),
-                  ]
-                : []
-            );
-            setAddDatas({
-              ProjectName: response.Title ? response.Title : "",
-              Priority: response.CASPriorityId ? response.CASPriorityId : 0,
-              CountryIBVT: response.CASCountryId ? response.CASCountryId : 0,
-              OrganizationUnit: response.CASOrgUnit ? response.CASOrgUnit : "",
-              EngagemantType: response.CASEngTypeId ? response.CASEngTypeId : 0,
-              EngagementSubType: response.CASEngSubTypeId
-                ? response.CASEngSubTypeId
-                : 0,
-              Requestor: PeoEMailArr ? PeoEMailArr : [],
-              StatusType: response.CASStatusId ? response.CASStatusId : 0,
-              IDNumber: response.ID,
-              CreationDate: response.Created
-                ? new Date(response.Created)
-                : null,
-              LastModifyDate: response.Modified
-                ? new Date(response.Modified)
-                : null,
-              EngagementScope: response.CASEngScopeId
-                ? response.CASEngScopeId
-                : 0,
-              Actions: "",
-              CrossCharge: response.CASCCI ? response.CASCCI : "",
-              ProjectStartDate: response.CASPrjStartDate
-                ? new Date(response.CASPrjStartDate)
-                : null,
-              ProjectCompletionDate: response.CASPrjEndDate
-                ? new Date(response.CASPrjEndDate)
-                : null,
-              EngagementNotes: response.CASEngNotes ? response.CASEngNotes : "",
-            });
-            setEngSubTypeChoice(
-              response.CASEngTypeId
-                ? [
-                    ...EngagementTypeSubArr.filter(
-                      (choice) => choice.type == response.CASEngTypeId
-                    ),
-                  ]
-                : []
-            );
-            setBtnDisabled(false);
-            setIsEdit(true);
-          })
-          .catch((error) => {
-            console.log(error);
-          })
+          if (response.CASUser) {
+            setPeopleId(response.CASUser.map((res) => res.Id));
+            PeoEMailArr = response.CASUser.map((res) => res.EMail);
+          }
+          setEngSubTypeChoice(
+            response.CASEngTypeId
+              ? [
+                ...EngagementTypeSubArr.filter(
+                  (choice) => choice.type == response.CASEngTypeId
+                ),
+              ]
+              : []
+          );
+          setAddDatas({
+            ProjectName: response.Title ? response.Title : "",
+            Priority: response.CASPriorityId ? response.CASPriorityId : 0,
+            CountryIBVT: response.CASCountryId ? response.CASCountryId : 0,
+            OrganizationUnit: response.CASOrgUnit ? response.CASOrgUnit : "",
+            EngagemantType: response.CASEngTypeId ? response.CASEngTypeId : 0,
+            EngagementSubType: response.CASEngSubTypeId
+              ? response.CASEngSubTypeId
+              : 0,
+            Requestor: PeoEMailArr ? PeoEMailArr : [],
+            StatusType: response.CASStatusId ? response.CASStatusId : 0,
+            IDNumber: response.ID,
+            CreationDate: response.Created
+              ? new Date(response.Created)
+              : null,
+            LastModifyDate: response.Modified
+              ? new Date(response.Modified)
+              : null,
+            EngagementScope: response.CASEngScopeId
+              ? response.CASEngScopeId
+              : 0,
+            Actions: "",
+            CrossCharge: response.CASCCI ? response.CASCCI : "",
+            ProjectStartDate: response.CASPrjStartDate
+              ? new Date(response.CASPrjStartDate)
+              : null,
+            ProjectCompletionDate: response.CASPrjEndDate
+              ? new Date(response.CASPrjEndDate)
+              : null,
+            EngagementNotes: response.CASEngNotes ? response.CASEngNotes : "",
+          });
+          setEngSubTypeChoice(
+            response.CASEngTypeId
+              ? [
+                ...EngagementTypeSubArr.filter(
+                  (choice) => choice.type == response.CASEngTypeId
+                ),
+              ]
+              : []
+          );
+          setBtnDisabled(false);
+          setIsEdit(true);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
       : setAddDatas({
-          ProjectName: "",
-          Priority: null,
-          CountryIBVT: null,
-          OrganizationUnit: "",
-          EngagemantType: null,
-          EngagementSubType: 0,
-          Requestor: [],
-          StatusType: null,
-          IDNumber: null,
-          CreationDate: null,
-          LastModifyDate: null,
-          EngagementScope: null,
-          Actions: "",
-          CrossCharge: "",
-          ProjectStartDate: null,
-          ProjectCompletionDate: null,
-          EngagementNotes: "",
-        });
+        ProjectName: "",
+        Priority: null,
+        CountryIBVT: null,
+        OrganizationUnit: "",
+        EngagemantType: null,
+        EngagementSubType: 0,
+        Requestor: [],
+        StatusType: null,
+        IDNumber: null,
+        CreationDate: null,
+        LastModifyDate: null,
+        EngagementScope: null,
+        Actions: "",
+        CrossCharge: "",
+        ProjectStartDate: null,
+        ProjectCompletionDate: null,
+        EngagementNotes: "",
+      });
   }, [isDataBind]);
 
   // Add Datas
@@ -796,16 +796,16 @@ const Panel = (props: any) => {
                                   ? "#359942"
                                   : data.text.toLowerCase() ==
                                     "waiting for feedback"
-                                  ? "#f5944e"
-                                  : data.text.toLowerCase() == "lead"
-                                  ? "#f24998"
-                                  : data.text.toLowerCase() == "parked"
-                                  ? "#999999"
-                                  : data.text.toLowerCase() == "closed"
-                                  ? "#1c75bc"
-                                  : data.text.toLowerCase() == "canceled"
-                                  ? "#7e2e7a"
-                                  : "#000",
+                                    ? "#f5944e"
+                                    : data.text.toLowerCase() == "lead"
+                                      ? "#f24998"
+                                      : data.text.toLowerCase() == "parked"
+                                        ? "#999999"
+                                        : data.text.toLowerCase() == "closed"
+                                          ? "#1c75bc"
+                                          : data.text.toLowerCase() == "canceled"
+                                            ? "#7e2e7a"
+                                            : "#000",
                             }}
                           >
                             <div
@@ -815,16 +815,16 @@ const Panel = (props: any) => {
                                     ? "#359942"
                                     : data.text.toLowerCase() ==
                                       "waiting for feedback"
-                                    ? "#f5944e"
-                                    : data.text.toLowerCase() == "lead"
-                                    ? "#f24998"
-                                    : data.text.toLowerCase() == "parked"
-                                    ? "#999999"
-                                    : data.text.toLowerCase() == "closed"
-                                    ? "#1c75bc"
-                                    : data.text.toLowerCase() == "canceled"
-                                    ? "#7e2e7a"
-                                    : "#000",
+                                      ? "#f5944e"
+                                      : data.text.toLowerCase() == "lead"
+                                        ? "#f24998"
+                                        : data.text.toLowerCase() == "parked"
+                                          ? "#999999"
+                                          : data.text.toLowerCase() == "closed"
+                                            ? "#1c75bc"
+                                            : data.text.toLowerCase() == "canceled"
+                                              ? "#7e2e7a"
+                                              : "#000",
                               }}
                             ></div>
                             {data.text}
@@ -879,11 +879,7 @@ const Panel = (props: any) => {
                       className={classes.dateL}
                       formatDate={(date: Date): string => {
                         let arrDate = date.toLocaleDateString().split("/");
-                        let selectedDate = `${
-                          +arrDate[0] < 10 ? "0" + arrDate[0] : arrDate[0]
-                        }/${+arrDate[1] < 10 ? "0" + arrDate[1] : arrDate[1]}/${
-                          arrDate[2]
-                        }`;
+                        let selectedDate = `${+arrDate[1] < 10 ? "0" + arrDate[1] : arrDate[1]}/${+arrDate[0] < 10 ? "0" + arrDate[0] : arrDate[0]}/${arrDate[2].toString().substr(-2)}`;
                         return selectedDate;
                         // return (
                         //   date.getDate() +
@@ -917,11 +913,7 @@ const Panel = (props: any) => {
                       className={classes.dateL}
                       formatDate={(date: Date): string => {
                         let arrDate = date.toLocaleDateString().split("/");
-                        let selectedDate = `${
-                          +arrDate[0] < 10 ? "0" + arrDate[0] : arrDate[0]
-                        }/${+arrDate[1] < 10 ? "0" + arrDate[1] : arrDate[1]}/${
-                          arrDate[2]
-                        }`;
+                        let selectedDate = `${+arrDate[1] < 10 ? "0" + arrDate[1] : arrDate[1]}/${+arrDate[0] < 10 ? "0" + arrDate[0] : arrDate[0]}/${arrDate[2].toString().substr(-2)}`;
                         return selectedDate;
                         // return (
                         //   date.getDate() +
@@ -1012,11 +1004,7 @@ const Panel = (props: any) => {
                     placeholder={`Insert Date`}
                     formatDate={(date: Date): string => {
                       let arrDate = date.toLocaleDateString().split("/");
-                      let selectedDate = `${
-                        +arrDate[0] < 10 ? "0" + arrDate[0] : arrDate[0]
-                      }/${+arrDate[1] < 10 ? "0" + arrDate[1] : arrDate[1]}/${
-                        arrDate[2]
-                      }`;
+                      let selectedDate = `${+arrDate[1] < 10 ? "0" + arrDate[1] : arrDate[1]}/${+arrDate[0] < 10 ? "0" + arrDate[0] : arrDate[0]}/${arrDate[2].toString().substr(-2)}`;
                       return selectedDate;
                       // return (
                       //   date.getDate() +
@@ -1049,11 +1037,7 @@ const Panel = (props: any) => {
                     placeholder={`Insert Date`}
                     formatDate={(date: Date): string => {
                       let arrDate = date.toLocaleDateString().split("/");
-                      let selectedDate = `${
-                        +arrDate[0] < 10 ? "0" + arrDate[0] : arrDate[0]
-                      }/${+arrDate[1] < 10 ? "0" + arrDate[1] : arrDate[1]}/${
-                        arrDate[2]
-                      }`;
+                      let selectedDate = `${+arrDate[1] < 10 ? "0" + arrDate[1] : arrDate[1]}/${+arrDate[0] < 10 ? "0" + arrDate[0] : arrDate[0]}/${arrDate[2].toString().substr(-2)}`;
                       return selectedDate;
                       // return (
                       //   date.getDate() +
@@ -1099,9 +1083,8 @@ const Panel = (props: any) => {
               {/* Button Section */}
               <div className={classes.actions}>
                 <button
-                  className={`${classes.publishBtn} ${
-                    addDatas.ProjectName == "" ? classes.publishBtnDisabled : ""
-                  }`}
+                  className={`${classes.publishBtn} ${addDatas.ProjectName == "" ? classes.publishBtnDisabled : ""
+                    }`}
                   disabled={addDatas.ProjectName == "" ? true : false}
                   onClick={() => {
                     isEdit ? UpdateListItem() : AddListItems();
