@@ -71,8 +71,6 @@ const HoursSpent = (props: any) => {
       latestId = props.Latest.key;
       EditId = props.Edit.item;
       setHoursSec(latestId);
-
-      
       setEditHour(EditId);
     } else {
       setHoursSec(latestId);
