@@ -207,14 +207,14 @@ i[data-icon-name="Calendar"] {
 .MuiSelect-select {
     position: relative;
 }
-.ms-DatePicker {
-    input,.ms-TextField-fieldGroup{
-        height: 3.6rem !important;
-        border: 1px solid #c4c4c46e;
-        border-radius: 3px;
-    }
-}
 
+// .ms-DatePicker {
+//     input,.ms-TextField-fieldGroup{
+//         height: 3.6rem !important;
+//         border: 1px solid #c4c4c46e;
+//         border-radius: 3px;
+//     }
+// }
 .MuiSelect-select::after {
     content: "";
     width: 1.2rem;
@@ -325,27 +325,21 @@ i[data-icon-name="Calendar"] {
 //     .prName {
 //         width: 200px !important;
 //     }
-
 //     .priority {
 //         width: 80px !important;
 //     }
-
 //     .country {
 //         width: 150px !important;
 //     }
-
 //     .OrgUnit {
 //         width: 150px !important;
 //     }
-
 //     .engType {
 //         width: 150px !important;
 //     }
-
 //     .IdNum {
 //         width: 150px !important;
 //     }
-
 //     .datepicker {
 //         width: 150px !important;
 //         height: 3.6rem !important;

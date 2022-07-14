@@ -20,13 +20,10 @@ import {
   PeoplePicker,
   PrincipalType,
 } from "@pnp/spfx-controls-react/lib/PeoplePicker";
-import {
-  DatePicker,
-  IStyleFunction,
-  mergeStyles,
-} from "office-ui-fabric-react";
+import { mergeStyles, DatePicker } from "office-ui-fabric-react";
 import MultiSelect from "react-multiple-select-dropdown-lite";
 import "react-multiple-select-dropdown-lite/dist/index.css";
+// import { DatePicker } from "@fluentui/react";
 
 const resetIcon = require("../../../ExternalRef/img/ResetIcon.svg");
 const filterIcon = require("../../../ExternalRef/img/filterIcon.png");
@@ -56,8 +53,18 @@ let arrStatusType = [];
 let arrIDNumber = [];
 let arrPriority = [];
 const datePickerClass = mergeStyles({
-  border: "1px solid #E4E4E4",
-  selectors: { "> *": { marginBottom: 15 } },
+  // selectors: { "> *": { marginBottom: 15 } },
+
+  selectors: {
+    ".ms-TextField-fieldGroup": {
+      border: "1px solid #c4c4c4",
+      height: "3.6rem",
+      borderRadius: "7px",
+    },
+    ".ms-TextField-field": {
+      height: "3.6rem",
+    },
+  },
 });
 const TopFilter = (props: any) => {
   const [filterArr, setFilterArr] = useState(filterData);
@@ -448,8 +455,24 @@ const TopFilter = (props: any) => {
                   height: "56px",
                   borderRadius: "7px",
                   marginRight: "5px",
-                  border: "1px solid #E4E4E4",
+                  // border: "1px solid #E4E4E4",
                 }}
+                // styles={{
+                //   root: {
+                //     border: "none",
+                //     selectors: {
+                //       ".ms-TextField-fieldGroup": {
+                //         border: "1px solid #c4c4c4",
+                //         height: "3.6rem",
+                //         borderRadius: "7px",
+                //       },
+                //       ".ms-TextField-field": {
+                //         height: "3.6rem",
+                //       },
+                //     },
+                //   },
+                // }}
+                // styles={{ customeDatepickerStyle }}
                 formatDate={(date: Date): string => {
                   let arrDate = date.toLocaleDateString().split("/");
                   let selectedDate = `${
@@ -476,13 +499,30 @@ const TopFilter = (props: any) => {
 
               <DatePicker
                 id="datepicker"
-                className={classes.datepicker}
+                className={`${classes.datepicker} ${datePickerClass}`}
                 style={{
                   width: "350px",
                   height: "56px",
                   borderRadius: "7px",
                   marginRight: "5px",
+                  // border: "1px solid #E4E4E4",
                 }}
+                // styles={{ customeDatepickerStyle }}
+                // styles={{
+                //   root: {
+                //     border: "none",
+                //     selectors: {
+                //       ".ms-TextField-fieldGroup": {
+                //         border: "1px solid #c4c4c4",
+                //         height: "3.6rem",
+                //         borderRadius: "7px",
+                //       },
+                //       ".ms-TextField-field": {
+                //         height: "3.6rem",
+                //       },
+                //     },
+                //   },
+                // }}
                 formatDate={(date: Date): string => {
                   let arrDate = date.toLocaleDateString().split("/");
                   let selectedDate = `${
