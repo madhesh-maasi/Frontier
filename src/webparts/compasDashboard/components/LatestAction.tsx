@@ -28,15 +28,15 @@ let isSendMail = false;
 const LatestAction = (props) => {
   const [timeNow, setTimeNow] = useState(
     `${
-      +new Date().toLocaleDateString().split("/")[0] < 10
-        ? "0" + new Date().toLocaleDateString().split("/")[0]
-        : new Date().toLocaleDateString().split("/")[0]
-    }/${
       +new Date().toLocaleDateString().split("/")[1] < 10
         ? "0" + new Date().toLocaleDateString().split("/")[1]
         : new Date().toLocaleDateString().split("/")[1]
     }/${
-      new Date().toLocaleDateString().split("/")[2]
+      +new Date().toLocaleDateString().split("/")[0] < 10
+        ? "0" + new Date().toLocaleDateString().split("/")[0]
+        : new Date().toLocaleDateString().split("/")[0]
+    }/${
+      new Date().toLocaleDateString().split("/")[2].toString().substr(-2)
     } - ${new Date().toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
@@ -259,17 +259,6 @@ const LatestAction = (props) => {
                     {`${
                       +new Date(msg.Modified)
                         .toLocaleDateString()
-                        .split("/")[0] < 10
-                        ? "0" +
-                          new Date(msg.Modified)
-                            .toLocaleDateString()
-                            .split("/")[0]
-                        : new Date(msg.Modified)
-                            .toLocaleDateString()
-                            .split("/")[0]
-                    }/${
-                      +new Date(msg.Modified)
-                        .toLocaleDateString()
                         .split("/")[1] < 10
                         ? "0" +
                           new Date(msg.Modified)
@@ -279,7 +268,18 @@ const LatestAction = (props) => {
                             .toLocaleDateString()
                             .split("/")[1]
                     }/${
-                      new Date(msg.Modified).toLocaleDateString().split("/")[2]
+                      +new Date(msg.Modified)
+                        .toLocaleDateString()
+                        .split("/")[0] < 10
+                        ? "0" +
+                          new Date(msg.Modified)
+                            .toLocaleDateString()
+                            .split("/")[0]
+                        : new Date(msg.Modified)
+                            .toLocaleDateString()
+                            .split("/")[0]
+                    }/${
+                      new Date(msg.Modified).toLocaleDateString().split("/")[2].toString().substr(-2)
                     } - ${new Date(msg.Modified).toLocaleTimeString([], {
                       hour: "2-digit",
                       minute: "2-digit",

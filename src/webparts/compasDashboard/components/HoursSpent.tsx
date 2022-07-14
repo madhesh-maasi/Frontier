@@ -2,14 +2,14 @@ import * as React from "react";
 import classes from "./HoursSpent.module.scss";
 import { Add } from "@material-ui/icons";
 import { TextField, InputLabel } from "@material-ui/core";
-import { DatePicker } from "office-ui-fabric-react";
+import { DatePicker, IconButton, IIconProps } from "office-ui-fabric-react";
 import { useState, useEffect } from "react";
 import alertify from "alertifyjs";
 import "alertifyjs/build/css/alertify.css";
 import { Done } from "@material-ui/icons";
 
 const moreIcon = require("../../../ExternalRef/img/more.png");
-
+const clearIcon: IIconProps = { iconName: 'Clear' };
 let latestId;
 let EditId;
 
@@ -343,7 +343,7 @@ const HoursSpent = (props: any) => {
               <InputLabel className={classes.inpLabel}>yyyy/mm:</InputLabel>
               <DatePicker
                 disabled={hoursSec != 0 ? false : editHour == 0 ? true : false}
-                className={classes.datet3}
+                className={`HSDatePicker ${classes.datet3}`}
                 placeholder={`0000/00`}
                 formatDate={(date: Date): string => {
                   return `${date.toLocaleDateString().split("/")[2]}/${
@@ -351,6 +351,16 @@ const HoursSpent = (props: any) => {
                       ? "0" + date.toLocaleDateString().split("/")[0]
                       : date.toLocaleDateString().split("/")[0]
                   }`;
+                }}
+                textField={{
+                  onRenderSuffix: true ? () =>
+                    // <ClearButton field={field} onChange={onChange} disabled={disabled} /> 
+                    <IconButton onClick={() => {
+                      console.log("Test");
+                      addNewAATLO.Date = "";
+                    }} iconProps={clearIcon} />
+                    : null,
+                  styles: { suffix: { padding: "0 4px" } }
                 }}
                 value={addNewAATLO.Date ? new Date(addNewAATLO.Date) : null}
                 onSelectDate={(e) => {

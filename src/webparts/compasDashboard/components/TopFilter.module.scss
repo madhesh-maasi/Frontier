@@ -30,15 +30,44 @@
 }
 
 .filterSectionCover {
-  height: 230px;
+  // height: 230px;
+  // position: absolute;
+  // z-index: 6;
   position: relative;
-  z-index: 6;
+  .filterToggleBtn {
+    height: 0;
+    display: flex;
+    justify-content: center;
+    button {
+      position: relative;
+      bottom: 39px;
+      height: 40px;
+      padding: 10px 40px;
+      outline: none;
+      border: none;
+      background: #fff;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      .dropIcon1 {
+        position: relative;
+        left: 18px;
+        bottom: 2px;
+      }
+      .dropIcon2 {
+        position: relative;
+        left: 18px;
+        bottom: 2px;
+        transform: rotate(180deg)
+      }
+    }
+  }
 }
 
 .filterSection {
   width: 100%;
-  position: absolute;
-  top: 0;
+  // position: absolute;
+  z-index: 4;
+  // top: 5rem;
   padding: 2rem 0;
   margin-bottom: 2rem;
   background: #fff;
