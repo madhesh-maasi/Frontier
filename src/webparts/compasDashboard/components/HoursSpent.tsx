@@ -9,7 +9,7 @@ import "alertifyjs/build/css/alertify.css";
 import { Done } from "@material-ui/icons";
 
 const moreIcon = require("../../../ExternalRef/img/more.png");
-const clearIcon: IIconProps = { iconName: 'Clear' };
+const clearIcon: IIconProps = { iconName: "Clear" };
 let latestId;
 let EditId;
 
@@ -251,42 +251,32 @@ const HoursSpent = (props: any) => {
     // });
   };
 
-  // getEdit function
-  const getEdit = (data) => {
-    console.log(data);
-    let dataId = data.pop();
-    let editOp = data.some((e) => e == dataId);
-    if (editOp) {
-      setdata = [];
-      setdata.push(false, 0);
-      setShow(setdata);
-      data.pop();
-    } else {
-      setdata = [];
-      setdata.push(true, dataId);
-      setShow(setdata);
-      data.push(dataId);
-    }
-  };
-
   // Save Data function
   const SaveData = (data) => {
-    props.sp.web.lists
-      .getByTitle("Spent time")
-      .items.getById(data)
-      .update({
-        CASHours: listData.hours,
-        CASDate: listData.Date,
-      })
-      .then((e) => {
-        console.log(e);
-        alertify.success("Record submitted successfully");
-        props.renderProject();
-        setReEnter(true);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    let isAllFilled = false;
+    listData.hours == "" || !listData.Date
+      ? (isAllFilled = false)
+      : (isAllFilled = true);
+    isAllFilled
+      ? props.sp.web.lists
+          .getByTitle("Spent time")
+          .items.getById(data)
+          .update({
+            CASHours: listData.hours,
+            CASDate: listData.Date,
+          })
+          .then((e) => {
+            console.log(e);
+            alertify.success("Record submitted successfully");
+            props.renderProject();
+            setReEnter(true);
+          })
+          .catch((e) => {
+            console.log(e);
+          })
+      : listData.hours == ""
+      ? alertify.error("Please add Hour")
+      : alertify.error("Please add Date");
   };
 
   // Delete function
@@ -322,7 +312,7 @@ const HoursSpent = (props: any) => {
               <InputLabel className={classes.inpLabel}>Hours Spent:</InputLabel>
               <TextField
                 disabled={hoursSec != 0 ? false : editHour == 0 ? true : false}
-                className={classes.inpt3}
+                className={`${classes.inpt3} HSTextField`}
                 id="standard-basic"
                 variant="outlined"
                 placeholder={`0,0h`}
@@ -353,14 +343,16 @@ const HoursSpent = (props: any) => {
                   }`;
                 }}
                 textField={{
-                  onRenderSuffix: true ? () =>
-                    // <ClearButton field={field} onChange={onChange} disabled={disabled} /> 
-                    <IconButton onClick={() => {
-                      console.log("Test");
-                      addNewAATLO.Date = "";
-                    }} iconProps={clearIcon} />
-                    : null,
-                  styles: { suffix: { padding: "0 4px" } }
+                  onRenderSuffix: () => (
+                    <IconButton
+                      onClick={() => {
+                        addNewAATLO.Date = "";
+                        setAddNewAATLO({ ...addNewAATLO });
+                      }}
+                      iconProps={clearIcon}
+                    />
+                  ),
+                  styles: { suffix: { padding: "0 4px" } },
                 }}
                 value={addNewAATLO.Date ? new Date(addNewAATLO.Date) : null}
                 onSelectDate={(e) => {
@@ -400,7 +392,7 @@ const HoursSpent = (props: any) => {
               <InputLabel className={classes.inpLabel}>Hours Spent:</InputLabel>
               <TextField
                 disabled={hoursSec != 0 ? false : editHour == 0 ? true : false}
-                className={classes.inpt3}
+                className={`${classes.inpt3} HSTextField`}
                 id="standard-basic"
                 variant="outlined"
                 placeholder={`0,0h`}
@@ -420,7 +412,7 @@ const HoursSpent = (props: any) => {
               <InputLabel className={classes.inpLabel}>yyyy/mm:</InputLabel>
               <DatePicker
                 disabled={hoursSec != 0 ? false : editHour == 0 ? true : false}
-                className={classes.datet3}
+                className={`${classes.datet3} HSDatePicker`}
                 placeholder={`0000/00`}
                 formatDate={(date: Date): string => {
                   return `${date.toLocaleDateString().split("/")[2]}/${
@@ -433,6 +425,18 @@ const HoursSpent = (props: any) => {
                 onSelectDate={(e) => {
                   addNewJJ.Date = e.toISOString();
                   setAddNewJJ({ ...addNewJJ });
+                }}
+                textField={{
+                  onRenderSuffix: () => (
+                    <IconButton
+                      onClick={() => {
+                        addNewJJ.Date = "";
+                        setAddNewJJ({ ...addNewJJ });
+                      }}
+                      iconProps={clearIcon}
+                    />
+                  ),
+                  styles: { suffix: { padding: "0 4px" } },
                 }}
               />
             </div>
@@ -496,7 +500,7 @@ const HoursSpent = (props: any) => {
                         {e.isEdit ? (
                           <DatePicker
                             disabled={!e.isEdit}
-                            className={classes.datet3}
+                            className={`${classes.datet3} HSEditDatePicker`}
                             formatDate={(date: Date): string => {
                               return `${
                                 date.toLocaleDateString().split("/")[2]
@@ -511,8 +515,20 @@ const HoursSpent = (props: any) => {
                               listData.Date = date.toISOString();
                               setListData({ ...listData });
                             }}
+                            textField={{
+                              onRenderSuffix: () => (
+                                <IconButton
+                                  onClick={() => {
+                                    listData.Date = null;
+                                    setListData({ ...listData });
+                                  }}
+                                  iconProps={clearIcon}
+                                />
+                              ),
+                              styles: { suffix: { padding: "0 4px" } },
+                            }}
                             value={
-                              listData.Date ? new Date(listData.Date) : e.Date
+                              listData.Date ? new Date(listData.Date) : null
                             }
                           />
                         ) : (
@@ -632,37 +648,20 @@ const HoursSpent = (props: any) => {
                             }}
                           />
                         ) : (
-                          <InputLabel className={classes.hourView}>
+                          <InputLabel
+                            className={classes.hourView}
+                            style={{ width: 170 }}
+                          >
                             {`${String(e.Hours).split(".").join(",")} `}{" "}
                             <span className={classes.hourViewHour}>h</span>
                           </InputLabel>
                         )}
                       </div>
                       <div>
-                        {/* <DatePicker
-                          disabled={!e.isEdit}
-                          className={classes.datet3}
-                          formatDate={(date: Date): string => {
-                            return `${
-                              date.toLocaleDateString().split("/")[2]
-                            }/${
-                              +date.toLocaleDateString().split("/")[0] < 10
-                                ? "0" + date.toLocaleDateString().split("/")[0]
-                                : date.toLocaleDateString().split("/")[0]
-                            }`;
-                          }}
-                          onSelectDate={(date) => {
-                            listData.Date = date.toISOString();
-                            setListData({ ...listData });
-                          }}
-                          value={
-                            listData.Date ? new Date(listData.Date) : e.Date
-                          }
-                        /> */}
                         {e.isEdit ? (
                           <DatePicker
                             disabled={!e.isEdit}
-                            className={classes.datet3}
+                            className={`${classes.datet3} HSEditDatePicker`}
                             formatDate={(date: Date): string => {
                               return `${
                                 date.toLocaleDateString().split("/")[2]
@@ -677,12 +676,27 @@ const HoursSpent = (props: any) => {
                               listData.Date = date.toISOString();
                               setListData({ ...listData });
                             }}
+                            textField={{
+                              onRenderSuffix: () => (
+                                <IconButton
+                                  onClick={() => {
+                                    listData.Date = null;
+                                    setListData({ ...listData });
+                                  }}
+                                  iconProps={clearIcon}
+                                />
+                              ),
+                              styles: { suffix: { padding: "0 4px" } },
+                            }}
                             value={
-                              listData.Date ? new Date(listData.Date) : e.Date
+                              listData.Date ? new Date(listData.Date) : null
                             }
                           />
                         ) : (
-                          <InputLabel className={classes.dateView}>
+                          <InputLabel
+                            className={classes.dateView}
+                            style={{ width: 170 }}
+                          >
                             {`${e.Date.toLocaleDateString().split("/")[2]}/${
                               +e.Date.toLocaleDateString().split("/")[0] < 10
                                 ? "0" +

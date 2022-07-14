@@ -345,3 +345,43 @@ i[data-icon-name="Calendar"] {
 //         height: 3.6rem !important;
 //     }
 // }
+.HSTextField {
+    >div {
+        height: 49px !important;
+        width: 178px !important;
+        border-radius: 0 !important;
+    }
+}
+
+.HSDatePicker {
+    i[data-icon-name="Calendar"] {
+        right: unset !important;
+        left: 4px !important;
+        margin-top: 6px;
+    }
+    margin-top: -2px;
+    .ms-TextField-fieldGroup {
+        height: 47px !important;
+        width: 178px !important;
+        border-color: transparent !important;
+        input {
+            padding-left: 26px !important;
+        }
+    }
+}
+
+.HSEditDatePicker {
+    i[data-icon-name="Calendar"] {
+        right: unset !important;
+        left: 4px !important;
+        margin-top: 6px;
+    }
+    .ms-TextField-fieldGroup {
+        height: 47px !important;
+        width: 178px !important;
+        border-color: transparent !important;
+        input {
+            padding-left: 26px !important;
+        }
+    }
+}

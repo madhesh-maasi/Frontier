@@ -68,7 +68,7 @@
         }
         .inpt3,
         .datet3 {
-            input{
+            input {
                 height: 47px !important;
                 width: 178px !important;
                 border-radius: 0px !important;
@@ -87,8 +87,9 @@
             }
         }
         .datet3 {
+            border-bottom: 3px solid #a2a2a2 !important;
             input {
-                border-bottom: 3px solid #a2a2a2 !important;
+                border-bottom: 1px solid #a2a2a2 !important;
             }
             input,
             div {
@@ -140,13 +141,18 @@
             }
             .inpt3,
             .datet3 {
-                input,
-                div {
+                input {
                     height: 47px !important;
                     width: 178px !important;
                     border-radius: 0px !important;
                     border: none !important;
                 }
+                // div {
+                //     height: 47px !important;
+                //     width: 178px !important;
+                //     border-radius: 0px !important;
+                //     border: none !important;
+                // }
             }
             .inpt3 {
                 input {
@@ -155,15 +161,17 @@
                     border-left: 1px solid #e5f4f5 !important;
                     border-right: 0px solid #5df0e2 !important;
                     padding: 0px 12px !important;
-                    height: 43px !important;
+                    height: 46px !important;
+                    width: 154px !important;
                     &[disabled] {
                         border: 0px solid #5df0e2 !important;
                     }
                 }
             }
             .datet3 {
+                border-bottom: 3px solid #5df0e2 !important;
                 input {
-                    border-bottom: 3px solid #5df0e2 !important;
+                    border-bottom: 1px solid #5df0e2 !important;
                     border-top: 1px solid #e5f4f5 !important;
                     border-left: 0px solid #e5f4f5 !important;
                     border-right: 1px solid #e5f4f5 !important;
