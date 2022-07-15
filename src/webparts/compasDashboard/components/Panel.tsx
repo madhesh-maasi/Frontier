@@ -141,7 +141,7 @@ const Panel = (props: any) => {
     // Projects Id Taken
     props.sp.web.lists
       .getByTitle("Projects")
-      .items.get()
+      .items.top(4000).get()
       .then((response) => {
         ProjectArr = response.map((data) => data.ID);
       })
@@ -152,7 +152,7 @@ const Panel = (props: any) => {
     // Priority Values Taken
     props.sp.web.lists
       .getByTitle("Priorities")
-      .items.get()
+      .items.top(4000).get()
       .then((response) => {
         priorityArr = response.map((data) => ({
           key: data.ID,
@@ -168,7 +168,7 @@ const Panel = (props: any) => {
         // Country Values Taken
         props.sp.web.lists
           .getByTitle("Countries")
-          .items.select("ID", "Title")
+          .items.top(4000).select("ID", "Title")
           .get()
           .then((response) => {
             CountriesArr = response.map((data) => ({
@@ -181,7 +181,7 @@ const Panel = (props: any) => {
             // Engagement Type Values Taken
             props.sp.web.lists
               .getByTitle("Engagement Types")
-              .items.select("ID", "Title")
+              .items.top(4000).select("ID", "Title")
               .get()
               .then((response) => {
                 EngagementTypeArr = response.map((data) => ({
@@ -197,7 +197,7 @@ const Panel = (props: any) => {
                 // Status Type Values Taken
                 props.sp.web.lists
                   .getByTitle("Status types")
-                  .items.select("ID", "Title")
+                  .items.top(4000).select("ID", "Title")
                   .get()
                   .then((response) => {
                     StatusTypeArr = response.map((data) => ({
@@ -210,7 +210,7 @@ const Panel = (props: any) => {
                     // Engagement Scope Values Taken
                     props.sp.web.lists
                       .getByTitle("Engagement Scopes")
-                      .items.select("ID", "Title")
+                      .items.top(4000).select("ID", "Title")
                       .get()
                       .then((response) => {
                         EngagementScopeArr = response.map((data) => {
@@ -228,7 +228,7 @@ const Panel = (props: any) => {
                   .then(() => {
                     props.sp.web.lists
                       .getByTitle("Engagement subtypes")
-                      .items.select("*", "CASEngType/Title", "CASEngType/ID")
+                      .items.top(4000).select("*", "CASEngType/Title", "CASEngType/ID")
                       .expand("CASEngType")
                       .get()
                       .then((res) => {
@@ -255,7 +255,7 @@ const Panel = (props: any) => {
   useEffect(() => {
     props.sp.web.lists
       .getByTitle("Engagement subtypes")
-      .items.select("*", "CASEngType/Title", "CASEngType/ID")
+      .items.top(4000).select("*", "CASEngType/Title", "CASEngType/ID")
       .expand("CASEngType")
       .get()
       .then((res) => {
@@ -268,7 +268,7 @@ const Panel = (props: any) => {
     props.Edit.flagEdit
       ? props.sp.web.lists
         .getByTitle("Projects")
-        .items.getById(props.Edit.item)
+        .items.top(4000).getById(props.Edit.item)
         .select("*", "CASUser/EMail", "CASUser/Id")
         .expand("CASUser")
         .get()

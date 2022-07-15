@@ -120,7 +120,7 @@ const App = (props: any) => {
       });
     props.sp.web.lists
       .getByTitle("Priorities")
-      .items.get()
+      .items.top(4000).get()
       .then((res) => {
         console.log(res);
         arrPriority = res.map((re) => ({
@@ -132,7 +132,7 @@ const App = (props: any) => {
     // Actions List Call
     props.sp.web.lists
       .getByTitle("Actions")
-      .items.select("*", "CASRef/ID", "CASAuthor/EMail", "CASAuthor/Title")
+      .items.top(4000).select("*", "CASRef/ID", "CASAuthor/EMail", "CASAuthor/Title")
       .expand("CASRef", "CASAuthor")
       .orderBy("Modified", false)
       .get()
@@ -152,7 +152,7 @@ const App = (props: any) => {
       .then(async () => {
         await props.sp.web.lists
           .getByTitle("Countries")
-          .items.get()
+          .items.top(4000).get()
           .then((cLi) => {
             arrCountries = cLi.map((li) => {
               return li.Title ? li.Title : "";
@@ -163,7 +163,7 @@ const App = (props: any) => {
             // SpentTimeData
             await props.sp.web.lists
               .getByTitle("Spent time")
-              .items.top(5000)
+              .items.top(4000)
               .get()
               .then((sData) => {
                 arrSpentData = sData;
@@ -236,7 +236,7 @@ const App = (props: any) => {
                   LastModifiedDate: new Date(item.Modified),
                   LatestActionModified:
                     filteredComments.length > 0
-                      ? filteredComments[0].Modified
+                      ? filteredComments[0].Created
                       : new Date("07/08/1989").toISOString(),
                   ShowRemainingUsers: false,
                   PriorityNo: item.CASPriority.Title
@@ -325,7 +325,7 @@ const App = (props: any) => {
                   LastModifiedDate: new Date(item.Modified),
                   LatestActionModified:
                     filteredComments.length > 0
-                      ? filteredComments[0].Modified
+                      ? filteredComments[0].Created
                       : new Date("07/08/1989").toISOString(),
                   ShowRemainingUsers: false,
                   PriorityNo: item.CASPriority.Title
