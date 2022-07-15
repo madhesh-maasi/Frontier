@@ -134,7 +134,7 @@ const App = (props: any) => {
       .getByTitle("Actions")
       .items.top(4000).select("*", "CASRef/ID", "CASAuthor/EMail", "CASAuthor/Title")
       .expand("CASRef", "CASAuthor")
-      .orderBy("Modified", false)
+      .orderBy("Created", true)
       .get()
       .then((response) => {
         arrActionData = response.map((res) => {
@@ -215,7 +215,7 @@ const App = (props: any) => {
                   : [];
                 return {
                   ID: item.ID ? item.ID : 0,
-                  LatestComment: filteredComments ? filteredComments[0] : [],
+                  LatestComment: filteredComments ? filteredComments[filteredComments.length - 1] : [],
                   Status: item.CASStatus.Title ? item.CASStatus.Title : "",
                   Priority: item.CASPriority.Title
                     ? item.CASPriority.Title
@@ -236,7 +236,7 @@ const App = (props: any) => {
                   LastModifiedDate: new Date(item.Modified),
                   LatestActionModified:
                     filteredComments.length > 0
-                      ? filteredComments[0].Modified
+                      ? filteredComments[0].Created
                       : new Date("07/08/1989").toISOString(),
                   ShowRemainingUsers: false,
                   PriorityNo: item.CASPriority.Title
@@ -304,7 +304,7 @@ const App = (props: any) => {
                   : [];
                 return {
                   ID: item.ID ? item.ID : 0,
-                  LatestComment: filteredComments ? filteredComments[0] : [],
+                  LatestComment: filteredComments ? filteredComments[filteredComments.length - 1] : [],
                   Status: item.CASStatus.Title ? item.CASStatus.Title : "",
                   Priority: item.CASPriority.Title
                     ? item.CASPriority.Title
@@ -325,7 +325,7 @@ const App = (props: any) => {
                   LastModifiedDate: new Date(item.Modified),
                   LatestActionModified:
                     filteredComments.length > 0
-                      ? filteredComments[0].Modified
+                      ? filteredComments[0].Created
                       : new Date("07/08/1989").toISOString(),
                   ShowRemainingUsers: false,
                   PriorityNo: item.CASPriority.Title
