@@ -74,7 +74,7 @@ const LatestAction = (props) => {
         .items.top(4000).select("*", "CASAuthor/Title", "CASAuthor/EMail", "CASRef/ID")
         .expand("CASRef", "CASAuthor")
         .filter(`CASRefId eq '${latestId != 0 ? latestId : props.Edit.item}'`)
-        .orderBy("Modified", false)
+        .orderBy("Created", false)
         .get()
         .then((res) => {
           console.log(res);
