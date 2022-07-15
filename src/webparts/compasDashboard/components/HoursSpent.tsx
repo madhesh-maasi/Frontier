@@ -274,7 +274,7 @@ const HoursSpent = (props: any) => {
           .catch((e) => {
             console.log(e);
           })
-      : listData.hours == ""
+      : listData.hours == ""|| listData.hours == "0"
       ? alertify.error("Please add Hour")
       : alertify.error("Please add Date");
   };

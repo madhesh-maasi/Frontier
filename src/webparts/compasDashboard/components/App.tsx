@@ -236,7 +236,7 @@ const App = (props: any) => {
                   LastModifiedDate: new Date(item.Modified),
                   LatestActionModified:
                     filteredComments.length > 0
-                      ? filteredComments[0].Created
+                      ? filteredComments[0].Modified
                       : new Date("07/08/1989").toISOString(),
                   ShowRemainingUsers: false,
                   PriorityNo: item.CASPriority.Title
@@ -325,7 +325,7 @@ const App = (props: any) => {
                   LastModifiedDate: new Date(item.Modified),
                   LatestActionModified:
                     filteredComments.length > 0
-                      ? filteredComments[0].Created
+                      ? filteredComments[0].Modified
                       : new Date("07/08/1989").toISOString(),
                   ShowRemainingUsers: false,
                   PriorityNo: item.CASPriority.Title
