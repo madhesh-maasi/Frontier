@@ -23,7 +23,8 @@ import {
   DatePicker,
   IIconProps,
   IStyleFunction,
-  mergeStyles, IconButton
+  mergeStyles,
+  IconButton,
 } from "office-ui-fabric-react";
 import MultiSelect from "react-multiple-select-dropdown-lite";
 import "react-multiple-select-dropdown-lite/dist/index.css";
@@ -34,7 +35,7 @@ const filterIcon = require("../../../ExternalRef/img/filterIcon.png");
 const searchIcon = require("../../../ExternalRef/img/searchDark.png");
 const dropIcon = require("../../../ExternalRef/img/SelectDown.png");
 
-const emojiIcon: IIconProps = { iconName: 'Clear' };
+const emojiIcon: IIconProps = { iconName: "Clear" };
 
 let filterData = {
   ID: 0,
@@ -91,7 +92,8 @@ const TopFilter = (props: any) => {
     setFilterArr(filterData);
     props.sp.web.lists
       .getByTitle("Countries")
-      .items.top(5000).get()
+      .items.top(4000)
+      .get()
       .then((cLi) => {
         arrCountries = cLi.map((li) => {
           return li.Title;
@@ -101,7 +103,8 @@ const TopFilter = (props: any) => {
       .then(() => {
         props.sp.web.lists
           .getByTitle("Engagement types")
-          .items.top(5000).get()
+          .items.top(4000)
+          .get()
           .then((cLi) => {
             arrEngTypes = cLi.map((li) => {
               return li.Title;
@@ -112,7 +115,8 @@ const TopFilter = (props: any) => {
       .then(() => {
         props.sp.web.lists
           .getByTitle("Engagement subtypes")
-          .items.top(5000).get()
+          .items.top(4000)
+          .get()
           .then((cLi) => {
             arrEngSubTypes = cLi.map((li) => {
               return li.Title;
@@ -123,7 +127,8 @@ const TopFilter = (props: any) => {
       .then(() => {
         props.sp.web.lists
           .getByTitle("Status types")
-          .items.top(5000).get()
+          .items.top(4000)
+          .get()
           .then((cLi) => {
             arrStatusType = cLi.map((li) => ({
               label: (
@@ -133,16 +138,16 @@ const TopFilter = (props: any) => {
                       li.Title.toLowerCase() == "in progress"
                         ? "#359942"
                         : li.Title.toLowerCase() == "waiting for feedback"
-                          ? "#f5944e"
-                          : li.Title.toLowerCase() == "lead"
-                            ? "#f24998"
-                            : li.Title.toLowerCase() == "parked"
-                              ? "#999999"
-                              : li.Title.toLowerCase() == "closed"
-                                ? "#1c75bc"
-                                : li.Title.toLowerCase() == "canceled"
-                                  ? "#7e2e7a"
-                                  : "#000",
+                        ? "#f5944e"
+                        : li.Title.toLowerCase() == "lead"
+                        ? "#f24998"
+                        : li.Title.toLowerCase() == "parked"
+                        ? "#999999"
+                        : li.Title.toLowerCase() == "closed"
+                        ? "#1c75bc"
+                        : li.Title.toLowerCase() == "canceled"
+                        ? "#7e2e7a"
+                        : "#000",
                   }}
                 >
                   {li.Title}
@@ -156,7 +161,8 @@ const TopFilter = (props: any) => {
       .then(() => {
         props.sp.web.lists
           .getByTitle("Priorities")
-          .items.top(5000).get()
+          .items.top(4000)
+          .get()
           .then((pLi) => {
             arrPriority = pLi.map((li) => {
               return li.Title;
@@ -166,7 +172,8 @@ const TopFilter = (props: any) => {
       });
     props.sp.web.lists
       .getByTitle("Projects")
-      .items.top(5000).select("*", "CASUser/Title", "CASUser/ID", "CASUser/EMail")
+      .items.top(4000)
+      .select("*", "CASUser/Title", "CASUser/ID", "CASUser/EMail")
       .expand("CASUser")
       .get()
       .then((response) => {
@@ -197,12 +204,9 @@ const TopFilter = (props: any) => {
       <div className={classes.filterToggleBtn}>
         <button
           style={{ cursor: "pointer" }}
-          onClick={() => setFilterDrop(!filterDrop)}>
-          <img
-            src={`${filterIcon}`}
-            width={27}
-            height={25}
-          />
+          onClick={() => setFilterDrop(!filterDrop)}
+        >
+          <img src={`${filterIcon}`} width={27} height={25} />
           {/* {filterDrop
             ? <img
               className={classes.dropIcon1}
@@ -219,8 +223,8 @@ const TopFilter = (props: any) => {
             />} */}
         </button>
       </div>
-      {filterDrop
-        && <div className={classes.filterSection}>
+      {filterDrop && (
+        <div className={classes.filterSection}>
           <div className={classes.filterSectionTop}>
             {/* Project Name Section */}
             <div className={classes.filterInput}>
@@ -390,7 +394,7 @@ const TopFilter = (props: any) => {
               />
             </div> */}
           </div>
-          {(
+          {
             <div className={classes.filterSectionTop}>
               <div className={classes.filterInput}>
                 <InputLabel>Engagement subtype</InputLabel>
@@ -473,7 +477,7 @@ const TopFilter = (props: any) => {
                   }}
                   // textField={{
                   //   onRenderSuffix: true ? () =>
-                  //     // <ClearButton field={field} onChange={onChange} disabled={disabled} /> 
+                  //     // <ClearButton field={field} onChange={onChange} disabled={disabled} />
                   //     <IconButton onClick={() => {
                   //       console.log("Test");
                   //       getOnChange(
@@ -489,9 +493,11 @@ const TopFilter = (props: any) => {
                   // }}
                   formatDate={(date: Date): string => {
                     let arrDate = date.toLocaleDateString().split("/");
-                    let selectedDate = `${+arrDate[1] < 10 ? "0" + arrDate[1] : arrDate[1]}/${+arrDate[0] < 10 ? "0" + arrDate[0] : arrDate[0]
-                      }/${arrDate[2].toString().substr(-2)
-                      }`;
+                    let selectedDate = `${
+                      +arrDate[1] < 10 ? "0" + arrDate[1] : arrDate[1]
+                    }/${
+                      +arrDate[0] < 10 ? "0" + arrDate[0] : arrDate[0]
+                    }/${arrDate[2].toString().substr(-2)}`;
                     return selectedDate;
                   }}
                   value={filterArr.CreationDate ? filterArr.CreationDate : null}
@@ -519,13 +525,17 @@ const TopFilter = (props: any) => {
                   }}
                   formatDate={(date: Date): string => {
                     let arrDate = date.toLocaleDateString().split("/");
-                    let selectedDate = `${+arrDate[1] < 10 ? "0" + arrDate[1] : arrDate[1]}/${+arrDate[0] < 10 ? "0" + arrDate[0] : arrDate[0]
-                      }/${arrDate[2].toString().substr(-2)
-                      }`;
+                    let selectedDate = `${
+                      +arrDate[1] < 10 ? "0" + arrDate[1] : arrDate[1]
+                    }/${
+                      +arrDate[0] < 10 ? "0" + arrDate[0] : arrDate[0]
+                    }/${arrDate[2].toString().substr(-2)}`;
                     return selectedDate;
                   }}
                   value={
-                    filterArr.LastModifiedDate ? filterArr.LastModifiedDate : null
+                    filterArr.LastModifiedDate
+                      ? filterArr.LastModifiedDate
+                      : null
                   }
                   onSelectDate={(selectedDate) => {
                     getOnChange(
@@ -576,8 +586,9 @@ const TopFilter = (props: any) => {
                 />
               </div>
             </div>
-          )}
-        </div>}
+          }
+        </div>
+      )}
     </div>
   );
 };
