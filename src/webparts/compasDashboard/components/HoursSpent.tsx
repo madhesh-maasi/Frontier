@@ -80,7 +80,7 @@ const HoursSpent = (props: any) => {
     // Dropdown value taken
     props.sp.web.lists
       .getByTitle("Spent time")
-      .fields.getByInternalNameOrTitle("CASCompany")()
+      .fields.top(4000).getByInternalNameOrTitle("CASCompany")()
       .then((response) => {
         console.log(response);
         dropValue = [];
@@ -90,7 +90,7 @@ const HoursSpent = (props: any) => {
         props.Edit.item != null
           ? props.sp.web.lists
               .getByTitle("Spent time")
-              .items.select("*", "CASRef/ID")
+              .items.top(4000).select("*", "CASRef/ID")
               .filter(`CASRefId eq '${props.Edit.item}'`)
               .expand("CASRef")
               .orderBy("Modified", false)

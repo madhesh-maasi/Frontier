@@ -71,7 +71,7 @@ const LatestAction = (props) => {
     (props.Edit.flagEdit || latestId != 0) &&
       props.sp.web.lists
         .getByTitle("Actions")
-        .items.select("*", "CASAuthor/Title", "CASAuthor/EMail", "CASRef/ID")
+        .items.top(4000).select("*", "CASAuthor/Title", "CASAuthor/EMail", "CASRef/ID")
         .expand("CASRef", "CASAuthor")
         .filter(`CASRefId eq '${latestId != 0 ? latestId : props.Edit.item}'`)
         .orderBy("Modified", false)
@@ -85,6 +85,7 @@ const LatestAction = (props) => {
               AuthorEmail: li.CASAuthor.EMail,
               Text: li.CASText,
               Modified: li.Modified,
+              Created: li.Created,
               showOption: false,
               isEdit: false,
               Id: i + 1,
@@ -239,6 +240,7 @@ const LatestAction = (props) => {
       <div>
         {postedMsgs.length > 0 &&
           postedMsgs.map((msg, i) => (
+            console.log(msg),
             <div className={classes.postedMessages} key={i + 1}>
               <div className={classes.Message}>
                 <div className={classes.MsgHeader}>
@@ -257,30 +259,30 @@ const LatestAction = (props) => {
                   <div className={classes.ModifiedDate}>
                     <img src={`${clockIcon}`} width={12} height={12} />
                     {`${
-                      +new Date(msg.Modified)
+                      +new Date(msg.Created)
                         .toLocaleDateString()
                         .split("/")[1] < 10
                         ? "0" +
-                          new Date(msg.Modified)
+                          new Date(msg.Created)
                             .toLocaleDateString()
                             .split("/")[1]
-                        : new Date(msg.Modified)
+                        : new Date(msg.Created)
                             .toLocaleDateString()
                             .split("/")[1]
                     }/${
-                      +new Date(msg.Modified)
+                      +new Date(msg.Created)
                         .toLocaleDateString()
                         .split("/")[0] < 10
                         ? "0" +
-                          new Date(msg.Modified)
+                          new Date(msg.Created)
                             .toLocaleDateString()
                             .split("/")[0]
-                        : new Date(msg.Modified)
+                        : new Date(msg.Created)
                             .toLocaleDateString()
                             .split("/")[0]
                     }/${
-                      new Date(msg.Modified).toLocaleDateString().split("/")[2].toString().substr(-2)
-                    } - ${new Date(msg.Modified).toLocaleTimeString([], {
+                      new Date(msg.Created).toLocaleDateString().split("/")[2].toString().substr(-2)
+                    } - ${new Date(msg.Created).toLocaleTimeString([], {
                       hour: "2-digit",
                       minute: "2-digit",
                     })}`}
