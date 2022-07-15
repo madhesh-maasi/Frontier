@@ -254,7 +254,7 @@ const HoursSpent = (props: any) => {
   // Save Data function
   const SaveData = (data) => {
     let isAllFilled = false;
-    listData.hours == "" || !listData.Date
+    listData.hours == "" || listData.hours == "0" || !listData.Date
       ? (isAllFilled = false)
       : (isAllFilled = true);
     isAllFilled
@@ -500,6 +500,7 @@ const HoursSpent = (props: any) => {
                         {e.isEdit ? (
                           <DatePicker
                             disabled={!e.isEdit}
+                            placeholder={`0000/00`}
                             className={`${classes.datet3} HSEditDatePicker`}
                             formatDate={(date: Date): string => {
                               return `${
@@ -661,6 +662,7 @@ const HoursSpent = (props: any) => {
                         {e.isEdit ? (
                           <DatePicker
                             disabled={!e.isEdit}
+                            placeholder={`0000/00`}
                             className={`${classes.datet3} HSEditDatePicker`}
                             formatDate={(date: Date): string => {
                               return `${
