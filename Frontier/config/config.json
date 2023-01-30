@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "frontier-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/frontier/FrontierWebPart.js",
+          "manifest": "./src/webparts/frontier/FrontierWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "FrontierWebPartStrings": "lib/webparts/frontier/loc/{locale}.js"
+  }
+}

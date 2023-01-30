@@ -1,0 +1,16 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "version": "1.14.0",
+    "libraryName": "frontier",
+    "libraryId": "7207c0fe-5920-45bb-9588-a90fd721e0af",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "Frontier",
+    "solutionShortDescription": "Frontier description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}
