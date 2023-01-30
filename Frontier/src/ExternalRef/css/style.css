@@ -1,0 +1,14 @@
+#workbenchPageContent {
+  max-width: 100%;
+}
+
+.content_3f3fd3c2,
+.CanvasZone {
+  padding: 0 !important;
+  max-width: 100% !important;
+}
+
+.MuiOutlinedInput-root {
+  border-radius: 11px !important;
+  background-color: white;
+}
