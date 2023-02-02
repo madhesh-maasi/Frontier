@@ -1,6 +1,7 @@
 import * as React from "react";
 import styles from "./Frontier.module.scss";
 import { useState, useEffect } from "react";
+import { FontSizes } from "@uifabric/styling";
 
 interface IFrontierDatas {
   Color: any;
@@ -8,18 +9,23 @@ interface IFrontierDatas {
   Url: any;
 }
 
+let arrMasterObject: IFrontierDatas[] = [];
+
 const App = (props: any) => {
   /* Variable-Declaration start */
-  let FrontierObject: IFrontierDatas = {
-    Color: "",
-    LinkName: "",
-    Url: null,
-  };
+  let FrontierObject: IFrontierDatas[] = [
+    {
+      Color: "",
+      LinkName: "",
+      Url: null,
+    },
+  ];
   /* Variable-Declaration end */
 
   /* State-Declaration start */
   const [masterObject, setMasterObject] =
-    useState<IFrontierDatas>(FrontierObject);
+    useState<IFrontierDatas[]>(FrontierObject);
+  const [hoverElement, setHoverElement] = useState<number>(0);
   /* State-Declaration end */
 
   /* Function-Declaration start */
@@ -32,9 +38,17 @@ const App = (props: any) => {
       .getByTitle("Custom Quick Link")
       .items.get()
       .then((response: any) => {
+        arrMasterObject = [];
         if (response.length > 0) {
-          response;
+          response.forEach((data: any) =>
+            arrMasterObject.push({
+              Color: data.Title ? data.Title : "",
+              LinkName: data.Url.Description ? data.Url.Description : "",
+              Url: data.Url.Url ? data.Url.Url : "",
+            })
+          );
         }
+        setMasterObject([...arrMasterObject]);
       })
       .catch((error: any) => {
         getErrorFunction(error);
@@ -48,7 +62,56 @@ const App = (props: any) => {
   }, []);
   /* LifeCycle-Declaration end */
 
-  return <div>Deva</div>;
+  return (
+    <div style={{ minHeight: "460px" }}>
+      <div
+        style={{
+          margin: "10px 30px",
+          fontSize: "18px",
+          fontWeight: 500,
+        }}
+      >
+        {props.Title}
+      </div>
+      {masterObject.length > 0 ? (
+        masterObject.map((row: IFrontierDatas, i: number) => {
+          return (
+            <>
+              <div
+                onMouseEnter={() => {
+                  setHoverElement(i + 1);
+                }}
+                onMouseLeave={() => {
+                  setHoverElement(0);
+                }}
+                style={{
+                  margin: "10px",
+                  height: "40px",
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  border:
+                    hoverElement === i + 1
+                      ? `2px solid #3b4e55`
+                      : `2px solid ${row.Color}`,
+                  color: hoverElement === i + 1 ? "#fff" : `${row.Color}`,
+                  background: hoverElement === i + 1 ? "#3b4e55" : "#fff",
+                }}
+                onClick={() => window.open(row.Url)}
+              >
+                {row.LinkName}
+              </div>
+            </>
+          );
+        })
+      ) : (
+        <div>No data found !!!</div>
+      )}
+    </div>
+  );
 };
 
 export default App;

@@ -12,6 +12,6 @@ export default class Frontier extends React.Component<IFrontierProps, {}> {
     });
   }
   public render(): React.ReactElement<IFrontierProps> {
-    return <App context={this.props.context} sp={sp} />;
+    return <App context={this.props.context} sp={sp} Title = {this.props.Title}/>;
   }
 }

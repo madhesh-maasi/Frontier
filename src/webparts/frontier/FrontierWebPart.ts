@@ -26,6 +26,7 @@ export interface IFrontierWebPartProps {
   description: string;
   context: WebPartContext;
   spcontext: any;
+  Title:string;
 }
 
 export default class FrontierWebPart extends BaseClientSideWebPart<IFrontierWebPartProps> {
@@ -51,6 +52,7 @@ export default class FrontierWebPart extends BaseClientSideWebPart<IFrontierWebP
         // userDisplayName: this.context.pageContext.user.displayName
         context: this.context,
         spcontext: this.context,
+        Title:this.properties.Title
       }
     );
 
@@ -97,15 +99,15 @@ export default class FrontierWebPart extends BaseClientSideWebPart<IFrontierWebP
     return {
       pages: [
         {
-          header: {
-            description: strings.PropertyPaneDescription,
-          },
+          // header: {
+          //   description: strings.PropertyPaneDescription,
+          // },
           groups: [
             {
-              groupName: strings.BasicGroupName,
+              // groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField("description", {
-                  label: strings.DescriptionFieldLabel,
+                PropertyPaneTextField("Title", {
+                  label: "Title",
                 }),
               ],
             },

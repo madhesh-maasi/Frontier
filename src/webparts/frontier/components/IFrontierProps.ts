@@ -8,4 +8,5 @@ export interface IFrontierProps {
   // userDisplayName: string;
   context: WebPartContext;
   spcontext: any;
+  Title:string;
 }
