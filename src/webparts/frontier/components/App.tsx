@@ -7,6 +7,7 @@ interface IFrontierDatas {
   Color: any;
   LinkName: string;
   Url: any;
+  BGColor:string;
 }
 
 let arrMasterObject: IFrontierDatas[] = [];
@@ -18,6 +19,7 @@ const App = (props: any) => {
       Color: "",
       LinkName: "",
       Url: null,
+      BGColor:""
     },
   ];
   /* Variable-Declaration end */
@@ -42,9 +44,10 @@ const App = (props: any) => {
         if (response.length > 0) {
           response.forEach((data: any) =>
             arrMasterObject.push({
-              Color: data.Title ? data.Title : "",
+              Color: data.Title ? data.Title : "#fff",
               LinkName: data.Url.Description ? data.Url.Description : "",
               Url: data.Url.Url ? data.Url.Url : "",
+              BGColor: data.BGColor ? data.BGColor : "#ffffff"
             })
           );
         }
@@ -93,12 +96,14 @@ const App = (props: any) => {
                   alignItems: "center",
                   fontWeight: 600,
                   cursor: "pointer",
+                  background:`${row.BGColor}`,
+                  color:`${row.Color}`,
                   border:
                     hoverElement === i + 1
                       ? `2px solid #3b4e55`
                       : `2px solid ${row.Color}`,
-                  color: hoverElement === i + 1 ? "#fff" : `${row.Color}`,
-                  background: hoverElement === i + 1 ? "#3b4e55" : "#fff",
+                  //color: hoverElement === i + 1 ? ("#fff") : (`${row.Color}`),
+                  //background: hoverElement === i + 1 ?  `${row.BGColor}` : "#fff",
                 }}
                 onClick={() => window.open(row.Url)}
               >
